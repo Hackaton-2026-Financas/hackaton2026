@@ -8,14 +8,14 @@ import { RouterLink } from 'vue-router';
             <RouterLink to="/">
                 <img src="#" alt="logo">
             </RouterLink>
-            <h2 class="saldoAtual">*Saldo atual:00,00*</h2>
+          
         </div>
+        <h2 class="saldoAtual">*Saldo atual:00,00*</h2>
     </header>
 
 </template>
 
 <style scoped>
-/* --- ESTILOS DO HEADER --- */
 .top-header {
     position: fixed;
     top: 0;
@@ -37,8 +37,7 @@ import { RouterLink } from 'vue-router';
     max-height: 40px;
 }
 .saldoAtual{
-    margin: 0;
-    font-size: 16px;
+    font-size: 16px; 
     font-weight: 600;
 }
 </style>
