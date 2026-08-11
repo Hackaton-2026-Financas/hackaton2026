@@ -1,20 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-
+import Header from './components/layout/Header.vue';
+import MenuView from './components/layout/MenuView.vue';
 </script>
 
 <template>
   <header>
-   
-    <div class="wrapper">
-      <HelloWorld msg="" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/meta">Meta</RouterLink>
-      </nav>
-    </div>
+        <Header></Header>
+        <MenuView></MenuView>
   </header>
 
   <RouterView />
