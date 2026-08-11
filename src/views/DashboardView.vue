@@ -1,6 +1,17 @@
-:
 <script setup>
-// FUTURO: Aqui entrarão os imports, reatividade (ref/computed) e tals. e vamo ter q fazer as funções,mas provalvelmente vai ser tudo componentizado eu acho
+import { ref } from 'vue';
+import ButtonChild from '@/components/ButtonChild.vue';
+import TransacaoItem from '@/components/layout/TransacaoItem.vue';
+
+const exibirModal = ref(false);
+
+const abrirModal = () => {
+  exibirModal.value = true;
+};
+
+const fecharModal = () => {
+  exibirModal.value = false;
+};
 </script>
 
 <template>
@@ -12,13 +23,10 @@
 
     <section class="cards-saldos">
       <div class="card card-green">
-        <!-- nem sabia que isso era possivel -->
-
         <div class="card-dinheiro">
           <span>Saldo Total</span>
           <h2>R$ 5.000,00</h2>
         </div>
-
         <div class="card-icone">$</div>
       </div>
 
@@ -28,7 +36,6 @@
           <h2 class="text-green">R$ 5.300,00</h2>
           <small class="text-green">+ Entradas</small>
         </div>
-
         <div class="card-icone icone-verde">+</div>
       </div>
 
@@ -38,7 +45,6 @@
           <h2 class="text-red">R$ 650,00</h2>
           <small class="text-red">- Saídas</small>
         </div>
-
         <div class="card-icone icone-vermelho">-</div>
       </div>
 
@@ -65,59 +71,76 @@
     <section class="section-box">
       <div class="section-header">
         <h2>Últimas Movimentações</h2>
-        <button class="btn-primario">+ Nova Transação</button>
+        
+        <ButtonChild @click="abrirModal">
+          + Nova Transação
+        </ButtonChild>
       </div>
 
       <div class="transactions-list">
-        <div class="transaction-item">
-          <div class="item-info">
-            <div class="badge icone-verde">+</div>
+        <TransacaoItem 
+          titulo="Salário Mensal" 
+          categoria="Salário" 
+          valor="R$ 4.500,00" 
+          data="05/07/2026" 
+          tipo="entrada" 
+        />
+        
+        <TransacaoItem 
+          titulo="Supermercado" 
+          categoria="Alimentação" 
+          valor="R$ 350,00" 
+          data="08/07/2026" 
+          tipo="saida" 
+        />
 
-            <div>
-              <h3>Salário Mensal</h3>
-              <small>Salário</small>
-            </div>
-          </div>
-
-          <div class="item-valor">
-            <strong class="text-green">+ R$ 4.500,00</strong>
-            <small>05/07/2026</small>
-          </div>
-        </div>
-
-        <div class="transaction-item">
-          <div class="item-info">
-            <div class="badge icone-vermelho">-</div>
-
-            <div>
-              <h3>Supermercado</h3>
-              <small>Alimentação</small>
-            </div>
-          </div>
-
-          <div class="item-valor">
-            <strong class="text-red">- R$ 350,00</strong>
-            <small>08/07/2026</small>
-          </div>
-        </div>
-
-        <div class="transaction-item">
-          <div class="item-info">
-            <div class="badge icone-vermelho">-</div>
-
-            <div>
-              <h3>Combustível</h3>
-              <small>Transporte</small>
-            </div>
-          </div>
-
-          <div class="item-valor">
-            <strong class="text-red">- R$ 180,00</strong>
-            <small>10/07/2026</small>
-          </div>
-        </div>
+        <TransacaoItem 
+          titulo="Combustível" 
+          categoria="Transporte" 
+          valor="R$ 180,00" 
+          data="10/07/2026" 
+          tipo="saida" 
+        />
       </div>
     </section>
+
+    <div class="modal-fundo" v-show="exibirModal">
+      <div class="modal-caixa">
+        <div class="modal-cabecalho">
+          <h2>Nova Transação</h2>
+          <button class="btn-fechar" @click="fecharModal">X</button>
+        </div>
+
+        <form class="modal-formulario" @submit.prevent>
+          <div class="grupo-input">
+            <label>Tipo</label>
+            <select>
+              <option value="despesa">Despesa (Saída)</option>
+              <option value="receita">Receita (Entrada)</option>
+            </select>
+          </div>
+
+          <div class="grupo-input">
+            <label>Categoria</label>
+            <input type="text" placeholder="Ex: Alimentação, Salário..." />
+          </div>
+
+          <div class="grupo-input">
+            <label>Valor R$</label>
+            <input type="number" placeholder="R$ 0,00" />
+          </div>
+
+          <div class="grupo-input">
+            <label>Descrição</label>
+            <input type="text" placeholder="Ex: Compra no supermercado" />
+          </div>
+
+          <button type="button" class="btn-sucesso" @click="fecharModal">
+            Adicionar Transação
+          </button>
+        </form>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -139,25 +162,21 @@
 
 .welcome-header p {
   margin: 5px 0 0 0;
-
   color: #64748b;
 }
 
 /* GRID DE CARDS */
-
 .cards-saldos {
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
     minmax(200px, 1fr)
-  ); /* nao tava conseguindo deixar um do lado do outro e pedi "ajudinha"*/
-
+  ); 
   gap: 20px;
   margin-bottom: 25px;
 }
 
 .card {
-  /* precisamos componentizar esses cards pra  nao ter dor de cabeça*/
   background-color: #ffffff;
   padding: 20px;
   border-radius: 12px;
@@ -189,7 +208,6 @@
 }
 
 /* ÍCONES */
-
 .card-icone {
   width: 40px;
   height: 40px;
@@ -217,7 +235,6 @@
 }
 
 /* COR DE TEXTO */
-
 .text-green {
   color: #059669;
 }
@@ -227,7 +244,6 @@
 }
 
 /* section-box (Gráfico e Transações) */
-
 .section-box {
   background-color: #ffffff;
   padding: 20px;
@@ -249,7 +265,6 @@
 }
 
 /* ÁREA TEMPORÁRIA DO GRÁFICO */
-
 .grafico {
   height: 200px;
   background-color: #f1f5f9;
@@ -261,66 +276,106 @@
   color: #64748b;
 }
 
-/* BOTÃO DE AÇÃO */
-
-.btn-primario {
-  background-color: #00875a;
-  color: #ffffff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
 /* LISTA DE TRANSAÇÕES */
-
 .transactions-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.transaction-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background-color: #f8fafc;
-  border-radius: 8px;
-}
-
-.item-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.item-info h3 {
-  margin: 0;
-  font-size: 14px;
-}
-
-.item-info small,
-.item-valor small {
-  color: #64748b;
-}
-
-.badge {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+/* ESTILOS DO MODAL */
+.modal-fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  z-index: 999; 
 }
 
-.item-valor {
+.modal-caixa {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.modal-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-cabecalho h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #1e293b;
+}
+
+.btn-fechar {
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.modal-formulario {
   display: flex;
   flex-direction: column;
-  text-align: right;
+  gap: 16px;
 }
 
-/* Por que choras sor Kennedy? */
+.grupo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grupo-input label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.grupo-input input,
+.grupo-input select {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+  border-color: #0a936f;
+}
+
+.btn-sucesso {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #0a936f;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-sucesso:hover {
+  background-color: #00875a;
+}
 </style>
