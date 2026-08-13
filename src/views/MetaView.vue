@@ -83,11 +83,25 @@ function removeMeta(id) {
 </template>
 
 <style scoped>
+
+template{
+  display: flex;
+  justify-content: right;
+}
+template input {
+  color: black;
+}
+
+.metas,
+.modal {
+  color: #000;
+}
 .container h2,
 h3,
 p {
   color: black;
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -98,12 +112,13 @@ header {
 .fabrica h2 {
   margin: 0;
   font-size: 32px;
-  color: white;
+  color: black;
 }
 
 .fabrica p {
   margin-top: 8px;
-  color: #bcbcbc;
+  margin-bottom: 20px;
+  color: black;
   font-size: 17px;
 }
 
@@ -123,27 +138,38 @@ header {
   background: #00b56f;
 }
 
-/* Modal básico */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(10, 10, 10, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .modal {
-  background: white;
+  display: flex;
+  justify-content: right;
+  background: #c6c6c6;
   padding: 20px;
   border-radius: 12px;
   width: 90%;
   max-width: 480px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
 }
 .modal input,
 .modal label {
+  display: flex;
+  
   display: block;
   width: 100%;
   margin-bottom: 8px;
+}
+.metas {
+  align-items: center;
+  background: #c6c6c6;
+  border-radius: 16px;
+  padding: 80px 120px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
 .lista-metas {
   list-style: none;
@@ -155,7 +181,7 @@ header {
 }
 
 .metas p {
-  color: #666;
+  color: #black;
   margin-bottom: 20px;
 }
 
@@ -166,6 +192,7 @@ header {
   padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .criar:hover {
