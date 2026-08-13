@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 
+const emit = defineEmits(['login'])
 
 const naTelaCadastro = ref(false)
 
@@ -15,6 +16,8 @@ const dadosCadastro = reactive({
   senha: ''
 })
 
+// alternando de login para cadastro e vice-versa
+
 function mudarParaCadastro() {
   naTelaCadastro.value = true
 }
@@ -23,20 +26,16 @@ function mudarParaLogin() {
   naTelaCadastro.value = false
 }
 
-function logarUsuario() {
-  alert(`Login feito com sucesso com o e-mail: ${dadosLogin.email}! Acesso liberado.`)
-
-  dadosLogin.email = ''
-  dadosLogin.senha = ''
-}
-
 function cadastrarUsuario() {
   alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${dadosCadastro.nome}. Acesso liberado.`)
 
-  dadosCadastro.nome = ''
-  dadosCadastro.email = ''
-  dadosCadastro.senha = ''
+  dadosCadastro.nome = ""
+  dadosCadastro.email = ""
+  dadosCadastro.senha = ""
+
+  emit("login")
 }
+
 </script>
 
 <template>

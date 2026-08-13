@@ -40,6 +40,11 @@ const router = createRouter({
       component: RelatorioView,
     },
     {
+      path: '/Login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

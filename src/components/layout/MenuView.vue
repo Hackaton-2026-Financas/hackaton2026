@@ -1,5 +1,10 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
+import { inject } from 'vue';
+import Login from '@/components/Login.vue';
+
+const estaLogado = inject("estaLogado")
 </script>
 
 <template>
@@ -12,6 +17,10 @@ import { RouterLink } from 'vue-router';
             <h2><RouterLink to="/contas">Contas</RouterLink></h2>
             <h2><RouterLink to="/relatorio">Relatório</RouterLink></h2>
             <h2><RouterLink to="/about">About</RouterLink></h2>
+            
+            <h2 v-if="!estaLogado">
+                <RouterLink to="/login">Login</RouterLink>
+            </h2>        
         </nav>
     </aside>
 </template>
