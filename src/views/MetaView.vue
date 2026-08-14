@@ -87,10 +87,7 @@ function removeMeta(id) {
 
 <style scoped>
 
-template{
-  display: flex;
-  justify-content: right;
-}
+
 template input {
   color: black;
 }

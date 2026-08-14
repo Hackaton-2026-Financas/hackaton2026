@@ -19,14 +19,14 @@ header {
   line-height: 1.5;
   max-height: 100vh;
 }
-/* 
+
 .container {
     border: 1px solid red;
     width: 80%;
     position: relative;
     left: 190px;
     padding-top: 100px;
-} */
+}
 
 .logo {
   display: block;
