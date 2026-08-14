@@ -1,16 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
 </script>
 
 <template>
   <header>
-        <Header></Header>
+        <Header/>
         <MenuView></MenuView>
   </header>
-
+  <div class="container">
   <RouterView />
+  </div>
 </template>
 
 <style scoped>
@@ -18,6 +19,14 @@ header {
   line-height: 1.5;
   max-height: 100vh;
 }
+/* 
+.container {
+    border: 1px solid red;
+    width: 80%;
+    position: relative;
+    left: 190px;
+    padding-top: 100px;
+} */
 
 .logo {
   display: block;

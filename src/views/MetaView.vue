@@ -31,14 +31,17 @@ function removeMeta(id) {
 </script>
 
 <template>
-  <div class="container">
-    <header>
-      <div class="fabrica">
+
+
+    <section class="fabrica">
+      <div>
         <h2>Fábrica de Metas🎯</h2>
         <p>Crie e acompanhe seus objetivos financeiro aqui</p>
         <button class="nova" @click="openModal">+ Nova meta</button>
       </div>
-    </header>
+    </section>
+
+
     <main>
       <div class="metas">
         <template v-if="metas.length === 0">
@@ -79,7 +82,7 @@ function removeMeta(id) {
         </div>
       </div>
     </div>
-  </div>
+
 </template>
 
 <style scoped>
@@ -92,13 +95,10 @@ template input {
   color: black;
 }
 
-.metas,
-.modal {
+.metas, .modal {
   color: #000;
 }
-.container h2,
-h3,
-p {
+.container h2, h3, p {
   color: black;
 }
 
@@ -132,6 +132,7 @@ header {
   font-size: 16px;
   font-weight: bold;
   transition: 0.2s;
+  margin-bottom: 20px;
 }
 
 .nova:hover {
@@ -181,7 +182,7 @@ header {
 }
 
 .metas p {
-  color: #black;
+  color: black;
   margin-bottom: 20px;
 }
 
