@@ -66,7 +66,7 @@ function removeMeta(id) {
         </template>
       </div>
     </main>
-
+                                                                                  <!-- FALTA FAZER ESSA MERDA -->
     <div v-if="showModal" class="modal-backdrop" @click.self="closeModal">
       <div class="modal">
         <h3>Criar Meta</h3>
@@ -82,7 +82,7 @@ function removeMeta(id) {
         </div>
       </div>
     </div>
-
+                                                                                  <!-- FALTA FAZER ESSA MERDA -->
 </template>
 
 <style scoped>
