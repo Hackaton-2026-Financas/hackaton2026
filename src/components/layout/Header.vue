@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import ContaCard from './contasComponentes/contaCard.vue';
 </script>
 
 <template>
@@ -8,6 +9,10 @@ import { RouterLink } from 'vue-router';
             <RouterLink to="/">
                 <img src="#" alt="logo">
             </RouterLink>
+
+            <ContaCard>
+            
+            </ContaCard>
           
         </div>
         <h2 class="saldoAtual">*Saldo atual:00,00*</h2>

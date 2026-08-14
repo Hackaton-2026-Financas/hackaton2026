@@ -23,7 +23,7 @@
         <h3>R$ 249,90</h3>
       </div>
 
-      <div class="card1">
+      <div class="card">
         <h3>Energia Elétrica</h3>
         <p>Utilidades</p>
         <p>R$ 150,00</p>
@@ -31,7 +31,7 @@
         <span>Atrasada!</span>
       </div>
 
-      <div class="card2">
+      <div class="card">
         <h3>Internet</h3>
         <p>Utilidades</p>
         <p>R$ 99,90</p>
@@ -49,7 +49,7 @@
         <h3>R$ 1.200,00</h3>
       </div>
 
-      <div class="card3">
+      <div class="card">
         <h3>Aluguel</h3>
         <p>Moradia</p>
         <p>R$ 1.200,00</p>
@@ -237,9 +237,7 @@ main section:last-child {
 
 /* Cartões */
 
-.card1,
-.card,
-.card3 {
+.card {
   width: 100%;
   box-sizing: border-box;
 
@@ -251,7 +249,6 @@ main section:last-child {
 
   min-height: 130px;
 }
-
 
 /* Cartões atrasados */
 
