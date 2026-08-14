@@ -21,7 +21,7 @@ header {
 }
 
 .container {
-    border: 1px solid red;
+
     width: 80%;
     position: relative;
     left: 190px;
