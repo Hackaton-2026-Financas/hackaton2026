@@ -3,7 +3,15 @@ import { ref } from 'vue';
 import ButtonChild from '@/components/ButtonChild.vue';
 import TransacaoItem from '@/components/layout/TransacaoItem.vue';
 
+// Estado do Modal
 const exibirModal = ref(false);
+
+const transacoes = ref([]);
+
+const novoTipo = ref('saida');
+const novaCategoria = ref('');
+const novoValor = ref('');
+const novaDescricao = ref('');
 
 const abrirModal = () => {
   exibirModal.value = true;
@@ -11,6 +19,39 @@ const abrirModal = () => {
 
 const fecharModal = () => {
   exibirModal.value = false;
+  limparFormulario();
+};
+
+const limparFormulario = () => {
+  novoTipo.value = 'saida';
+  novaCategoria.value = '';
+  novoValor.value = '';
+  novaDescricao.value = '';
+};
+
+const adicionarTransacao = () => {
+  if (!novaCategoria.value || !novoValor.value || !novaDescricao.value) {
+    alert('Por favor, preencha todos os campos!');
+    return;
+  }
+
+  const valorFormatado = Number(novoValor.value).toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const dataHoje = new Date().toLocaleDateString('pt-BR');
+
+  transacoes.value.unshift({
+    id: Date.now(),
+    titulo: novaDescricao.value,
+    categoria: novaCategoria.value,
+    valor: valorFormatado,
+    data: dataHoje,
+    tipo: novoTipo.value
+  });
+
+  fecharModal();
 };
 </script>
 
@@ -79,28 +120,18 @@ const fecharModal = () => {
 
       <div class="transactions-list">
         <TransacaoItem 
-          titulo="Salário Mensal" 
-          categoria="Salário" 
-          valor="R$ 4.500,00" 
-          data="05/07/2026" 
-          tipo="entrada" 
-        />
-        
-        <TransacaoItem 
-          titulo="Supermercado" 
-          categoria="Alimentação" 
-          valor="R$ 350,00" 
-          data="08/07/2026" 
-          tipo="saida" 
+          v-for="item in transacoes"
+          :key="item.id"
+          :titulo="item.titulo"
+          :categoria="item.categoria"
+          :valor="item.valor"
+          :data="item.data"
+          :tipo="item.tipo"
         />
 
-        <TransacaoItem 
-          titulo="Combustível" 
-          categoria="Transporte" 
-          valor="R$ 180,00" 
-          data="10/07/2026" 
-          tipo="saida" 
-        />
+        <p v-if="transacoes.length === 0" class="sem-transacoes">
+          Nenhuma transação cadastrada até o momento.
+        </p>
       </div>
     </section>
 
@@ -111,31 +142,44 @@ const fecharModal = () => {
           <button class="btn-fechar" @click="fecharModal">X</button>
         </div>
 
-        <form class="modal-formulario" @submit.prevent>
+        <form class="modal-formulario" @submit.prevent="adicionarTransacao">
           <div class="grupo-input">
             <label>Tipo</label>
-            <select>
-              <option value="despesa">Despesa (Saída)</option>
-              <option value="receita">Receita (Entrada)</option>
+            <select v-model="novoTipo">
+              <option value="saida">Despesa (Saída)</option>
+              <option value="entrada">Receita (Entrada)</option>
             </select>
           </div>
 
           <div class="grupo-input">
             <label>Categoria</label>
-            <input type="text" placeholder="Ex: Alimentação, Salário..." />
+            <input 
+              v-model="novaCategoria" 
+              type="text" 
+              placeholder="Ex: Alimentação, Salário..." 
+            />
           </div>
 
           <div class="grupo-input">
             <label>Valor R$</label>
-            <input type="number" placeholder="R$ 0,00" />
+            <input 
+              v-model="novoValor" 
+              type="number" 
+              step="0.01" 
+              placeholder="R$ 0,00" 
+            />
           </div>
 
           <div class="grupo-input">
             <label>Descrição</label>
-            <input type="text" placeholder="Ex: Compra no supermercado" />
+            <input 
+              v-model="novaDescricao" 
+              type="text" 
+              placeholder="Ex: Compra no supermercado" 
+            />
           </div>
 
-          <button type="button" class="btn-sucesso" @click="fecharModal">
+          <button type="submit" class="btn-sucesso">
             Adicionar Transação
           </button>
         </form>
@@ -281,6 +325,13 @@ const fecharModal = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.sem-transacoes {
+  text-align: center;
+  color: #94a3b8;
+  padding: 16px 0;
+  font-size: 14px;
 }
 
 /* ESTILOS DO MODAL */
