@@ -5,16 +5,29 @@ import MenuView from './components/layout/MenuView.vue';
 </script>
 
 <template>
-  <header>
-        <Header></Header>
-        <MenuView></MenuView>
+  <div class="app-shell">
+    <Header />
+    <MenuView />
 
-  </header>
-
-  <RouterView />
+    <main class="page-content">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
 <style scoped>
+.app-shell {
+  min-height: 100vh;
+}
+
+.page-content {
+  margin-top: 60px;
+  margin-left: 160px;
+  width: calc(100% - 160px);
+  box-sizing: border-box;
+  padding: 0 24px 40px;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
