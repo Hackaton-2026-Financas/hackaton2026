@@ -27,6 +27,8 @@ const fecharModal = () => {
   limparFormulario();
 };
 
+let proximoId = 1;
+
 const limparFormulario = () => {
   novoTipo.value = 'saida';
   novaCategoria.value = '';
@@ -41,7 +43,7 @@ const adicionarTransacao = () => {
   }
 
   transacoes.value.unshift({
-    id: Date.now(),
+    id: proximoId++, 
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
     valor: Number(novoValor.value), 
