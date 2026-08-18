@@ -4,17 +4,18 @@
 </script>
 
 <template>
-  <header>
+<main class="main">
+  <section>
     <div class="contas">
       <h1>Gerenciador de Contas</h1>
       <p>Arraste e solte suas contas para organizá-las</p>
     </div>
 
     <button>+ Nova Conta</button>
-  </header>
+  </section>
 
-  <main>
-    <!-- Contas a pagar -->
+  
+  
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>
@@ -40,7 +41,7 @@
       </div>
     </section>
 
-    <!-- Contas pagas -->
+   
     <section>
       <div class="pagas">
         <h2>Pagas</h2>
@@ -62,151 +63,113 @@
 
 <style scoped>
 
-/* Cabeçãlho */
-
-header {
-  width: 100%;
+.main {
+  padding: 35px;
+  min-height: calc(100vh - 60px);
+  margin-left: 160px; /* espaço para a sidebar fixa */
+  margin-top: 60px; /* espaço para o header fixo */
+  background-color: #f8fafc;
+  font-family: Arial, sans-serif;
   box-sizing: border-box;
-  padding: 35px 40px 25px;
+}
+
+
+.main > section:first-child {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  margin-bottom: 30px;  
 }
+
 
 .contas h1 {
   margin: 0;
-  color: #172b4d;
-  font-size: 30px;
-  font-weight: 700;
+  color: #27364a;
+  font-size: 28px;
 }
+
 
 .contas p {
-  margin: 8px 0 0;
   color: #64748b;
-  font-size: 14px;
+  margin-top: 8px;
 }
 
 
-/* == Botão == */
-
-header button {
-  background: #00b386;
+button {
+  background-color: #159b83;
   color: white;
-
   border: none;
   border-radius: 8px;
-
-  padding: 12px 18px;
-
-  font-size: 14px;
-  font-weight: 600;
-
+  padding: 12px 20px;
   cursor: pointer;
-}
-
-header button:hover {
-  background: #009b75;
+  font-size: 14px;
 }
 
 
-/* == Área principal == */
-
-main {
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 0 40px 40px;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
+main > section:nth-of-type(2) {
+  width: 45%;
+  min-height: 390px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #fffdf4;
+  border: 1px solid #f1cf69;
+  border-radius: 15px;
+  padding: 20px;
+  margin-right: 20px;
 }
 
 
-/* Caixas Principal */
-
-main section {
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 22px;
-
-  border-radius: 16px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
+main > section:nth-of-type(3) {
+  width: 45%;
+  min-height: 390px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #f2fffb;
+  border: 1px solid #9de0cf;
+  border-radius: 15px;
+  padding: 20px;
 }
 
 
-/* A pagar */
-
-main section:first-child {
-  background-color: #fff9df;
-  border: 1px solid #f3d45c;
-}
-
-
-/* Pagas */
-
-main section:last-child {
-  background-color: #ecfff7;
-  border: 1px solid #8de0c2;
-}
-
-
-/*  Cabeçalho das Caixas */
-
-.naopagas
+.naopagas,
 .pagas {
   position: relative;
-
-  min-height: 55px;
+  margin-bottom: 20px;
 }
+
 
 .naopagas h2,
 .pagas h2 {
   margin: 0;
-
-  color: #172b4d;
-
-  font-size: 19px;
-  font-weight: 700;
+  color: #334155;
+  font-size: 18px;
 }
 
-.naopagas p,
-.pagas p {
-  margin: 4px 0;
 
+.naopagas p:first-of-type,
+.pagas p:first-of-type {
+  margin: 5px 0;
   color: #64748b;
-
   font-size: 13px;
 }
 
 
-/* Total */
-
 .naopagas p:nth-of-type(2),
 .pagas p:nth-of-type(2) {
   position: absolute;
-
   right: 0;
   top: 0;
-
   margin: 0;
-
   color: #64748b;
   font-size: 12px;
 }
 
+
 .naopagas h3,
 .pagas h3 {
   position: absolute;
-
   right: 0;
-  top: 17px;
-
+  top: 20px;
   margin: 0;
 
   color: #172b4d;
@@ -300,47 +263,65 @@ main section:last-child {
   color: #172b4d;
 
   font-size: 14px;
-  font-weight: 700;
 }
 
 
-/* Data */
+.card {
+  background-color: white;
+  border: 1px solid #dce3ea;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
 
-.card1 p:nth-of-type(3),
-.card p:nth-of-type(3),
-.card3 p:nth-of-type(3) {
+
+main > section:nth-of-type(2) .card {
+  border-color: #ff9aa2;
+}
+
+
+.card h3 {
+  margin: 0 0 10px;
+  color: #334155;
+  font-size: 16px;
+}
+
+
+.card p {
+  margin: 10px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+
+.card p:first-of-type {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 8px;
+  background-color: #eef2f6;
   color: #64748b;
-
+  border-radius: 4px;
   font-size: 12px;
 }
 
 
-/* Atrasada */
+.card p:nth-of-type(2) {
+  margin-top: 16px;
+  font-weight: bold;
+}
 
-.card1 span,
+
+.card p:nth-of-type(3) {
+  margin-bottom: 0;
+}
+
+
 .card span {
-  display: inline-block;
-
-  margin-top: 3px;
-
-  padding: 4px 8px;
-
-  border-radius: 5px;
-
-  background-color: #ffe5e5;
-
-  color: #e53935;
-
-  font-size: 11px;
-  font-weight: 600;
+  color: #e63946;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-
-/*  Espaçamento entre Cartões */
-
-.card1 + .card {
-  margin-top: 0;
-}
 
 </style>
 
