@@ -4,18 +4,17 @@
 </script>
 
 <template>
-<main class="main">
-  <section>
+  <header>
     <div class="contas">
       <h1>Gerenciador de Contas</h1>
       <p>Arraste e solte suas contas para organizá-las</p>
     </div>
 
     <button>+ Nova Conta</button>
-  </section>
+  </header>
 
-  
-  
+  <main>
+    <!-- Contas a pagar -->
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>
@@ -24,7 +23,7 @@
         <h3>R$ 249,90</h3>
       </div>
 
-      <div class="card">
+      <div class="card1">
         <h3>Energia Elétrica</h3>
         <p>Utilidades</p>
         <p>R$ 150,00</p>
@@ -32,7 +31,7 @@
         <span>Atrasada!</span>
       </div>
 
-      <div class="card">
+      <div class="card2">
         <h3>Internet</h3>
         <p>Utilidades</p>
         <p>R$ 99,90</p>
@@ -41,7 +40,7 @@
       </div>
     </section>
 
-   
+    <!-- Contas pagas -->
     <section>
       <div class="pagas">
         <h2>Pagas</h2>
@@ -50,7 +49,7 @@
         <h3>R$ 1.200,00</h3>
       </div>
 
-      <div class="card">
+      <div class="card3">
         <h3>Aluguel</h3>
         <p>Moradia</p>
         <p>R$ 1.200,00</p>
@@ -63,113 +62,151 @@
 
 <style scoped>
 
-.main {
-  padding: 35px;
-  min-height: calc(100vh - 60px);
-  margin-left: 160px; /* espaço para a sidebar fixa */
-  margin-top: 60px; /* espaço para o header fixo */
-  background-color: #f8fafc;
-  font-family: Arial, sans-serif;
+/* Cabeçãlho */
+
+header {
+  width: 100%;
   box-sizing: border-box;
-}
-
-
-.main > section:first-child {
+  padding: 35px 40px 25px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;  
+  align-items: flex-start;
 }
-
 
 .contas h1 {
   margin: 0;
-  color: #27364a;
-  font-size: 28px;
+  color: #172b4d;
+  font-size: 30px;
+  font-weight: 700;
 }
-
 
 .contas p {
+  margin: 8px 0 0;
   color: #64748b;
-  margin-top: 8px;
-}
-
-
-button {
-  background-color: #159b83;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  cursor: pointer;
   font-size: 14px;
 }
 
 
-main > section:nth-of-type(2) {
-  width: 45%;
-  min-height: 390px;
-  display: inline-block;
-  vertical-align: top;
-  background-color: #fffdf4;
-  border: 1px solid #f1cf69;
-  border-radius: 15px;
-  padding: 20px;
-  margin-right: 20px;
+/* == Botão == */
+
+header button {
+  background: #00b386;
+  color: white;
+
+  border: none;
+  border-radius: 8px;
+
+  padding: 12px 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+header button:hover {
+  background: #009b75;
 }
 
 
-main > section:nth-of-type(3) {
-  width: 45%;
-  min-height: 390px;
-  display: inline-block;
-  vertical-align: top;
-  background-color: #f2fffb;
-  border: 1px solid #9de0cf;
-  border-radius: 15px;
-  padding: 20px;
+/* == Área principal == */
+
+main {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 0 40px 40px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
 }
 
 
-.naopagas,
+/* Caixas Principal */
+
+main section {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 22px;
+
+  border-radius: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* A pagar */
+
+main section:first-child {
+  background-color: #fff9df;
+  border: 1px solid #f3d45c;
+}
+
+
+/* Pagas */
+
+main section:last-child {
+  background-color: #ecfff7;
+  border: 1px solid #8de0c2;
+}
+
+
+/*  Cabeçalho das Caixas */
+
+.naopagas
 .pagas {
   position: relative;
-  margin-bottom: 20px;
-}
 
+  min-height: 55px;
+}
 
 .naopagas h2,
 .pagas h2 {
   margin: 0;
-  color: #334155;
-  font-size: 18px;
+
+  color: #172b4d;
+
+  font-size: 19px;
+  font-weight: 700;
 }
 
+.naopagas p,
+.pagas p {
+  margin: 4px 0;
 
-.naopagas p:first-of-type,
-.pagas p:first-of-type {
-  margin: 5px 0;
   color: #64748b;
+
   font-size: 13px;
 }
 
 
+/* Total */
+
 .naopagas p:nth-of-type(2),
 .pagas p:nth-of-type(2) {
   position: absolute;
+
   right: 0;
   top: 0;
+
   margin: 0;
+
   color: #64748b;
   font-size: 12px;
 }
 
-
 .naopagas h3,
 .pagas h3 {
   position: absolute;
+
   right: 0;
-  top: 20px;
+  top: 17px;
+
   margin: 0;
 
   color: #172b4d;
@@ -200,7 +237,9 @@ main > section:nth-of-type(3) {
 
 /* Cartões */
 
-.card {
+.card1,
+.card,
+.card3 {
   width: 100%;
   box-sizing: border-box;
 
@@ -212,6 +251,7 @@ main > section:nth-of-type(3) {
 
   min-height: 130px;
 }
+
 
 /* Cartões atrasados */
 
@@ -263,65 +303,47 @@ main > section:nth-of-type(3) {
   color: #172b4d;
 
   font-size: 14px;
+  font-weight: 700;
 }
 
 
-.card {
-  background-color: white;
-  border: 1px solid #dce3ea;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
+/* Data */
 
-
-main > section:nth-of-type(2) .card {
-  border-color: #ff9aa2;
-}
-
-
-.card h3 {
-  margin: 0 0 10px;
-  color: #334155;
-  font-size: 16px;
-}
-
-
-.card p {
-  margin: 10px 0;
-  color: #475569;
-  font-size: 14px;
-}
-
-
-.card p:first-of-type {
-  display: inline-block;
-  margin: 0;
-  padding: 5px 8px;
-  background-color: #eef2f6;
+.card1 p:nth-of-type(3),
+.card p:nth-of-type(3),
+.card3 p:nth-of-type(3) {
   color: #64748b;
-  border-radius: 4px;
+
   font-size: 12px;
 }
 
 
-.card p:nth-of-type(2) {
-  margin-top: 16px;
-  font-weight: bold;
-}
+/* Atrasada */
 
-
-.card p:nth-of-type(3) {
-  margin-bottom: 0;
-}
-
-
+.card1 span,
 .card span {
-  color: #e63946;
-  font-size: 13px;
-  font-weight: bold;
+  display: inline-block;
+
+  margin-top: 3px;
+
+  padding: 4px 8px;
+
+  border-radius: 5px;
+
+  background-color: #ffe5e5;
+
+  color: #e53935;
+
+  font-size: 11px;
+  font-weight: 600;
 }
 
+
+/*  Espaçamento entre Cartões */
+
+.card1 + .card {
+  margin-top: 0;
+}
 
 </style>
 
