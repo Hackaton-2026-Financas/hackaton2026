@@ -118,6 +118,7 @@ const adicionarTransacao = () => {
         <TransacaoItem 
           v-for="item in transacoes"
           :key="item.id"
+          :id="item.id"
           :titulo="item.titulo"
           :categoria="item.categoria"
           :valor="formatarMoeda(item.valor)" 

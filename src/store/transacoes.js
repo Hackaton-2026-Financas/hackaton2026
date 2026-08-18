@@ -24,3 +24,7 @@ export const formatarMoeda = (valor) => {
     currency: 'BRL'
   });
 };
+
+export const removerTransacao = (id) => {
+  transacoes.value = transacoes.value.filter((item) => item.id !== id);
+};
