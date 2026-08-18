@@ -2,91 +2,35 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
+
+//tenho q me lembrar de repassar isso pro pessoal nao surtar
 </script>
 
 <template>
-  <div class="app-shell">
-    <Header />
-    <MenuView />
+  <div class="app-layout">
+    <aside class="sidebar">
+      <Header />
+      <MenuView />
+    </aside>
 
-    <main class="page-content">
+    <main class="content-area">
       <RouterView />
     </main>
   </div>
 </template>
 
 <style scoped>
-.app-shell {
+.app-layout {
+  display: flex;
   min-height: 100vh;
 }
 
-.page-content {
-  margin-top: 60px;
-  margin-left: 160px;
-  width: calc(100% - 160px);
-  box-sizing: border-box;
-  padding: 0 24px 40px;
+.sidebar {
+  width: 240px; 
+  flex-shrink: 0;
 }
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.content-area {
+  flex-grow: 1;
 }
 </style>
