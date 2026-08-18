@@ -148,7 +148,14 @@ const adicionarTransacao = () => {
 
           <div class="grupo-input">
             <label>Categoria</label>
-            <input v-model="novaCategoria" type="text" placeholder="Ex: Alimentação, Salário..." />
+              <select v-model="novaCategoria">
+                <option value="" disabled>Selecione uma categoria</option>
+                <option value="salario">Salário</option>
+                <option value="lazer">Lazer</option>
+                <option value="transporte">Transporte</option>
+                <option value="alimentacao">Alimentação</option>
+                <option value="outros">Outros</option>
+              </select>
           </div>
 
           <div class="grupo-input">
