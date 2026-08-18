@@ -13,7 +13,7 @@ import {
 
 const exibirModal = ref(false);
 
-const novoTipo = ref('saida');
+const novoTipo = ref('');
 const novaCategoria = ref('');
 const novoValor = ref('');
 const novaDescricao = ref('');
@@ -30,7 +30,7 @@ const fecharModal = () => {
 let proximoId = 1;
 
 const limparFormulario = () => {
-  novoTipo.value = 'saida';
+  novoTipo.value = '';
   novaCategoria.value = '';
   novoValor.value = '';
   novaDescricao.value = '';
@@ -144,6 +144,7 @@ const adicionarTransacao = () => {
           <div class="grupo-input">
             <label>Tipo</label>
             <select v-model="novoTipo">
+              <option value="" disabled>Selecione um Tipo</option>
               <option value="saida">Despesa (Saída)</option>
               <option value="entrada">Receita (Entrada)</option>
             </select>
