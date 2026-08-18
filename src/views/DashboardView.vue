@@ -3,10 +3,15 @@ import { ref } from 'vue';
 import ButtonChild from '@/components/ButtonChild.vue';
 import TransacaoItem from '@/components/layout/TransacaoItem.vue';
 
-// Estado do Modal
-const exibirModal = ref(false);
+import { 
+  transacoes, 
+  saldoTotal, 
+  receitasTotais, 
+  despesasTotais, 
+  formatarMoeda 
+} from '@/store/transacoes.js';
 
-const transacoes = ref([]);
+const exibirModal = ref(false);
 
 const novoTipo = ref('saida');
 const novaCategoria = ref('');
@@ -35,19 +40,12 @@ const adicionarTransacao = () => {
     return;
   }
 
-  const valorFormatado = Number(novoValor.value).toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-
-  const dataHoje = new Date().toLocaleDateString('pt-BR');
-
   transacoes.value.unshift({
     id: Date.now(),
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
-    valor: valorFormatado,
-    data: dataHoje,
+    valor: Number(novoValor.value), 
+    data: new Date().toLocaleDateString('pt-BR'),
     tipo: novoTipo.value
   });
 
@@ -66,7 +64,7 @@ const adicionarTransacao = () => {
       <div class="card card-green">
         <div class="card-dinheiro">
           <span>Saldo Total</span>
-          <h2>R$ 5.000,00</h2>
+          <h2>{{ formatarMoeda(saldoTotal) }}</h2>
         </div>
         <div class="card-icone">$</div>
       </div>
@@ -74,7 +72,7 @@ const adicionarTransacao = () => {
       <div class="card">
         <div class="card-dinheiro">
           <span>Receitas do Mês</span>
-          <h2 class="text-green">R$ 5.300,00</h2>
+          <h2 class="text-green">{{ formatarMoeda(receitasTotais) }}</h2>
           <small class="text-green">+ Entradas</small>
         </div>
         <div class="card-icone icone-verde">+</div>
@@ -83,7 +81,7 @@ const adicionarTransacao = () => {
       <div class="card">
         <div class="card-dinheiro">
           <span>Despesas do Mês</span>
-          <h2 class="text-red">R$ 650,00</h2>
+          <h2 class="text-red">{{ formatarMoeda(despesasTotais) }}</h2>
           <small class="text-red">- Saídas</small>
         </div>
         <div class="card-icone icone-vermelho">-</div>
@@ -102,17 +100,13 @@ const adicionarTransacao = () => {
     <section class="section-box">
       <h2>Evolução do Patrimônio</h2>
       <div class="grafico">
-        <p>
-          Gráfico interativo será integrado aqui na etapa [DA-06] e como que faz um esse diacho de
-          grafico???
-        </p>
+        <p>Gráfico interativo será integrado aqui na etapa [DA-06] e como que faz um esse diacho de grafico???</p>
       </div>
     </section>
 
     <section class="section-box">
       <div class="section-header">
         <h2>Últimas Movimentações</h2>
-        
         <ButtonChild @click="abrirModal">
           + Nova Transação
         </ButtonChild>
@@ -124,7 +118,7 @@ const adicionarTransacao = () => {
           :key="item.id"
           :titulo="item.titulo"
           :categoria="item.categoria"
-          :valor="item.valor"
+          :valor="formatarMoeda(item.valor)" 
           :data="item.data"
           :tipo="item.tipo"
         />
@@ -135,6 +129,7 @@ const adicionarTransacao = () => {
       </div>
     </section>
 
+    <!-- MODAL, to começando a enjoar de mexer nessa modal -->
     <div class="modal-fundo" v-show="exibirModal">
       <div class="modal-caixa">
         <div class="modal-cabecalho">
@@ -153,30 +148,17 @@ const adicionarTransacao = () => {
 
           <div class="grupo-input">
             <label>Categoria</label>
-            <input 
-              v-model="novaCategoria" 
-              type="text" 
-              placeholder="Ex: Alimentação, Salário..." 
-            />
+            <input v-model="novaCategoria" type="text" placeholder="Ex: Alimentação, Salário..." />
           </div>
 
           <div class="grupo-input">
             <label>Valor R$</label>
-            <input 
-              v-model="novoValor" 
-              type="number" 
-              step="0.01" 
-              placeholder="R$ 0,00" 
-            />
+            <input v-model="novoValor" type="number" step="0.01" placeholder="R$ 0,00" />
           </div>
 
           <div class="grupo-input">
             <label>Descrição</label>
-            <input 
-              v-model="novaDescricao" 
-              type="text" 
-              placeholder="Ex: Compra no supermercado" 
-            />
+            <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" />
           </div>
 
           <button type="submit" class="btn-sucesso">
