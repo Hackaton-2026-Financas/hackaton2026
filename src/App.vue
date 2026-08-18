@@ -1,7 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, provide } from 'vue'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
+
+
+const estaLogado = ref(false)
+
+function definirLogado(valor) {
+  estaLogado.value = valor
+}
+
+provide('estaLogado', estaLogado)
+provide('definirLogado', definirLogado)
 </script>
 
 <template>

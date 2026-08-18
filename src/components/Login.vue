@@ -36,6 +36,14 @@ function cadastrarUsuario() {
   emit("login")
 }
 
+function logarUsuario() {
+ console.log("logar usuario")
+  emit("login")
+
+  dadosLogin.email = ""
+  dadosLogin.senha = ""
+}
+
 </script>
 
 <template>
@@ -64,13 +72,13 @@ function cadastrarUsuario() {
       <div class="switch-container">
         <div class="switch-bg">
           <div class="switch-panel panel-left">
-            <h1>seja bem vindo</h1>
+            <h1>seja bem-vindo</h1>
             <p>continuar o login</p>
             <button type="button" class="ghost" @click="mudarParaLogin">𝙀𝙣𝙩𝙧𝙖𝙧</button>
           </div>
           <div class="switch-panel panel-right">
-            <h1>Olá Mundo</h1>
-            <p>Criar a sua conta</p>
+            <h1>Olá Pessoal</h1>
+            <p>Criar a sua conta aqui</p>
             <button type="button" class="ghost" @click="mudarParaCadastro">𝙀𝙣𝙩𝙧𝙖𝙧</button>
           </div>
         </div>
@@ -320,5 +328,23 @@ button.ghost {
   .card.is-signup .login-box {
     transform: translateY(100%);
   }
+}
+
+/* arrumando o login, a parte de tras toda preta */
+
+.wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff; /* confirma que tá assim */
+  padding: 20px;
+}
+</style>
+
+<style>
+html:has(.wrapper), body:has(.wrapper) {
+  background: #fff;
 }
 </style>
