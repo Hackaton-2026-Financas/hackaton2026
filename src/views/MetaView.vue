@@ -5,7 +5,6 @@ const showModal = ref(false)
 const metas = ref([])
 const form = ref({ title: '', amount: '', dueDate: '' })
 
-
 const minDate = computed(() => {
   const today = new Date()
   const year = today.getFullYear()
@@ -31,7 +30,6 @@ function closeModal() {
 
 function createMeta() {
   if (!form.value.title || !form.value.amount) return
-  
 
   if (form.value.dueDate && form.value.dueDate < minDate.value) return
 
@@ -72,14 +70,13 @@ function removeMeta(id) {
             v-for="meta in metas" :key="meta.id" class="meta-item"
             style="
               background-color: white;
-              margin-bottom: 10px;
               padding: 10px;
-              margin-right: 10px;
-              width: 200px;
+              width: 100%;
+              max-width: 200px;
               height: 120px;
               border-radius: 10px;
-              
-              ">
+              box-sizing: border-box;
+            ">
             <div class="meta-info">
               <strong>{{ meta.title }}</strong>
               <div>Valor: R$ {{ meta.amount.toFixed(2) }}</div>
@@ -182,8 +179,6 @@ header {
 }
 .modal input,
 .modal label {
-  display: flex;
-
   display: block;
   width: 100%;
   margin-bottom: 8px;
@@ -192,23 +187,25 @@ header {
   text-align: center;
   background: #c6c6c6;
   border-radius: 16px;
-  padding: 50px 120px 67px;
+  padding: 40px 20px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-        /*quero fazer para quebrar linha quando esceder o numero de cards*/
-
-
 .lista-metas {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  gap: 16px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .metas h3 {
   margin-bottom: 10px;
   font-size: 2.3rem;
-
 }
 
 .metas p {
