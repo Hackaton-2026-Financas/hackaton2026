@@ -74,6 +74,7 @@ function removeMeta(id) {
               background-color: white;
               margin-bottom: 10px;
               padding: 10px;
+              margin-right: 10px;
               width: 200px;
               height: 120px;
               border-radius: 10px;
@@ -191,9 +192,13 @@ header {
   text-align: center;
   background: #c6c6c6;
   border-radius: 16px;
-  padding: 80px 120px;
+  padding: 50px 120px 67px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
+
+        /*quero fazer para quebrar linha quando esceder o numero de cards*/
+
+
 .lista-metas {
   display: flex;
   list-style: none;
@@ -202,6 +207,8 @@ header {
 }
 .metas h3 {
   margin-bottom: 10px;
+  font-size: 2.3rem;
+
 }
 
 .metas p {
