@@ -66,7 +66,7 @@ function removeMeta(id) {
         </template>
       </div>
     </main>
-                                                                                  <!-- FALTA FAZER ESSA MERDA -->
+
     <div v-if="showModal" class="modal-backdrop" @click.self="closeModal">
       <div class="modal">
         <h3>Criar Meta</h3>
@@ -77,12 +77,12 @@ function removeMeta(id) {
         <label>Data de vencimento</label>
         <input v-model="form.dueDate" type="date" />
         <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px">
-          <button class="criar" @click="createMeta">Salvar</button>
+          <button class="salvar" @click="createMeta">Salvar</button>
           <button class="nova" @click="closeModal">Cancelar</button>
         </div>
       </div>
     </div>
-                                                                                  <!-- FALTA FAZER ESSA MERDA -->
+
 </template>
 
 <style scoped>
@@ -145,8 +145,7 @@ header {
   justify-content: center;
 }
 .modal {
-  display: flex;
-  justify-content: right;
+  display: block;
   background: #c6c6c6;
   padding: 20px;
   border-radius: 12px;
@@ -183,6 +182,18 @@ header {
   margin-bottom: 20px;
 }
 
+.salvar{
+  background: #2ac08e;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.2s;
+  margin-bottom: 20px;
+}
 .criar {
   background: #00d084;
   color: white;
