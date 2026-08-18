@@ -1,5 +1,4 @@
-
-  <script setup>
+<script setup>
 defineProps({
   titulo: String,
   categoria: String,
@@ -26,22 +25,17 @@ defineEmits(['remover'])
       <button
         class="botao-lixeira"
         @click="$emit('remover')"
-        title="Remover conta"
       >
         🗑
       </button>
     </div>
 
-    <span class="categoria">
-      {{ categoria }}
-    </span>
+    <p class="categoria">{{ categoria }}</p>
 
-    <p class="valor">
-      {{ valor }}
-    </p>
+    <p class="valor">{{ valor }}</p>
 
     <p class="vencimento">
-      Vencimento: {{ vencimento }}
+      {{ vencimento }}
     </p>
 
     <span
@@ -68,18 +62,15 @@ defineEmits(['remover'])
 </template>
 
 <style scoped>
+
 .card {
   width: 100%;
   box-sizing: border-box;
-
-  background: white;
+  background-color: white;
   border-radius: 11px;
   padding: 17px;
-
-  min-height: 150px;
+  min-height: 130px;
 }
-
-/* Bordas condicionais */
 
 .card.atrasada,
 .card.pendente {
@@ -87,10 +78,9 @@ defineEmits(['remover'])
 }
 
 .card.paga {
-  border: 1px solid #d1d5db;
+  border: 1px solid #b8e5d5;
 }
 
-/* Parte superior */
 
 .card-topo {
   display: flex;
@@ -99,98 +89,70 @@ defineEmits(['remover'])
 }
 
 .card h3 {
-  margin: 0;
-
+  margin: 0 0 8px;
   color: #172b4d;
   font-size: 16px;
-}
-
-/* Categoria */
-
-.categoria {
-  display: inline-block;
-
-  margin-top: 8px;
-  padding: 4px 8px;
-
-  border-radius: 5px;
-
-  background: #eef2f7;
-  color: #64748b;
-
-  font-size: 11px;
-}
-
-/* Valor */
-
-.valor {
-  margin: 14px 0 5px;
-
-  color: #172b4d;
-
-  font-size: 17px;
   font-weight: 700;
 }
 
-/* Vencimento */
 
-.vencimento {
-  margin: 0;
+.card p {
+  margin: 6px 0;
+  color: #64748b;
+  font-size: 13px;
+}
 
+.card .valor {
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+.card .vencimento {
   color: #64748b;
   font-size: 12px;
 }
 
-/* Status */
-
 .status {
   display: inline-block;
-
-  margin-top: 12px;
+  margin-top: 3px;
   padding: 4px 8px;
-
   border-radius: 5px;
-
   font-size: 11px;
   font-weight: 600;
 }
 
-/* Atrasada */
 
 .atrasada-status {
-  background: #ffe5e5;
+  background-color: #ffe5e5;
   color: #e53935;
 }
 
-/* Pendente */
-
 .pendente-status {
-  background: #fff3cd;
-  color: #b7791f;
+  background-color: #fff4d6;
+  color: #d97706;
 }
 
-/* Paga */
 
 .paga-status {
-  background: #e2f8ef;
+  background-color: #e2f8ef;
   color: #00a878;
 }
 
-/* Botão lixeira */
 
 .botao-lixeira {
-  background: transparent;
+  background: none;
   border: none;
-
-  color: #94a3b8;
-
-  font-size: 18px;
-
   cursor: pointer;
+  color: #94a3b8;
+  font-size: 16px;
+  padding: 0;
 }
 
 .botao-lixeira:hover {
   color: #e53935;
 }
+
 </style>
 

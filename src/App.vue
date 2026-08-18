@@ -7,7 +7,7 @@ import MenuView from './components/layout/MenuView.vue';
 <template>
   <header>
         <Header></Header>
-        <MenuView></MenuView>
+        <MenuView>  </MenuView>
 
   </header>
 

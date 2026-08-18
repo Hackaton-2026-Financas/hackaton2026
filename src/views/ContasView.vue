@@ -1,6 +1,5 @@
 <script setup>
-
-
+import contaCard from '../components/layout/contasComponentes/contaCard.vue';
 </script>
 
 <template>
@@ -14,7 +13,7 @@
   </header>
 
   <main>
-    <!-- Contas a pagar -->
+  
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>
@@ -23,24 +22,24 @@
         <h3>R$ 249,90</h3>
       </div>
 
-      <div class="card1">
-        <h3>Energia Elétrica</h3>
-        <p>Utilidades</p>
-        <p>R$ 150,00</p>
-        <p>24/06/2026</p>
-        <span>Atrasada!</span>
-      </div>
+      <contaCard
+        titulo="Energia Elétrica"
+        categoria="Utilidades"
+        valor="R$ 150,00"
+        vencimento="24/06/2026"
+        status="atrasada"
+      />
 
-      <div class="card2">
-        <h3>Internet</h3>
-        <p>Utilidades</p>
-        <p>R$ 99,90</p>
-        <p>19/06/2026</p>
-        <span>Atrasada!</span>
-      </div>
+      <contaCard
+        titulo="Internet"
+        categoria="Utilidades"
+        valor="R$ 99,90"
+        vencimento="19/06/2026"
+        status="atrasada"
+      />
     </section>
 
-    <!-- Contas pagas -->
+  
     <section>
       <div class="pagas">
         <h2>Pagas</h2>
@@ -49,20 +48,20 @@
         <h3>R$ 1.200,00</h3>
       </div>
 
-      <div class="card3">
-        <h3>Aluguel</h3>
-        <p>Moradia</p>
-        <p>R$ 1.200,00</p>
-        <p>09/06/2026</p>
-      </div>
+      <contaCard
+        titulo="Aluguel"
+        categoria="Moradia"
+        valor="R$ 1.200,00"
+        vencimento="09/06/2026"
+        status="paga"
+      />
     </section>
   </main>
 </template>
 
-
 <style scoped>
 
-/* Cabeçãlho */
+
 
 header {
   width: 100%;
@@ -87,7 +86,7 @@ header {
 }
 
 
-/* == Botão == */
+
 
 header button {
   background: #00b386;
@@ -109,7 +108,7 @@ header button:hover {
 }
 
 
-/* == Área principal == */
+
 
 main {
   width: 100%;
@@ -123,7 +122,7 @@ main {
 }
 
 
-/* Caixas Principal */
+
 
 main section {
   width: 100%;
@@ -140,7 +139,7 @@ main section {
 }
 
 
-/* A pagar */
+
 
 main section:first-child {
   background-color: #fff9df;
@@ -148,7 +147,7 @@ main section:first-child {
 }
 
 
-/* Pagas */
+
 
 main section:last-child {
   background-color: #ecfff7;
@@ -156,9 +155,8 @@ main section:last-child {
 }
 
 
-/*  Cabeçalho das Caixas */
 
-.naopagas
+.naopagas,
 .pagas {
   position: relative;
 
@@ -185,7 +183,7 @@ main section:last-child {
 }
 
 
-/* Total */
+
 
 .naopagas p:nth-of-type(2),
 .pagas p:nth-of-type(2) {
@@ -216,7 +214,7 @@ main section:last-child {
 }
 
 
-/* Ícones dos Títulos */
+
 
 .naopagas h2::before {
   content: "◷";
@@ -235,10 +233,10 @@ main section:last-child {
 }
 
 
-/* Cartões */
+
 
 .card1,
-.card,
+.card2,
 .card3 {
   width: 100%;
   box-sizing: border-box;
@@ -253,25 +251,24 @@ main section:last-child {
 }
 
 
-/* Cartões atrasados */
 
 .card1,
-.card {
+.card2{
   border: 1px solid #ff9b9b;
 }
 
 
-/* Cartão pago */
 
-.card3 {
+
+.card2 {
   border: 1px solid #b8e5d5;
 }
 
 
-/* Títulos dos Cartões */
+
 
 .card1 h3,
-.card h3,
+.card2 h3,
 .card3 h3 {
   margin: 0 0 8px;
 
@@ -282,10 +279,10 @@ main section:last-child {
 }
 
 
-/* Informações */
+
 
 .card1 p,
-.card p,
+.card2 p,
 .card3 p {
   margin: 6px 0;
 
@@ -295,10 +292,10 @@ main section:last-child {
 }
 
 
-/* Valor */
+
 
 .card1 p:nth-of-type(2),
-.card p:nth-of-type(2),
+.card2 p:nth-of-type(2),
 .card3 p:nth-of-type(2) {
   color: #172b4d;
 
@@ -307,10 +304,10 @@ main section:last-child {
 }
 
 
-/* Data */
+
 
 .card1 p:nth-of-type(3),
-.card p:nth-of-type(3),
+.card2 p:nth-of-type(3),
 .card3 p:nth-of-type(3) {
   color: #64748b;
 
@@ -318,10 +315,10 @@ main section:last-child {
 }
 
 
-/* Atrasada */
+
 
 .card1 span,
-.card span {
+.card2 span {
   display: inline-block;
 
   margin-top: 3px;
@@ -339,18 +336,10 @@ main section:last-child {
 }
 
 
-/*  Espaçamento entre Cartões */
+/* Espaçamento entre Cartões */
 
-.card1 + .card {
+.card1 + .card2 {
   margin-top: 0;
 }
 
 </style>
-
-
-
-
-
-
-
-
