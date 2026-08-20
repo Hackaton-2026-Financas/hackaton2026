@@ -1,5 +1,35 @@
 <script setup>
-import contaCard from '../components/layout/contasComponentes/contaCard.vue';
+import contaCard from '../components/layout/contasComponentes/contaCard.vue'
+// import { ref, computed } from 'vue'
+// const contas = ref([
+//   {
+//     id: 1,
+//     titulo: 'Energia Elétrica',
+//     categoria: 'Utilidades',
+//     valor: 'R$ 150,00',
+//     vencimento: '24/06/2026',
+//     status: 'atrasada',
+//   },
+//   {
+//     id: 2,
+//     titulo: 'Internet',
+//     categoria: 'Utilidades',
+//     valor: 'R$ 99,90',
+//     vencimento: '19/06/2026',
+//     status: 'atrasada',
+//   },
+//   {
+//     id: 3,
+//     titulo: 'Aluguel',
+//     categoria: 'Moradia',
+//     valor: 'R$ 1.200,00',
+//     vencimento: '09/06/2026',
+//     status: 'paga',
+//   },
+// ])
+
+// const contasPagas = computed(() => contas.value.filter((conta) => conta.status === 'paga'))
+// const contasNaoPagas = computed(() => contas.value.filter((conta) => conta.status !== 'paga'))
 </script>
 
 <template>
@@ -13,39 +43,50 @@ import contaCard from '../components/layout/contasComponentes/contaCard.vue';
   </header>
 
   <main>
-  
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>
-        <p>2 Contas</p>
+        <!-- <p>{{ contasNaoPagas.length }} Contas</p> -->
         <p>Total</p>
-        <h3>R$ 249,90</h3>
+        <!-- <h3>R$ {{ contasNaoPagas.reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace(',', '.')), 0).toFixed(2) }}</h3> -->
       </div>
 
-      <contaCard
+      <!-- <v-for="conta in contasNaoPagas" :key="conta.id">
+        <contaCard
+          :titulo="conta.titulo"
+          :categoria="conta.categoria"
+          :valor="conta.valor"
+          :vencimento="conta.vencimento"
+          :status="conta.status"
+          :id="conta.id"
+          @remover="$emit('remover', conta.id)"
+        />
+      </v-for> -->
+      <contaCard 
         titulo="Energia Elétrica"
         categoria="Utilidades"
         valor="R$ 150,00"
         vencimento="24/06/2026"
         status="atrasada"
+        id="1"
       />
 
-      <contaCard
+      <contaCard     <!-- Fazer o v-for -->
         titulo="Internet"
         categoria="Utilidades"
         valor="R$ 99,90"
         vencimento="19/06/2026"
         status="atrasada"
+        id="2"
       />
     </section>
 
-  
     <section>
       <div class="pagas">
         <h2>Pagas</h2>
-        <p>1 Conta</p>
+        <!-- <p>{{ contasPagas.length }} Contas</p> -->
         <p>Total</p>
-        <h3>R$ 1.200,00</h3>
+        <!-- <h3>R$ {{ contasPagas.reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace(',', '.')), 0).toFixed(2) }}</h3> -->
       </div>
 
       <contaCard
@@ -60,13 +101,13 @@ import contaCard from '../components/layout/contasComponentes/contaCard.vue';
 </template>
 
 <style scoped>
-
-
-
 header {
-  width: 100%;
+  margin-left: 150px;
+  width: calc(100% - 150px);
+
   box-sizing: border-box;
   padding: 35px 40px 25px;
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -85,21 +126,14 @@ header {
   font-size: 14px;
 }
 
-
-
-
 header button {
   background: #00b386;
   color: white;
-
   border: none;
   border-radius: 8px;
-
   padding: 12px 18px;
-
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -107,13 +141,11 @@ header button:hover {
   background: #009b75;
 }
 
-
-
-
 main {
-  width: 100%;
-  box-sizing: border-box;
+  margin-left: 150px;
+  width: calc(100% - 150px);
 
+  box-sizing: border-box;
   padding: 0 40px 40px;
 
   display: grid;
@@ -121,54 +153,37 @@ main {
   gap: 22px;
 }
 
-
-
-
 main section {
   width: 100%;
   box-sizing: border-box;
-
   padding: 22px;
-
   border-radius: 16px;
 
   display: flex;
   flex-direction: column;
-
   gap: 14px;
 }
-
-
-
 
 main section:first-child {
   background-color: #fff9df;
   border: 1px solid #f3d45c;
 }
 
-
-
-
 main section:last-child {
   background-color: #ecfff7;
   border: 1px solid #8de0c2;
 }
 
-
-
 .naopagas,
 .pagas {
   position: relative;
-
   min-height: 55px;
 }
 
 .naopagas h2,
 .pagas h2 {
   margin: 0;
-
   color: #172b4d;
-
   font-size: 19px;
   font-weight: 700;
 }
@@ -176,24 +191,16 @@ main section:last-child {
 .naopagas p,
 .pagas p {
   margin: 4px 0;
-
   color: #64748b;
-
   font-size: 13px;
 }
-
-
-
 
 .naopagas p:nth-of-type(2),
 .pagas p:nth-of-type(2) {
   position: absolute;
-
   right: 0;
   top: 0;
-
   margin: 0;
-
   color: #64748b;
   font-size: 12px;
 }
@@ -201,145 +208,96 @@ main section:last-child {
 .naopagas h3,
 .pagas h3 {
   position: absolute;
-
   right: 0;
   top: 17px;
-
   margin: 0;
-
   color: #172b4d;
-
   font-size: 16px;
   font-weight: 700;
 }
 
-
-
-
 .naopagas h2::before {
-  content: "◷";
-
+  content: '◷';
   margin-right: 8px;
-
   color: #f59e0b;
 }
 
 .pagas h2::before {
-  content: "✓";
-
+  content: '✓';
   margin-right: 8px;
-
   color: #00a878;
 }
 
-
-
+/* Estes estilos só funcionarão nos cards se as classes
+   estiverem acessíveis dentro do componente contaCard */
 
 .card1,
 .card2,
 .card3 {
   width: 100%;
   box-sizing: border-box;
-
   background-color: white;
-
   border-radius: 11px;
-
   padding: 17px;
-
   min-height: 130px;
 }
 
-
-
 .card1,
-.card2{
+.card2 {
   border: 1px solid #ff9b9b;
 }
 
-
-
-
-.card2 {
+.card3 {
   border: 1px solid #b8e5d5;
 }
-
-
-
 
 .card1 h3,
 .card2 h3,
 .card3 h3 {
   margin: 0 0 8px;
-
   color: #172b4d;
-
   font-size: 16px;
   font-weight: 700;
 }
-
-
-
 
 .card1 p,
 .card2 p,
 .card3 p {
   margin: 6px 0;
-
   color: #64748b;
-
   font-size: 13px;
 }
-
-
-
 
 .card1 p:nth-of-type(2),
 .card2 p:nth-of-type(2),
 .card3 p:nth-of-type(2) {
   color: #172b4d;
-
   font-size: 14px;
   font-weight: 700;
 }
-
-
-
 
 .card1 p:nth-of-type(3),
 .card2 p:nth-of-type(3),
 .card3 p:nth-of-type(3) {
   color: #64748b;
-
   font-size: 12px;
 }
-
-
-
 
 .card1 span,
 .card2 span {
   display: inline-block;
-
   margin-top: 3px;
-
   padding: 4px 8px;
-
   border-radius: 5px;
-
   background-color: #ffe5e5;
-
   color: #e53935;
-
   font-size: 11px;
   font-weight: 600;
 }
 
-
-/* Espaçamento entre Cartões */
+/* Espaçamento entre cartões */
 
 .card1 + .card2 {
   margin-top: 0;
 }
-
 </style>

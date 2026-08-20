@@ -4,10 +4,12 @@ defineProps({
   categoria: String,
   valor: String,
   vencimento: String,
-  status: String
+  status: String,
+  id: Number
 })
 
 defineEmits(['remover'])
+
 </script>
 
 <template>
@@ -25,15 +27,14 @@ defineEmits(['remover'])
       <button
         class="botao-lixeira"
         @click="$emit('remover')"
+        aria-label="Remover conta"
       >
         🗑
       </button>
     </div>
 
     <p class="categoria">{{ categoria }}</p>
-
     <p class="valor">{{ valor }}</p>
-
     <p class="vencimento">
       {{ vencimento }}
     </p>
@@ -145,7 +146,6 @@ defineEmits(['remover'])
   background: none;
   border: none;
   cursor: pointer;
-  color: #94a3b8;
   font-size: 16px;
   padding: 0;
 }
