@@ -7,7 +7,7 @@ import { saldoTotal, formatarMoeda } from '@/store/transacoes.js';
     <header class="top-header">
         <div class="logo-container">
             <RouterLink to="/">
-                <img src="#" alt="logo">
+                <img src="@/assets/img/logoFinancePro.jpeg" alt="logo">
             </RouterLink>
         </div>
         <h2 class="saldoAtual">Saldo atual: {{ formatarMoeda(saldoTotal) }}</h2>
@@ -40,5 +40,6 @@ import { saldoTotal, formatarMoeda } from '@/store/transacoes.js';
 .saldoAtual {
     font-size: 16px; 
     font-weight: 600;
+    color: #059669;
 }
 </style>
