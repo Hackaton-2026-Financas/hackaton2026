@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import MetaView from '@/views/MetaView.vue'
-import SimuladorView from '@/views/SimuladorView.vue'
 import ContasView from '@/views/ContasView.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
 
@@ -23,11 +22,6 @@ const router = createRouter({
       path: '/metas',
       name: 'metas',
       component: MetaView,
-    },
-    {
-      path: '/simulador',
-      name: 'simulador',
-      component: SimuladorView,
     },
     {
       path: '/contas',
