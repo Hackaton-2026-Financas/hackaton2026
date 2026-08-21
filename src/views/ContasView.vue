@@ -192,10 +192,8 @@ function salvarConta() {
 header {
   margin-left: 150px;
   width: calc(100% - 150px);
-
   box-sizing: border-box;
-  padding: 35px 40px 25px;
-
+  padding: 36px 40px 25px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -204,7 +202,7 @@ header {
 .contas h1 {
   margin: 0;
   color: #172b4d;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
 }
 
@@ -232,10 +230,8 @@ header button:hover {
 main {
   margin-left: 150px;
   width: calc(100% - 150px);
-
   box-sizing: border-box;
   padding: 0 40px 40px;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
@@ -245,11 +241,10 @@ main section {
   width: 100%;
   box-sizing: border-box;
   padding: 22px;
-  border-radius: 16px;
-
+  border-radius: 17px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 15px;
 }
 
 main section:first-child {
@@ -278,7 +273,7 @@ main section:last-child {
 
 .naopagas p,
 .pagas p {
-  margin: 4px 0;
+  margin: 4px 0 0;
   color: #64748b;
   font-size: 13px;
 }
@@ -286,9 +281,6 @@ main section:last-child {
 .naopagas p:nth-of-type(2),
 .pagas p:nth-of-type(2) {
   position: absolute;
-  right: 0;
-  top: 0;
-  margin: 0;
   color: #64748b;
   font-size: 12px;
 }
