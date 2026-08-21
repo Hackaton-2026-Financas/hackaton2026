@@ -75,7 +75,7 @@ defineEmits(['remover'])
 
 .card.atrasada,
 .card.pendente {
-  border: 1px solid #ff9b9b;
+  border: 1px solid #e53935;
 }
 
 .card.paga {

@@ -45,7 +45,7 @@ function removerConta(id) {
 
 // --- Modal "Nova Conta" ---
 
-const contaNova = ref(false)
+const modalAberto = ref(false)
 const erro = ref('')
 
 const form = reactive({
@@ -62,11 +62,11 @@ function abrirModal() {
   form.valorNumero = ''
   form.vencimento = ''
   erro.value = ''
-  contaNova.value = true
+  modalAberto.value = true
 }
 
 function fecharModal() {
-  contaNova.value = false
+  modalAberto.value = false
 }
 
 function formatarValor(numero) {
@@ -103,10 +103,11 @@ function salvarConta() {
   <header>
     <div class="contas">
       <h1>Gerenciador de Contas</h1>
-      <p>Arraste e solte suas contas para organizá-las</p>
+      <p>Adicione Novas Contas e Organize Suas Finanças.</p>
     </div>
 
     <button @click="abrirModal">+ Nova Conta</button>
+    
   </header>
 
   <main>
@@ -151,7 +152,6 @@ function salvarConta() {
     </section>
   </main>
 
-  <!-- Modal Nova Conta -->
   <div v-if="modalAberto" class="overlay" @click.self="fecharModal">
     <div class="modal">
       <h2>Nova Conta</h2>
