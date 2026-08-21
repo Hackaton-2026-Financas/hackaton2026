@@ -28,14 +28,6 @@ defineEmits(['remover'])
 
       <h3>{{ titulo }}</h3>
 
-      <button
-        class="botao-lixeira"
-        @click="$emit('remover')"
-        aria-label="Remover conta"
-      >
-        🗑
-      </button>
-
     </div>
 
 

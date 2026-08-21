@@ -1,35 +1,102 @@
 <script setup>
 import contaCard from '../components/layout/contasComponentes/contaCard.vue'
-// import { ref, computed } from 'vue'
-// const contas = ref([
-//   {
-//     id: 1,
-//     titulo: 'Energia Elétrica',
-//     categoria: 'Utilidades',
-//     valor: 'R$ 150,00',
-//     vencimento: '24/06/2026',
-//     status: 'atrasada',
-//   },
-//   {
-//     id: 2,
-//     titulo: 'Internet',
-//     categoria: 'Utilidades',
-//     valor: 'R$ 99,90',
-//     vencimento: '19/06/2026',
-//     status: 'atrasada',
-//   },
-//   {
-//     id: 3,
-//     titulo: 'Aluguel',
-//     categoria: 'Moradia',
-//     valor: 'R$ 1.200,00',
-//     vencimento: '09/06/2026',
-//     status: 'paga',
-//   },
-// ])
+import { ref, computed, reactive } from 'vue'
 
-// const contasPagas = computed(() => contas.value.filter((conta) => conta.status === 'paga'))
-// const contasNaoPagas = computed(() => contas.value.filter((conta) => conta.status !== 'paga'))
+const contas = ref([
+  {
+    id: 1,
+    titulo: 'Energia Elétrica',
+    categoria: 'Utilidades',
+    valor: 'R$ 150,00',
+    vencimento: '24/06/2026',
+    status: 'atrasada',
+  },
+  {
+    id: 2,
+    titulo: 'Internet',
+    categoria: 'Utilidades',
+    valor: 'R$ 99,90',
+    vencimento: '19/06/2026',
+    status: 'atrasada',
+  },
+  {
+    id: 3,
+    titulo: 'Aluguel',
+    categoria: 'Moradia',
+    valor: 'R$ 1.200,00',
+    vencimento: '09/06/2026',
+    status: 'paga',
+  },
+])
+
+const contasPagas = computed(() => contas.value.filter((conta) => conta.status === 'paga'))
+const contasNaoPagas = computed(() => contas.value.filter((conta) => conta.status !== 'paga'))
+
+function totalDe(lista) {
+  return lista
+    .reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace('.', '').replace(',', '.')), 0)
+    .toFixed(2)
+    .replace('.', ',')
+}
+
+function removerConta(id) {
+  contas.value = contas.value.filter((conta) => conta.id !== id)
+}
+
+// --- Modal "Nova Conta" ---
+
+const contaNova = ref(false)
+const erro = ref('')
+
+const form = reactive({
+  titulo: '',
+  categoria: '',
+  valorNumero: '',
+  vencimento: '',
+  status: 'pendente',
+})
+
+function abrirModal() {
+  form.titulo = ''
+  form.categoria = ''
+  form.valorNumero = ''
+  form.vencimento = ''
+  erro.value = ''
+  contaNova.value = true
+}
+
+function fecharModal() {
+  contaNova.value = false
+}
+
+function formatarValor(numero) {
+  return 'R$ ' + Number(numero).toFixed(2).replace('.', ',')
+}
+
+function formatarData(dataISO) {
+  const [ano, mes, dia] = dataISO.split('-')
+  return `${dia}/${mes}/${ano}`
+}
+
+function salvarConta() {
+  if (!form.titulo || !form.categoria || !form.valorNumero || !form.vencimento) {
+    erro.value = 'Preencha todos os campos.'
+    return
+  }
+
+  const novoId = contas.value.length ? Math.max(...contas.value.map((c) => c.id)) + 1 : 1
+
+  contas.value.push({
+    id: novoId,
+    titulo: form.titulo,
+    categoria: form.categoria,
+    valor: formatarValor(form.valorNumero),
+    vencimento: formatarData(form.vencimento),
+    status: form.status,
+  })
+
+  fecharModal()
+}
 </script>
 
 <template>
@@ -39,65 +106,86 @@ import contaCard from '../components/layout/contasComponentes/contaCard.vue'
       <p>Arraste e solte suas contas para organizá-las</p>
     </div>
 
-    <button>+ Nova Conta</button>
+    <button @click="abrirModal">+ Nova Conta</button>
   </header>
 
   <main>
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>
-        <!-- <p>{{ contasNaoPagas.length }} Contas</p> -->
-        <p>Total</p>
-        <!-- <h3>R$ {{ contasNaoPagas.reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace(',', '.')), 0).toFixed(2) }}</h3> -->
+        <p>{{ contasNaoPagas.length }} Contas</p>
+        <h3>R$ {{ totalDe(contasNaoPagas) }}</h3>
       </div>
 
-      <!-- <v-for="conta in contasNaoPagas" :key="conta.id">
-        <contaCard
-          :titulo="conta.titulo"
-          :categoria="conta.categoria"
-          :valor="conta.valor"
-          :vencimento="conta.vencimento"
-          :status="conta.status"
-          :id="conta.id"
-          @remover="$emit('remover', conta.id)"
-        />
-      </v-for> -->
-      <contaCard 
-        titulo="Energia Elétrica"
-        categoria="Utilidades"
-        valor="R$ 150,00"
-        vencimento="24/06/2026"
-        status="atrasada"
-        id="1"
-      />
-
-      <contaCard     <!-- Fazer o v-for -->
-        titulo="Internet"
-        categoria="Utilidades"
-        valor="R$ 99,90"
-        vencimento="19/06/2026"
-        status="atrasada"
-        id="2"
+      <contaCard
+        v-for="conta in contasNaoPagas"
+        :key="conta.id"
+        :titulo="conta.titulo"
+        :categoria="conta.categoria"
+        :valor="conta.valor"
+        :vencimento="conta.vencimento"
+        :status="conta.status"
+        :id="conta.id"
+        @remover="removerConta(conta.id)"
       />
     </section>
 
     <section>
       <div class="pagas">
         <h2>Pagas</h2>
-        <!-- <p>{{ contasPagas.length }} Contas</p> -->
-        <p>Total</p>
-        <!-- <h3>R$ {{ contasPagas.reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace(',', '.')), 0).toFixed(2) }}</h3> -->
+        <p>{{ contasPagas.length }} Contas</p>
+        <h3>R$ {{ totalDe(contasPagas) }}</h3>
       </div>
 
       <contaCard
-        titulo="Aluguel"
-        categoria="Moradia"
-        valor="R$ 1.200,00"
-        vencimento="09/06/2026"
-        status="paga"
+        v-for="conta in contasPagas"
+        :key="conta.id"
+        :titulo="conta.titulo"
+        :categoria="conta.categoria"
+        :valor="conta.valor"
+        :vencimento="conta.vencimento"
+        :status="conta.status"
+        :id="conta.id"
+        @remover="removerConta(conta.id)"
       />
     </section>
   </main>
+
+  <!-- Modal Nova Conta -->
+  <div v-if="modalAberto" class="overlay" @click.self="fecharModal">
+    <div class="modal">
+      <h2>Nova Conta</h2>
+
+      <form @submit.prevent="salvarConta">
+        <label>
+          Título
+          <input v-model="form.titulo" type="text" placeholder="Ex: Energia Elétrica" />
+        </label>
+
+        <label>
+          Categoria
+          <input v-model="form.categoria" type="text" placeholder="Ex: Utilidades" />
+        </label>
+
+        <label>
+          Valor (R$)
+          <input v-model="form.valorNumero" type="number" step="0.01" min="0" placeholder="0,00" />
+        </label>
+
+        <label>
+          Vencimento
+          <input v-model="form.vencimento" type="date" />
+        </label>
+
+        <p v-if="erro" class="erro">{{ erro }}</p>
+
+        <div class="botoes">
+          <button type="button" class="cancelar" @click="fecharModal">Cancelar</button>
+          <button type="submit" class="salvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -228,76 +316,102 @@ main section:last-child {
   color: #00a878;
 }
 
-/* Estes estilos só funcionarão nos cards se as classes
-   estiverem acessíveis dentro do componente contaCard */
+/* Modal */
 
-.card1,
-.card2,
-.card3 {
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 43, 77, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
   width: 100%;
+  max-width: 380px;
   box-sizing: border-box;
-  background-color: white;
-  border-radius: 11px;
-  padding: 17px;
-  min-height: 130px;
 }
 
-.card1,
-.card2 {
-  border: 1px solid #ff9b9b;
-}
-
-.card3 {
-  border: 1px solid #b8e5d5;
-}
-
-.card1 h3,
-.card2 h3,
-.card3 h3 {
-  margin: 0 0 8px;
+.modal h2 {
+  margin: 0 0 18px;
   color: #172b4d;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
 }
 
-.card1 p,
-.card2 p,
-.card3 p {
-  margin: 6px 0;
-  color: #64748b;
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #172b4d;
   font-size: 13px;
-}
-
-.card1 p:nth-of-type(2),
-.card2 p:nth-of-type(2),
-.card3 p:nth-of-type(2) {
-  color: #172b4d;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.card1 p:nth-of-type(3),
-.card2 p:nth-of-type(3),
-.card3 p:nth-of-type(3) {
-  color: #64748b;
-  font-size: 12px;
-}
-
-.card1 span,
-.card2 span {
-  display: inline-block;
-  margin-top: 3px;
-  padding: 4px 8px;
-  border-radius: 5px;
-  background-color: #ffe5e5;
-  color: #e53935;
-  font-size: 11px;
   font-weight: 600;
 }
 
-/* Espaçamento entre cartões */
+.modal input,
+.modal select {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #172b4d;
+}
 
-.card1 + .card2 {
-  margin-top: 0;
+.modal input:focus,
+.modal select:focus {
+  outline: none;
+  border-color: #00b386;
+}
+
+.erro {
+  margin: 0;
+  color: #e53935;
+  font-size: 13px;
+}
+
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.botoes button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelar {
+  background: #f1f5f9;
+  color: #172b4d;
+}
+
+.cancelar:hover {
+  background: #e2e8f0;
+}
+
+.salvar {
+  background: #00b386;
+  color: white;
+}
+
+.salvar:hover {
+  background: #009b75;
 }
 </style>
