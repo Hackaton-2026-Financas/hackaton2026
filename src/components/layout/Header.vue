@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 
 defineProps({
   titulo: String,
@@ -10,10 +11,15 @@ defineProps({
 
 defineEmits(['remover'])
 
+=======
+import { RouterLink } from 'vue-router';
+import { saldoTotal, formatarMoeda } from '@/store/transacoes.js';
+>>>>>>> ccb43a19e608c9b4632670fdf203fea3fbc3f903
 </script>
 
 
 <template>
+<<<<<<< HEAD
 
   <article
     class="card"
@@ -63,10 +69,21 @@ defineEmits(['remover'])
 
   </article>
 
+=======
+    <header class="top-header">
+        <div class="logo-container">
+            <RouterLink to="/">
+                <img src="#" alt="logo">
+            </RouterLink>
+        </div>
+        <h2 class="saldoAtual">Saldo atual: {{ formatarMoeda(saldoTotal) }}</h2>
+    </header>
+>>>>>>> ccb43a19e608c9b4632670fdf203fea3fbc3f903
 </template>
 
 
 <style scoped>
+<<<<<<< HEAD
 
 /* =========================
    CARD
@@ -86,6 +103,23 @@ defineEmits(['remover'])
   min-height: 150px;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+=======
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;       
+    right: 0;   
+    height: 60px; 
+    background: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 24px;
+    box-sizing: border-box;
+    z-index: 100;
+    color: #000;
+>>>>>>> ccb43a19e608c9b4632670fdf203fea3fbc3f903
 }
 
 
@@ -96,11 +130,17 @@ defineEmits(['remover'])
   border: 2px solid #ffb1b7;
 }
 
+<<<<<<< HEAD
 
 /* PAGA */
 
 .card.paga {
   border: 1px solid #cfd8e3;
+=======
+.saldoAtual {
+    font-size: 16px; 
+    font-weight: 600;
+>>>>>>> ccb43a19e608c9b4632670fdf203fea3fbc3f903
 }
 
 
