@@ -8,8 +8,7 @@ defineProps({
   id: Number
 })
 
-defineEmits(['remover'])
-
+defineEmits(['remover', 'concluir'])
 </script>
 
 <template>
@@ -24,13 +23,24 @@ defineEmits(['remover'])
     <div class="card-topo">
       <h3>{{ titulo }}</h3>
 
-      <button
-        class="botao-lixeira"
-        @click="$emit('remover')"
-        aria-label="Remover conta"
-      >
-        🗑
-      </button>
+      <div class="card-acoes">
+        <button
+          v-if="status !== 'paga'"
+          class="botao-concluir"
+          @click="$emit('concluir')"
+          aria-label="Marcar como paga"
+        >
+          ✓
+        </button>
+
+        <button
+          class="botao-lixeira"
+          @click="$emit('remover')"
+          aria-label="Remover conta"
+        >
+          🗑
+        </button>
+      </div>
     </div>
 
     <p class="categoria">{{ categoria }}</p>
@@ -63,7 +73,6 @@ defineEmits(['remover'])
 </template>
 
 <style scoped>
-
 .card {
   width: 100%;
   box-sizing: border-box;
@@ -82,11 +91,17 @@ defineEmits(['remover'])
   border: 1px solid #b8e5d5;
 }
 
-
 .card-topo {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .card h3 {
@@ -95,7 +110,6 @@ defineEmits(['remover'])
   font-size: 16px;
   font-weight: 700;
 }
-
 
 .card p {
   margin: 6px 0;
@@ -108,7 +122,6 @@ defineEmits(['remover'])
   font-size: 14px;
   font-weight: 700;
 }
-
 
 .card .vencimento {
   color: #64748b;
@@ -124,7 +137,6 @@ defineEmits(['remover'])
   font-weight: 600;
 }
 
-
 .atrasada-status {
   background-color: #ffe5e5;
   color: #e53935;
@@ -135,24 +147,50 @@ defineEmits(['remover'])
   color: #d97706;
 }
 
-
 .paga-status {
   background-color: #e2f8ef;
   color: #00a878;
 }
 
+.botao-lixeira,
+.botao-concluir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
 
 .botao-lixeira {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 0;
+  background: #f1f5f9;
+  color: #64748b;
 }
 
 .botao-lixeira:hover {
+  background: #ffe5e5;
   color: #e53935;
 }
 
-</style>
+.botao-concluir {
+  background: #e2f8ef;
+  color: #00a878;
+  font-weight: 700;
+}
 
+.botao-concluir:hover {
+  background: #00b386;
+  color: white;
+}
+
+.botao-lixeira:active,
+.botao-concluir:active {
+  transform: scale(0.92);
+}
+</style>

@@ -43,6 +43,11 @@ function removerConta(id) {
   contas.value = contas.value.filter((conta) => conta.id !== id)
 }
 
+function concluirConta(id) {
+  const conta = contas.value.find((c) => c.id === id)
+  if (conta) conta.status = 'paga'
+}
+
 // --- Modal "Nova Conta" ---
 
 const modalAberto = ref(false)
@@ -107,7 +112,6 @@ function salvarConta() {
     </div>
 
     <button @click="abrirModal">+ Nova Conta</button>
-    
   </header>
 
   <main>
@@ -128,6 +132,7 @@ function salvarConta() {
         :status="conta.status"
         :id="conta.id"
         @remover="removerConta(conta.id)"
+        @concluir="concluirConta(conta.id)"
       />
     </section>
 
@@ -148,6 +153,7 @@ function salvarConta() {
         :status="conta.status"
         :id="conta.id"
         @remover="removerConta(conta.id)"
+        @concluir="concluirConta(conta.id)"
       />
     </section>
   </main>
@@ -193,17 +199,25 @@ header {
   margin-left: 150px;
   width: calc(100% - 150px);
   box-sizing: border-box;
-  padding: 36px 40px 25px;
+  padding: 70px 40px 25px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 16px;
+}
+
+.contas {
+  min-width: 0;
+  flex: 1 1 300px;
 }
 
 .contas h1 {
-  margin: 0;
   color: #172b4d;
   font-size: 40px;
   font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: break-word;
 }
 
 .contas p {
