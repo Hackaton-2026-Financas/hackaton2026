@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
             <h2><RouterLink to="/metas">Metas</RouterLink></h2>
             <h2><RouterLink to="/contas">Contas</RouterLink></h2>
             <h2><RouterLink to="/relatorio">Relatório</RouterLink></h2>
-            <h2><RouterLink to="/about">About</RouterLink></h2>
+            <h2><RouterLink to="/about">Sobre Nós</RouterLink></h2>
         </nav>
     </aside>
 </template>
