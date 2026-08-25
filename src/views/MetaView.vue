@@ -72,7 +72,7 @@ function removerMeta(id) {
       <template v-if="metas.length === 0">
         <h3>Nenhuma meta criada ainda</h3>
         <p>Comece criando sua primeira meta financeira!</p>
-        <button class="criar" @click="abrirModal">+ Criar primeira meta</button>
+        <button class="nova" @click="abrirModal">+ Criar primeira meta</button>
       </template>
       <template v-else>
         <h3>Suas metas</h3>
