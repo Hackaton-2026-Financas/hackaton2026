@@ -111,7 +111,7 @@ function salvarConta() {
       <p>Adicione Novas Contas e Organize Suas Finanças.</p>
     </div>
 
-    <button @click="abrirModal">+ Nova Conta</button>
+    <button class="nova" @click="abrirModal">+ Nova Conta</button>
   </header>
 
   <main>
@@ -196,8 +196,6 @@ function salvarConta() {
 
 <style scoped>
 header {
-  margin-left: 150px;
-  width: calc(100% - 150px);
   box-sizing: border-box;
   padding: 70px 40px 25px;
   display: flex;
@@ -205,6 +203,9 @@ header {
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
+}
+.nova{
+  margin-right: 100px;
 }
 
 .contas {
