@@ -242,10 +242,10 @@ header button:hover {
 }
 
 main {
-  margin-left: 150px;
+  margin-left: 15px;
   width: calc(100% - 150px);
   box-sizing: border-box;
-  padding: 0 40px 40px;
+  padding: 0 20px 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
