@@ -21,7 +21,7 @@ import { saldoTotal, formatarMoeda } from '@/store/transacoes.js';
     left: 0;       
     right: 0;   
     height: 60px; 
-    background: #f8f8f8;
+    background: #fff;
     border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;

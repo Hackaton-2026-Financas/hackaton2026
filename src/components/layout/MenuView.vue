@@ -23,7 +23,7 @@ import { RouterLink } from 'vue-router';
     left: 0;
     width: 160px;          
     height: calc(100vh - 60px);
-    background: #f8f8f8;
+    background: #fff;
     z-index: 99;   
     padding: 24px 16px;
     border-right: 1px solid #ddd;
@@ -50,11 +50,11 @@ a {
 }
 
 a:hover {
-    color: #333; 
+    color: #059669; 
 }
 
 .router-link-active {
     font-weight: bold;
-    color: #000;
+    color: #059669;
 }
 </style>
