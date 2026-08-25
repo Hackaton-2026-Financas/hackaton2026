@@ -1,29 +1,113 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import {
+  saldoTotal,
+  formatarMoeda,
+  receitasTotais,
+  despesasTotais,
+  despesasPorCategoria,
+} from '@/store/transacoes'
 
 const score = ref(85)
-const scoreDescription = ref("Excelente")
+const scoreDescription = ref('Excelente')
+
+const taxa = () => {
+  const receitas = receitasTotais.value
+  const despesas = despesasTotais.value
+  if (receitas === 0) return '0%'
+  const taxaPoupanca = ((receitas - despesas) / receitas) * 100
+  return `${taxaPoupanca.toFixed(1)}%`
+}
+
+const categoriaLabels = {
+  alimentacao: 'Alimentação',
+  transporte: 'Transporte',
+  lazer: 'Lazer',
+  salario: 'Salário',
+  outros: 'Outros',
+}
+
+const corClasse = (cat) => {
+  switch (cat) {
+    case 'alimentacao':
+      return 'verde'
+    case 'transporte':
+      return 'azul'
+    case 'lazer':
+      return 'roxo'
+    default:
+      return 'roxo'
+  }
+}
+
+const pizzaGradient = computed(() => {
+  const items = despesasPorCategoria.value
+  if (!items.length) return ''
+  const cores = {
+    alimentacao: '#10b981',
+    transporte: '#3b82f6',
+    lazer: '#a855f7',
+    salario: '#06b6d4',
+    outros: '#f59e0b',
+  }
+  let offset = 0
+  const parts = items.map((it) => {
+    const start = offset
+    const end = offset + (it.porcentagem || 0)
+    offset = end
+    return `${cores[it.categoria] || '#94a3b8'} ${start}% ${end}%`
+  })
+  return `conic-gradient(${parts.join(',')})`
+})
+
+const despesasPorCategoriaLocal = despesasPorCategoria
 </script>
 
 <template>
   <div class="conteiner">
-    <!-- Cabeçalho / Topo -->
+    <!-- Topo -->
     <header class="topo">
       <div>
         <h1>Relatório de Saúde Financeira 📊</h1>
         <h2>Análise completa das suas finanças</h2>
       </div>
       <button class="btn-exportar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
         Exportar PDF
       </button>
     </header>
 
-    <!-- Seção de Score -->
+    <!-- Seção do Score -->
     <section class="secao-card secao-score">
       <div class="score-cabecalho">
         <div class="score-icone">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
         </div>
         <div class="score-info">
           <span class="score-rotulo">Score de Saúde Financeira</span>
@@ -43,82 +127,130 @@ const scoreDescription = ref("Excelente")
       <div class="item-card">
         <div class="cabecalho-card">
           <div class="wrapper-icone verde">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
           </div>
           <span class="titulo-card">Saldo Atual</span>
         </div>
-        <p class="valor-card">R$ 5.000,00</p>
+        <p class="valor-card">{{ formatarMoeda(saldoTotal) }}</p>
       </div>
 
       <div class="item-card">
         <div class="cabecalho-card">
           <div class="wrapper-icone azul">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" />
+            </svg>
           </div>
           <span class="titulo-card">Receitas/Mês</span>
         </div>
-        <p class="valor-card">R$ 5.300,00</p>
+        <p class="valor-card">{{ formatarMoeda(receitasTotais) }}</p>
       </div>
 
       <div class="item-card">
         <div class="cabecalho-card">
           <div class="wrapper-icone vermelho">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+              <polyline points="17 18 23 18 23 12" />
+            </svg>
           </div>
           <span class="titulo-card">Despesas/Mês</span>
         </div>
-        <p class="valor-card">R$ 650,00</p>
+        <p class="valor-card">{{ formatarMoeda(despesasTotais) }}</p>
       </div>
 
       <div class="item-card">
         <div class="cabecalho-card">
           <div class="wrapper-icone roxo">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
           </div>
-          <span class="titulo-card">Taxa Poupança</span>
+          <span class="titulo-card">Taxa de Poupança</span>
         </div>
-        <p class="valor-card">87.7%</p>
+        <p class="valor-card">{{ taxa() }}</p>
       </div>
     </section>
 
     <!-- Despesas por Categoria -->
     <section class="secao-card secao-despesas">
       <h2 class="titulo-secao">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
         Despesas por Categoria
       </h2>
-      
+
       <div class="conteudo-despesas">
         <!-- Gráfico de Pizza -->
         <div class="wrapper-grafico">
-          <div class="grafico-pizza"></div>
-          <span class="rotulo-grafico rotulo-alim">Alimentação: 54%</span>
-          <span class="rotulo-grafico rotulo-trans">Transporte: 28%</span>
-          <span class="rotulo-grafico rotulo-lazer">Lazer: 18%</span>
+          <div class="grafico-pizza" :style="{ background: pizzaGradient }"></div>
         </div>
 
         <!-- Lista de Categorias -->
         <ul class="categoria-lista">
-          <li class="categoria-item">
+          <li
+            v-for="item in despesasPorCategoriaLocal"
+            :key="item.categoria"
+            class="categoria-item"
+          >
             <div class="categoria-info">
-              <span class="ponto verde"></span>
-              <span>Alimentação</span>
+              <span class="ponto" :class="corClasse(item.categoria)"></span>
+              <span>{{ categoriaLabels[item.categoria] || item.categoria }}</span>
             </div>
-            <strong>R$ 350,00</strong>
+            <strong>{{ formatarMoeda(item.valor) }} — {{ item.porcentagem.toFixed(0) }}%</strong>
           </li>
-          <li class="categoria-item">
+          <li v-if="despesasPorCategoriaLocal.length === 0" class="categoria-item">
             <div class="categoria-info">
-              <span class="ponto azul"></span>
-              <span>Transporte</span>
+              <span>Nenhuma despesa registrada</span>
             </div>
-            <strong>R$ 180,00</strong>
-          </li>
-          <li class="categoria-item">
-            <div class="categoria-info">
-              <span class="ponto roxo"></span>
-              <span>Lazer</span>
-            </div>
-            <strong>R$ 120,00</strong>
           </li>
         </ul>
       </div>
@@ -127,7 +259,20 @@ const scoreDescription = ref("Excelente")
     <!-- Diagnóstico e Recomendações -->
     <section class="secao-card secao-diagnostico">
       <h2 class="titulo-secao">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
         Diagnóstico e Recomendações
       </h2>
       <div class="lista-alertas">
@@ -145,7 +290,20 @@ const scoreDescription = ref("Excelente")
 
     <!-- Rodapé -->
     <footer class="rodape">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
       Relatório gerado em 18 de agosto de 2026
     </footer>
   </div>
@@ -319,10 +477,22 @@ const scoreDescription = ref("Excelente")
   align-items: center;
   justify-content: center;
 
-  &.verde { background: #d1fae5; color: #10b981; }
-  &.azul { background: #dbeafe; color: #3b82f6; }
-  &.vermelho { background: #fee2e2; color: #ef4444; }
-  &.roxo { background: #f3e8ff; color: #a855f7; }
+  &.verde {
+    background: #d1fae5;
+    color: #10b981;
+  }
+  &.azul {
+    background: #dbeafe;
+    color: #3b82f6;
+  }
+  &.vermelho {
+    background: #fee2e2;
+    color: #ef4444;
+  }
+  &.roxo {
+    background: #f3e8ff;
+    color: #a855f7;
+  }
 }
 
 .titulo-card {
@@ -362,11 +532,7 @@ const scoreDescription = ref("Excelente")
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: conic-gradient(
-    #10b981 0% 54%,
-    #3b82f6 54% 82%,
-    #a855f7 82% 100%
-  );
+  background: conic-gradient(#10b981 0% 54%, #3b82f6 54% 82%, #a855f7 82% 100%);
 }
 
 .rotulo-grafico {
@@ -375,9 +541,21 @@ const scoreDescription = ref("Excelente")
   font-weight: 500;
 }
 
-.rotulo-alim { top: 10px; left: 15px; color: #10b981; }
-.rotulo-trans { bottom: 0px; left: 10px; color: #3b82f6; }
-.rotulo-lazer { bottom: 25px; right: 25px; color: #a855f7; }
+.rotulo-alim {
+  top: 10px;
+  left: 15px;
+  color: #10b981;
+}
+.rotulo-trans {
+  bottom: 0px;
+  left: 10px;
+  color: #3b82f6;
+}
+.rotulo-lazer {
+  bottom: 25px;
+  right: 25px;
+  color: #a855f7;
+}
 
 .categoria-lista {
   list-style: none;
@@ -406,9 +584,15 @@ const scoreDescription = ref("Excelente")
   height: 10px;
   border-radius: 50%;
 
-  &.verde { background-color: #10b981; }
-  &.azul { background-color: #3b82f6; }
-  &.roxo { background-color: #a855f7; }
+  &.verde {
+    background-color: #10b981;
+  }
+  &.azul {
+    background-color: #3b82f6;
+  }
+  &.roxo {
+    background-color: #a855f7;
+  }
 }
 
 /* Diagnóstico */
