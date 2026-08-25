@@ -77,7 +77,7 @@ function logarUsuario() {
             <button type="button" class="ghost" @click="mudarParaLogin">𝙀𝙣𝙩𝙧𝙖𝙧</button>
           </div>
           <div class="switch-panel panel-right">
-            <h1>Olá Pessoal</h1>
+            <h1>Bem-vindo de Volta</h1>
             <p>Criar a sua conta aqui</p>
             <button type="button" class="ghost" @click="mudarParaCadastro">𝙀𝙣𝙩𝙧𝙖𝙧</button>
           </div>
