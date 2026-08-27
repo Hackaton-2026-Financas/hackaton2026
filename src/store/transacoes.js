@@ -43,3 +43,19 @@ export const despesasPorCategoria = computed(() => {
 export const removerTransacao = (id) => {
   transacoes.value = transacoes.value.filter((item) => item.id !== id)
 }
+
+export const maiorDespesa = computed(() => {
+  const despesas = transacoes.value.filter((t) => t.tipo === 'saida')
+  if (despesas.length === 0) return null
+  return despesas.reduce((maior, atual) =>
+    atual.valor > maior.valor ? atual : maior
+  )
+})
+
+export const maiorReceita = computed(() => {
+  const receitas = transacoes.value.filter((t) => t.tipo === 'entrada')
+  if (receitas.length === 0) return null
+  return receitas.reduce((maior, atual) =>
+    atual.valor > maior.valor ? atual : maior
+  )
+})

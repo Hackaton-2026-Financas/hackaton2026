@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import {
   saldoTotal,
   formatarMoeda,
@@ -8,8 +8,7 @@ import {
   despesasPorCategoria,
 } from '@/store/transacoes'
 import { quantidadeNaoPagas } from '@/store/contas'
-const score = ref(85)
-const scoreDescription = ref('Excelente')
+
 
 const taxaPoupancaValor = computed(() => {
   const receitas = receitasTotais.value
@@ -41,10 +40,62 @@ const corClasse = (cat) => {
       return 'roxo'
   }
 }
+function exportarPDF() {
+  alert('Era para ter algo aqui, mas nao tem, então não tem nada. ¯\\_(ツ)_/¯')
+}
 
-
+const score = computed(() => {
+  let pontuacao = 50
+  if(saldoTotal.value > 0) {
+    pontuacao = pontuacao + 10
+  }
+  if(saldoTotal.value > 1000) {
+    pontuacao = pontuacao + 5
+  }
+  if(saldoTotal.value > 5000) {
+    pontuacao = pontuacao + 5
+  }
+  if(taxaPoupancaValor.value > 20) {
+    pontuacao = pontuacao + 20
+  }
+  if(taxaPoupancaValor.value > 10) {
+    pontuacao = pontuacao + 10
+  }
+  if(quantidadeNaoPagas.value < 0) {
+    pontuacao = pontuacao + 10
+  }
+  if(saldoTotal.value < 0) {
+    pontuacao = pontuacao - 20
+  }
+  if(taxaPoupancaValor.value < 0) {
+    pontuacao = pontuacao - 15
+  }
+  return pontuacao
+})
+const scoreDescription = computed(() => {
+  let mensagem = ''
+  if (score.value == 0) {
+    mensagem = 'Ainda esperando informacao'
+  } else if (score.value > 70) {
+    mensagem = 'Excelente'
+  } else if (score.value > 50) {
+    mensagem = 'Bom'
+  } else if (score.value > 25) {
+    mensagem = 'Tome Cuidado'
+  } else {
+    mensagem = 'Critico'
+  }
+  return mensagem
+})
 
 const despesasPorCategoriaLocal = despesasPorCategoria
+
+const maiorCategoriaGasto = computed(() => {
+  if (despesasPorCategoria.value.length === 0) return null
+  return despesasPorCategoria.value.reduce((maior, atual) =>
+    atual.valor > maior.valor ? atual : maior
+  )
+})
 </script>
 
 <template>
@@ -55,8 +106,8 @@ const despesasPorCategoriaLocal = despesasPorCategoria
         <h1>Relatório de Saúde Financeira 📊</h1>
         <h2>Análise completa das suas finanças</h2>
       </div>
-      <button class="btn-exportar">
-        
+      <button class="btn-exportar" @click="exportarPDF()">
+
         Exportar PDF
       </button>
     </header>
@@ -252,11 +303,11 @@ const despesasPorCategoriaLocal = despesasPorCategoria
         <div class="card-alerta alerta-laranja" v-else-if ="taxaPoupancaValor < 10 && taxaPoupancaValor != 0">
           <p>Taxa de popupança preocupante!</p>
         </div>
-        <div class="card-alerta alerta-laranja">
+        <div class="card-alerta alerta-laranja" v-if="quantidadeNaoPagas > 0">
           <p>Você tem {{ quantidadeNaoPagas }} conta(s) pendente(s)!</p>
         </div>
-        <div class="card-alerta alerta-laranja">
-          <p>Sua maior despesa é em: Alimentação (R$ 350.00)</p>
+        <div class="card-alerta alerta-laranja" v-if="maiorCategoriaGasto">
+          <p>Sua maior despesa é em {{ maiorCategoriaGasto.categoria }} (R${{ maiorCategoriaGasto.valor }})</p>
         </div>
       </div>
     </section>
@@ -294,12 +345,14 @@ const despesasPorCategoriaLocal = despesasPorCategoria
 }
 
 .conteiner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 20px;
+  padding: 20px 30px;
+  background-color: #f8fafc;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: 60px;
 }
 
 /* Topo */
