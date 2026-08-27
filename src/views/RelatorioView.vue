@@ -7,7 +7,7 @@ import {
   despesasTotais,
   despesasPorCategoria,
 } from '@/store/transacoes'
-
+import { quantidadeNaoPagas } from '@/store/contas'
 const score = ref(85)
 const scoreDescription = ref('Excelente')
 
@@ -42,25 +42,7 @@ const corClasse = (cat) => {
   }
 }
 
-const pizzaGradient = computed(() => {
-  const items = despesasPorCategoria.value
-  if (!items.length) return ''
-  const cores = {
-    alimentacao: '#10b981',
-    transporte: '#3b82f6',
-    lazer: '#a855f7',
-    salario: '#06b6d4',
-    outros: '#f59e0b',
-  }
-  let offset = 0
-  const parts = items.map((it) => {
-    const start = offset
-    const end = offset + (it.porcentagem || 0)
-    offset = end
-    return `${cores[it.categoria] || '#94a3b8'} ${start}% ${end}%`
-  })
-  return `conic-gradient(${parts.join(',')})`
-})
+
 
 const despesasPorCategoriaLocal = despesasPorCategoria
 </script>
@@ -217,10 +199,7 @@ const despesasPorCategoriaLocal = despesasPorCategoria
       </h2>
 
       <div class="conteudo-despesas">
-        <!-- Gráfico de Pizza -->
-        <div class="wrapper-grafico">
-          <div class="grafico-pizza" :style="{ background: pizzaGradient }"></div>
-        </div>
+        <p>Era para ter um grafico aqui</p>
 
         <!-- Lista de Categorias -->
         <ul class="categoria-lista">
@@ -267,8 +246,14 @@ const despesasPorCategoriaLocal = despesasPorCategoria
         <div class="card-alerta alerta-verde" v-if="taxaPoupancaValor > 20">
           <p>Ótima taxa de poupança!</p>
         </div>
+        <div class="card-alerta alerta-laranja" v-else-if="taxaPoupancaValor >= 10">
+          <p>Taxa de poupança moderada. Considere revisar seus gastos.</p>
+        </div>
+        <div class="card-alerta alerta-laranja" v-else-if ="taxaPoupancaValor < 10 && taxaPoupancaValor != 0">
+          <p>Taxa de popupança preocupante!</p>
+        </div>
         <div class="card-alerta alerta-laranja">
-          <p>Você tem 2 conta(s) pendente(s) totalizando R$ 249.90.</p>
+          <p>Você tem {{ quantidadeNaoPagas }} conta(s) pendente(s)!</p>
         </div>
         <div class="card-alerta alerta-laranja">
           <p>Sua maior despesa é em: Alimentação (R$ 350.00)</p>
