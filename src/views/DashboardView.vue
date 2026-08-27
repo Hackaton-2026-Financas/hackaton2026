@@ -25,12 +25,12 @@ ChartJS.register(
   Filler
 );
 
-import { 
-  transacoes, 
-  saldoTotal, 
-  receitasTotais, 
-  despesasTotais, 
-  formatarMoeda 
+import {
+  transacoes,
+  saldoTotal,
+  receitasTotais,
+  despesasTotais,
+  formatarMoeda
 } from '@/store/transacoes.js';
 
 const exibirModal = ref(false);
@@ -65,10 +65,10 @@ const adicionarTransacao = () => {
   }
 
   transacoes.value.unshift({
-    id: proximoId++, 
+    id: proximoId++,
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
-    valor: Number(novoValor.value), 
+    valor: Number(novoValor.value),
     data: new Date().toLocaleDateString('pt-BR'),
     tipo: novoTipo.value
   });
@@ -86,7 +86,7 @@ const dadosDoGrafico = computed(() => {
   transacoesCopia.forEach(t => {
     const partesData = t.data.split('/');
     if (partesData.length === 3) {
-      const mesIndex = parseInt(partesData[1]) - 1; 
+      const mesIndex = parseInt(partesData[1]) - 1;
       const valor = t.tipo === 'entrada' ? t.valor : -t.valor;
       saldoMensal[mesIndex] += valor;
     }
@@ -108,9 +108,9 @@ const dadosDoGrafico = computed(() => {
       {
         label: 'Patrimônio',
         data: dadosVisiveis,
-        borderColor: '#0a936f', 
-        backgroundColor: 'rgba(10, 147, 111, 0.1)', 
-        fill: true, 
+        borderColor: '#0a936f',
+        backgroundColor: 'rgba(10, 147, 111, 0.1)',
+        fill: true,
         tension: 0.4,
         pointBackgroundColor: '#0a936f',
         pointBorderColor: '#ffffff',
@@ -126,7 +126,7 @@ const opcoesDoGrafico = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
-    legend: { display: false }, 
+    legend: { display: false },
     tooltip: {
       backgroundColor: '#ffffff',
       titleColor: '#000000',
@@ -134,12 +134,12 @@ const opcoesDoGrafico = {
       borderColor: '#e2e8f0',
       borderWidth: 1,
       padding: 12,
-      displayColors: false, 
+      displayColors: false,
       callbacks: {
         label: function(context) {
-          const valorFormatado = new Intl.NumberFormat('pt-BR', { 
-            style: 'currency', 
-            currency: 'BRL' 
+          const valorFormatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
           }).format(context.parsed.y);
           return `Saldo: ${valorFormatado}`;
         }
@@ -154,7 +154,7 @@ const opcoesDoGrafico = {
       grid: {
         color: '#e2e8f0',
         drawBorder: false,
-        borderDash: [5, 5] 
+        borderDash: [5, 5]
       },
       ticks: {
         callback: function(value) {
@@ -227,13 +227,13 @@ const opcoesDoGrafico = {
       </div>
 
       <div class="transactions-list">
-        <TransacaoItem 
+        <TransacaoItem
           v-for="item in transacoes"
           :key="item.id"
           :id="item.id"
           :titulo="item.titulo"
           :categoria="item.categoria"
-          :valor="formatarMoeda(item.valor)" 
+          :valor="formatarMoeda(item.valor)"
           :data="item.data"
           :tipo="item.tipo"
         />
@@ -299,6 +299,7 @@ const opcoesDoGrafico = {
   background-color: #f8fafc;
   width: 100%;
   box-sizing: border-box;
+  margin-top: 60px;
 }
 
 .welcome-header {
@@ -320,7 +321,7 @@ const opcoesDoGrafico = {
   grid-template-columns: repeat(
     auto-fit,
     minmax(200px, 1fr)
-  ); 
+  );
   gap: 20px;
   margin-bottom: 25px;
 }
@@ -446,7 +447,7 @@ const opcoesDoGrafico = {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; 
+  z-index: 999;
 }
 
 .modal-caixa {
