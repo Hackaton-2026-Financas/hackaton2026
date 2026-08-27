@@ -51,10 +51,18 @@ a {
 
 a:hover {
     color: #059669; 
+    background: rgb(236, 230, 230);
+    padding: 4px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 .router-link-active {
+    transition: 0.3s;
     font-weight: bold;
-    color: #059669;
+    background: #059669;
+    padding: 4px;
+    border-radius: 5px;
+    color: #fff
 }
 </style>
