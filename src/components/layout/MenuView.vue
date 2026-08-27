@@ -47,13 +47,15 @@ a {
     font-size: 16px;
     display: block;
     width: 100%;
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 a:hover {
     color: #059669; 
     background: rgb(236, 230, 230);
     padding: 4px;
-    border-radius: 5px;
     transition: 0.3s;
 }
 
@@ -61,8 +63,6 @@ a:hover {
     transition: 0.3s;
     font-weight: bold;
     background: #059669;
-    padding: 4px;
-    border-radius: 5px;
     color: #fff
 }
 </style>
