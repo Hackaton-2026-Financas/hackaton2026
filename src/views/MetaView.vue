@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { metas } from '@/store/meta'
 
 const mostrarModal = ref(false)
-const metas = ref([])
 const novaMeta = ref({ title: '', amount: '', dueDate: '' })
 const erroValor = ref('')
 
