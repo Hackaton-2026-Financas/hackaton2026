@@ -11,13 +11,15 @@ import {
 const score = ref(85)
 const scoreDescription = ref('Excelente')
 
-const taxa = () => {
+const taxaPoupancaValor = computed(() => {
   const receitas = receitasTotais.value
   const despesas = despesasTotais.value
-  if (receitas === 0) return '0%'
-  const taxaPoupanca = ((receitas - despesas) / receitas) * 100
-  return `${taxaPoupanca.toFixed(1)}%`
-}
+  if (receitas <= 0) return 0
+  return ((receitas - despesas) / receitas) * 100
+})
+const taxaFormatada = computed(() => {
+  return `${taxaPoupancaValor.value.toFixed(1)}%`
+})
 
 const categoriaLabels = {
   alimentacao: 'Alimentação',
@@ -72,21 +74,7 @@ const despesasPorCategoriaLocal = despesasPorCategoria
         <h2>Análise completa das suas finanças</h2>
       </div>
       <button class="btn-exportar">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
+        
         Exportar PDF
       </button>
     </header>
@@ -206,7 +194,7 @@ const despesasPorCategoriaLocal = despesasPorCategoria
           </div>
           <span class="titulo-card">Taxa de Poupança</span>
         </div>
-        <p class="valor-card">{{ taxa() }}</p>
+        <p class="valor-card">{{ taxaFormatada }}</p>
       </div>
     </section>
 
@@ -276,8 +264,8 @@ const despesasPorCategoriaLocal = despesasPorCategoria
         Diagnóstico e Recomendações
       </h2>
       <div class="lista-alertas">
-        <div class="card-alerta alerta-verde">
-          <p>Ótima taxa de poupança: 87.7%!</p>
+        <div class="card-alerta alerta-verde" v-if="taxaPoupancaValor > 20">
+          <p>Ótima taxa de poupança!</p>
         </div>
         <div class="card-alerta alerta-laranja">
           <p>Você tem 2 conta(s) pendente(s) totalizando R$ 249.90.</p>
