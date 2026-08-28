@@ -123,6 +123,17 @@ function removerMeta(id) {
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
+.fabrica {
+  box-sizing: border-box;
+  margin-top: 60px;
+  padding: 20px 30px 0;
+}
+
+main {
+  box-sizing: border-box;
+  padding: 0 30px 30px;
+}
+
 .fabrica h2 {
   margin: 0;
   font-size: 32px;
