@@ -172,7 +172,7 @@ function salvarConta() {
 <style scoped>
 header {
   box-sizing: border-box;
-  padding: 70px 40px 25px;
+  padding: 70px 24px 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -180,7 +180,7 @@ header {
   gap: 16px;
 }
 .nova{
-  margin-right: 100px;
+  margin-right: 0;
 }
 
 .contas {
@@ -218,23 +218,22 @@ header button:hover {
 }
 
 main {
-  margin-left: 15px;
-  width: calc(100% - 150px);
+  width: 100%;
   box-sizing: border-box;
-  padding: 0 20px 30px;
+  padding: 0 24px 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px;
+  gap: 16px;
 }
 
 main section {
   width: 100%;
   box-sizing: border-box;
-  padding: 22px;
+  padding: 18px;
   border-radius: 17px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
 main section:first-child {
