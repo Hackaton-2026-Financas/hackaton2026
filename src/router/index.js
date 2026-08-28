@@ -34,6 +34,11 @@ const router = createRouter({
       component: RelatorioView,
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
       path: '/meta',
       name: 'meta',
       component: MetaView,

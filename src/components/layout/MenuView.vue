@@ -1,5 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { inject } from 'vue';
+
+const estaLogado = inject("estaLogado")
 </script>
 
 <template>
@@ -11,6 +14,9 @@ import { RouterLink } from 'vue-router';
             <h2><RouterLink to="/contas">Contas</RouterLink></h2>
             <h2><RouterLink to="/relatorio">Relatório</RouterLink></h2>
             <h2><RouterLink to="/about">Sobre Nós</RouterLink></h2>
+            <h2 v-if="!estaLogado">
+                <RouterLink to="/login">Login</RouterLink>
+            </h2>        
         </nav>
     </aside>
 </template>

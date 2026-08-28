@@ -1,7 +1,19 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { ref, provide } from 'vue'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
+import FooterView from './components/layout/FooterView.vue';
+
+
+const estaLogado = ref(false)
+
+function definirLogado(valor) {
+  estaLogado.value = valor
+}
+
+provide('estaLogado', estaLogado)
+provide('definirLogado', definirLogado)
 
 //tenho q me lembrar de repassar isso pro pessoal nao surtar
 </script>
@@ -15,6 +27,7 @@ import MenuView from './components/layout/MenuView.vue';
 
     <main class="content-area">
       <RouterView />
+      <FooterView />
     </main>
   </div>
 </template>
@@ -32,5 +45,8 @@ import MenuView from './components/layout/MenuView.vue';
 
 .content-area {
   flex-grow: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
