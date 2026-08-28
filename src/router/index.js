@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MetaView from '@/views/MetaView.vue' 
 import DashboardView from '@/views/DashboardView.vue'
-import MetaView from '@/views/MetaView.vue'
 import ContasView from '@/views/ContasView.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
 
