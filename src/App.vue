@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import { ref, provide } from 'vue'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
+import FooterView from './components/layout/FooterView.vue';
 
 
 const estaLogado = ref(false)
@@ -26,6 +27,7 @@ provide('definirLogado', definirLogado)
 
     <main class="content-area">
       <RouterView />
+      <FooterView />
     </main>
   </div>
 </template>
@@ -43,5 +45,8 @@ provide('definirLogado', definirLogado)
 
 .content-area {
   flex-grow: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
