@@ -42,12 +42,7 @@
 
       <div class="card">
 
-        <div class="icone">📊</div>
-
         <h2>Dashboard</h2>
-
-        <span>Finanças pessoais.</span>
-
         <p>
           Ela serve para o usuário monitorar sua saúde financeira rapidamente, mostrando o saldo atual (R$), e o total de receitas e despesas do mês, um gráfico de evolução do patrimônio de janeiro a junho e o histórico das últimas movimentações bancárias.
         </p>
@@ -57,11 +52,7 @@
 
       <div class="card">
 
-        <div class="icone">🎯</div>
-
         <h2>Metas</h2>
-
-        <span>A página de Metas.</span>
 
         <p>
   Serve para ajudar o usuário a planejar e alcançar seus objetivos financeiros.
@@ -82,31 +73,7 @@
 
       <div class="card">
 
-        <div class="icone">📈</div>
-
-        <h2>Simulador</h2>
-
-        <span>Simulador de Investimentos.</span>
-
-        <p>
-          Ajudar o usuário a planejar seu futuro financeiro e tomar
-          decisões mais conscientes sobre onde aplicar seu dinheiro.
-          Ele permite projetar o crescimento do patrimônio ao longo
-          do tempo com base em valores iniciais e depósitos mensais,
-          facilitando a comparação direta entre diferentes tipos
-          de ativos.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="icone">💰</div>
-
         <h2>Contas</h2>
-
-        <span>O gerenciador de contas.</span>
 
         <p>
           Foi desenvolvido para facilitar o controle das suas
@@ -119,30 +86,11 @@
       </div>
 
 
-      <div class="card">
-
-        <div class="icone">🎓</div>
-
-        <h2>Educação</h2>
-
-        <span>Aprenda sobre finanças.</span>
-
-        <p>
-          Conteúdos educativos para ajudar você a entender conceitos
-          financeiros, organizar sua vida financeira e tomar decisões
-          melhores no dia a dia.
-        </p>
-
-      </div>
 
 
       <div class="card">
-
-        <div class="icone">📄</div>
 
         <h2>Relatório</h2>
-
-        <span>Acompanhe sua evolução.</span>
 
         <p>
           Visualize um resumo das suas receitas, despesas e resultados,

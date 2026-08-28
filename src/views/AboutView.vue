@@ -20,8 +20,6 @@
           podem transformar o futuro financeiro de
           milhares de brasileiros.
         </p>
-
-        <span class="icone">🎯</span>
       </div>
 
 
@@ -35,8 +33,6 @@
           - Acompanhamento do progresso<br>
           - Dicas de investimento e planejamento
         </p>
-
-        <span class="icone">📈</span>
       </div>
 
 
@@ -51,8 +47,6 @@
           interatividade para ajudar pessoas a
           desenvolverem hábitos financeiros saudáveis.
         </p>
-
-        <span class="icone">🚀</span>
       </div>
 
 
@@ -62,22 +56,22 @@
         <div class="valores">
 
           <div>
-            <strong>❤️ Compromisso</strong>
+            <strong>Compromisso</strong>
             <p>Oferecer conteúdo confiável e atualizado.</p>
           </div>
 
           <div>
-            <strong>🔶 Transparência</strong>
+            <strong>Transparência</strong>
             <p>Ensinar finanças de forma simples.</p>
           </div>
 
           <div>
-            <strong>💡 Inovação</strong>
+            <strong>Inovação</strong>
             <p>Criar ferramentas para facilitar o aprendizado.</p>
           </div>
 
           <div>
-            <strong>🌎 Acessibilidade</strong>
+            <strong>Acessibilidade</strong>
             <p>Educação financeira para todos.</p>
           </div>
 
@@ -154,13 +148,13 @@
     <!-- CONTATO -->
     <section class="contato">
 
-      <h2>👤 Fale conosco</h2>
+      <h2>Fale conosco</h2>
 
-      <p>📧 Email: contato@financepro.com</p>
+      <p>Email: contato@financepro.com</p>
 
-      <p>📸 Instagram: @financepro</p>
+      <p>Instagram: @financepro</p>
 
-      <p>📱 Telefone: (00) 00000-0000</p>
+      <p>Telefone: (00) 00000-0000</p>
 
     </section>
 
