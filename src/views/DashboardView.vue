@@ -1,36 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import ButtonChild from '@/components/ButtonChild.vue';
 import TransacaoItem from '@/components/layout/TransacaoItem.vue';
 
-import { Line } from 'vue-chartjs';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler
-);
-
-import {
-  transacoes,
-  saldoTotal,
-  receitasTotais,
-  despesasTotais,
-  formatarMoeda
+import { 
+  transacoes, 
+  saldoTotal, 
+  receitasTotais, 
+  despesasTotais, 
+  formatarMoeda 
 } from '@/store/transacoes.js';
 
 import { metas } from '@/store/meta';
@@ -76,95 +54,6 @@ const adicionarTransacao = () => {
   });
 
   fecharModal();
-};
-
-// Logica do Grafico
-const dadosDoGrafico = computed(() => {
-  const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-  const saldoMensal = new Array(12).fill(0);
-
-  const transacoesCopia = [...transacoes.value].reverse();
-
-  transacoesCopia.forEach(t => {
-    const partesData = t.data.split('/');
-    if (partesData.length === 3) {
-      const mesIndex = parseInt(partesData[1]) - 1;
-      const valor = t.tipo === 'entrada' ? t.valor : -t.valor;
-      saldoMensal[mesIndex] += valor;
-    }
-  });
-
-  let acumulado = 0;
-  const dadosAcumulados = saldoMensal.map(valor => {
-    acumulado += valor;
-    return acumulado;
-  });
-
-  const mesAtual = new Date().getMonth();
-  const labelsVisiveis = meses.slice(0, mesAtual + 1);
-  const dadosVisiveis = dadosAcumulados.slice(0, mesAtual + 1);
-
-  return {
-    labels: labelsVisiveis,
-    datasets: [
-      {
-        label: 'Patrimônio',
-        data: dadosVisiveis,
-        borderColor: '#0a936f',
-        backgroundColor: 'rgba(10, 147, 111, 0.1)',
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: '#0a936f',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      }
-    ]
-  };
-});
-
-const opcoesDoGrafico = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: '#ffffff',
-      titleColor: '#000000',
-      bodyColor: '#0a936f',
-      borderColor: '#e2e8f0',
-      borderWidth: 1,
-      padding: 12,
-      displayColors: false,
-      callbacks: {
-        label: function(context) {
-          const valorFormatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(context.parsed.y);
-          return `Saldo: ${valorFormatado}`;
-        }
-      }
-    }
-  },
-  scales: {
-    x: {
-      grid: { display: false }
-    },
-    y: {
-      grid: {
-        color: '#e2e8f0',
-        drawBorder: false,
-        borderDash: [5, 5]
-      },
-      ticks: {
-        callback: function(value) {
-          return 'R$ ' + value;
-        }
-      }
-    }
-  }
 };
 </script>
 
@@ -214,9 +103,8 @@ const opcoesDoGrafico = {
 
     <section class="section-box">
       <h2>Evolução do Patrimônio</h2>
-      <!-- NOVO CONTAINER DO GRÁFICO -->
-      <div class="grafico-container">
-        <Line :data="dadosDoGrafico" :options="opcoesDoGrafico" />
+      <div class="grafico">
+        <p>Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados financeiros do usuario conforme o passar dos meses</p>
       </div>
     </section>
 
@@ -266,14 +154,14 @@ const opcoesDoGrafico = {
 
           <div class="grupo-input">
             <label>Categoria</label>
-              <select v-model="novaCategoria">
-                <option value="" disabled>Selecione uma categoria</option>
-                <option value="salario">Salário</option>
-                <option value="lazer">Lazer</option>
-                <option value="transporte">Transporte</option>
-                <option value="alimentacao">Alimentação</option>
-                <option value="outros">Outros</option>
-              </select>
+            <select v-model="novaCategoria">
+              <option value="" disabled>Selecione uma categoria</option>
+              <option value="salario">Salário</option>
+              <option value="lazer">Lazer</option>
+              <option value="transporte">Transporte</option>
+              <option value="alimentacao">Alimentação</option>
+              <option value="outros">Outros</option>
+            </select>
           </div>
 
           <div class="grupo-input">
@@ -407,7 +295,6 @@ const opcoesDoGrafico = {
 .section-box h2 {
   margin-top: 0;
   font-size: 18px;
-  margin-bottom: 20px;
 }
 
 .section-header {
@@ -417,11 +304,18 @@ const opcoesDoGrafico = {
   margin-bottom: 15px;
 }
 
-/* ESTILO DO CONTAINER DO GRÁFICO */
-.grafico-container {
-  height: 300px; /* Altura importante para o gráfico não quebrar */
-  width: 100%;
-  position: relative;
+/* ÁREA TEMPORÁRIA DO GRÁFICO */
+.grafico {
+  height: 200px;
+  background-color: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  text-align: center;
+  padding: 0 20px;
 }
 
 /* LISTA DE TRANSAÇÕES */

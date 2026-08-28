@@ -7,7 +7,7 @@ import { formatarMoeda, saldoTotal } from '@/store/transacoes';
     <header class="top-header">
         <div class="logo-container">
             <RouterLink to="/">
-                <img src="#" alt="logo">
+                <h1>FinancePro</h1>
             </RouterLink>
           
         </div>
@@ -22,7 +22,7 @@ import { formatarMoeda, saldoTotal } from '@/store/transacoes';
     top: 0;
     left: 0;       right: 0;   
     height: 60px; 
-    background: #f8f8f8;
+    background: #fff;
     border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
@@ -33,12 +33,17 @@ import { formatarMoeda, saldoTotal } from '@/store/transacoes';
     color: #000;
 }
 
-.logo-container img {
-    display: block;
-    max-height: 40px;
+.logo-container a {
+    text-decoration: none;
+    color: #059669;
+}
+
+.logo-container h1 {
+    color: #059669;
 }
 .saldoAtual{
     font-size: 16px; 
     font-weight: 600;
+    color: #059669;
 }
 </style>
