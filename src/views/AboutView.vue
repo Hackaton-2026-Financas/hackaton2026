@@ -108,42 +108,42 @@
           <img src="/images/arthur.jpeg" class="foto">
           <p>Arthur</p>
           <span>16 anos</span>
-          <span>Designer</span>
+          <span>Des. Metas</span>
         </div>
 
         <div class="pessoa roxo">
           <img src="/images/camilly.jpeg" class="foto">
           <p>Camilly</p>
           <span>18 anos</span>
-          <span>Designer</span>
+          <span>Des. contas</span>
         </div>
 
         <div class="pessoa laranja">
           <img src="/images/irene.png" class="foto">
           <p>Irene</p>
           <span>16 anos</span>
-          <span>Designer</span>
+          <span>Des. Home e Sobre nós</span>
         </div>
 
         <div class="pessoa vermelho">
           <img src="/images/joao.jpg" class="foto">
           <p>João</p>
           <span>16 anos</span>
-          <span>Designer</span>
+          <span>Des. DashBoard</span>
         </div>
 
         <div class="pessoa verde">
           <img src="/images/caio.jpg" class="foto">
           <p>Caio</p>
           <span>17 anos</span>
-          <span>Designer</span>
+          <span>Des. Relatório</span>
         </div>
 
         <div class="pessoa rosa">
           <img src="/images/maico.jpg" class="foto">
           <p>Maico</p>
           <span>16 anos</span>
-          <span>Designer</span>
+          <span>Des. Login</span>
         </div>
 
       </div>
@@ -254,7 +254,7 @@
 }
 .pessoa {
   width: 165px;
-  height: 265px;
+  height: 275px;
   border-radius: 10px;
   padding: 12px;
   color: white;
@@ -273,7 +273,7 @@
 }
 .pessoa span {
   display: block;
-  font-size: 16px;
+  font-size: 15px;
 }
 .azul {
   background: linear-gradient(#0636ca, #15c7c7);
