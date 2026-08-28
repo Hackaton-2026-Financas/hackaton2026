@@ -11,6 +11,8 @@ import {
   formatarMoeda 
 } from '@/store/transacoes.js';
 
+import { metas } from '@/store/meta';
+
 const exibirModal = ref(false);
 
 const novoTipo = ref('');
@@ -43,10 +45,10 @@ const adicionarTransacao = () => {
   }
 
   transacoes.value.unshift({
-    id: proximoId++, 
+    id: proximoId++,
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
-    valor: Number(novoValor.value), 
+    valor: Number(novoValor.value),
     data: new Date().toLocaleDateString('pt-BR'),
     tipo: novoTipo.value
   });
@@ -92,10 +94,10 @@ const adicionarTransacao = () => {
       <div class="card">
         <div class="card-dinheiro">
           <span>Metas Ativas</span>
-          <h2>0</h2>
+          <h2>{{ metas.length }}</h2>
           <small>2 contas pendentes</small>
         </div>
-        <div class="card-icone icone-azul">0</div>
+        <div class="card-icone icone-azul">!</div>
       </div>
     </section>
 
@@ -115,13 +117,13 @@ const adicionarTransacao = () => {
       </div>
 
       <div class="transactions-list">
-        <TransacaoItem 
+        <TransacaoItem
           v-for="item in transacoes"
           :key="item.id"
           :id="item.id"
           :titulo="item.titulo"
           :categoria="item.categoria"
-          :valor="formatarMoeda(item.valor)" 
+          :valor="formatarMoeda(item.valor)"
           :data="item.data"
           :tipo="item.tipo"
         />
@@ -187,6 +189,7 @@ const adicionarTransacao = () => {
   background-color: #f8fafc;
   width: 100%;
   box-sizing: border-box;
+  margin-top: 60px;
 }
 
 .welcome-header {
@@ -208,7 +211,7 @@ const adicionarTransacao = () => {
   grid-template-columns: repeat(
     auto-fit,
     minmax(200px, 1fr)
-  ); 
+  );
   gap: 20px;
   margin-bottom: 25px;
 }
@@ -340,7 +343,7 @@ const adicionarTransacao = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; 
+  z-index: 999;
 }
 
 .modal-caixa {
