@@ -33,6 +33,8 @@ import {
   formatarMoeda
 } from '@/store/transacoes.js';
 
+import { metas } from '@/store/meta';
+
 const exibirModal = ref(false);
 
 const novoTipo = ref('');
@@ -203,10 +205,10 @@ const opcoesDoGrafico = {
       <div class="card">
         <div class="card-dinheiro">
           <span>Metas Ativas</span>
-          <h2>0</h2>
+          <h2>{{ metas.length }}</h2>
           <small>2 contas pendentes</small>
         </div>
-        <div class="card-icone icone-azul">0</div>
+        <div class="card-icone icone-azul">!</div>
       </div>
     </section>
 

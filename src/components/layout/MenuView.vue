@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
         <nav>
             <h2><RouterLink to="/">Home</RouterLink></h2>
             <h2><RouterLink to="/dashBoard">DashBoard</RouterLink></h2>
-            <h2><RouterLink to="/metas">Metas</RouterLink></h2>
+            <h2><RouterLink to="/meta">Metas</RouterLink></h2>
             <h2><RouterLink to="/simulador">Simulador</RouterLink></h2>
             <h2><RouterLink to="/contas">Contas</RouterLink></h2>
             <h2><RouterLink to="/relatorio">Relatório</RouterLink></h2>

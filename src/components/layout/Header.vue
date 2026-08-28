@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { formatarMoeda, saldoTotal } from '@/store/transacoes';
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import { RouterLink } from 'vue-router';
             </RouterLink>
           
         </div>
-        <h2 class="saldoAtual">*Saldo atual:00,00*</h2>
+        <h2 class="saldoAtual"> {{ formatarMoeda(saldoTotal) }}</h2>
     </header>
 
 </template>
