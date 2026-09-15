@@ -84,6 +84,7 @@ function removerMeta(id) {
               <div v-if="meta.dueDate">Vence em: {{ formatarData(meta.dueDate) }}</div>
             </div>
             <button class="remover" @click="removerMeta(meta.id)">Remover</button>
+            <button class="concluido" @click="marcarComoConcluida(meta.id)">Concluir</button>
           </li>
         </ul>
       </template>
@@ -227,7 +228,19 @@ main {
   margin-top: 12px;
   background: #fff0f0;
   color: #e53935;
-  border: 1px solid #f3c6c6;
+  border: 1px solid #cc8f8f;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.concluido {
+  margin-top: 12px;
+  background: #e0f7e9;
+  color: #066445;
+  border: 1px solid #277949;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
