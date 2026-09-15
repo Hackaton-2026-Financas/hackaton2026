@@ -56,6 +56,17 @@ function criarMeta() {
 function removerMeta(id) {
   metas.value = metas.value.filter((m) => m.id !== id)
 }
+
+/*function adicionarDinheiro(meta) {
+  const valorAdicional = prompt('Digite o valor a ser adicionado à meta:')
+  const valorNumerico = parseFloat(valorAdicional)
+
+  if (!isNaN(valorNumerico) && valorNumerico > 0) {
+    meta.amount += valorNumerico
+  } else {
+    alert('Por favor, insira um valor válido.')
+  }
+}*/
 </script>
 
 <template>
@@ -84,7 +95,9 @@ function removerMeta(id) {
               <div v-if="meta.dueDate">Vence em: {{ formatarData(meta.dueDate) }}</div>
             </div>
             <button class="remover" @click="removerMeta(meta.id)">Remover</button>
-            <button class="concluido" @click="marcarComoConcluida(meta.id)">Concluir</button>
+
+            //tem que adicionar a função de adicionar dinheiro na meta, mas não sei como fazer isso ainda
+            <button class="adicionar-dinheiro" @click="adicionarDinheiro(meta)">Adicionar a Meta</button>
           </li>
         </ul>
       </template>
@@ -206,7 +219,7 @@ main {
   justify-content: space-between;
   text-align: left;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  
+
 }
 
 .meta-item:hover {
@@ -238,11 +251,11 @@ main {
   transition: 0.2s;
 }
 
-.concluido {
+.adicionar-dinheiro {
   margin-top: 12px;
   background: #e0f7e9;
-  color: #066445;
-  border: 1px solid #277949;
+  color: #18a073;
+  border: 1px solid #388656;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
