@@ -206,11 +206,13 @@ main {
   justify-content: space-between;
   text-align: left;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  
 }
 
 .meta-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
 }
 
 .meta-info strong {
