@@ -2,6 +2,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { metas } from '@/store/meta'
+import { saldoTotal, transacoes } from '@/store/transacoes.js'
 
 const mostrarModal = ref(false)
 const mostrarModalDinheiro = ref(false)
@@ -91,7 +92,7 @@ function abrirAdicionarDinheiro(meta) {
 }
 
 function fecharAdicionarDinheiro() {
-  mostrarModalDinheiro.value = false
+  mostrarModalDinheiro.value = false 
   metaSelecionada.value = null
   valorParaAdicionar.value = ''
 }
@@ -105,13 +106,27 @@ function adicionarDinheiro() {
   }
 
   const meta = metaSelecionada.value
-
   const valorRestante = meta.amount - meta.valorAtual
+  const valorPermitido = Math.min(valor, valorRestante)
 
-  if (valor > valorRestante) {
-    meta.valorAtual = meta.amount
-  } else {
-    meta.valorAtual += valor
+  if (saldoTotal.value < valorPermitido) {
+    alert('Seu saldo atual é insuficiente para esse valor.')
+    return
+  }
+
+  meta.valorAtual += valorPermitido
+
+  transacoes.value.unshift({
+    id: Date.now() + Math.random(),
+    titulo: `Contribuição para meta: ${meta.title}`,
+    categoria: 'meta',
+    valor: valorPermitido,
+    data: new Date().toLocaleDateString('pt-BR'),
+    tipo: 'saida'
+  })
+
+  if (valor > valorPermitido) {
+    alert(`A meta só aceita mais R$ ${valorRestante.toFixed(2)} neste momento.`)
   }
 
   fecharAdicionarDinheiro()
@@ -125,6 +140,15 @@ function resgatarDinheiro(meta) {
   )
 
   if (confirmar) {
+    transacoes.value.unshift({
+      id: Date.now() + Math.random(),
+      titulo: `Resgate da meta: ${meta.title}`,
+      categoria: 'meta',
+      valor: meta.valorAtual,
+      data: new Date().toLocaleDateString('pt-BR'),
+      tipo: 'entrada'
+    })
+
     meta.valorAtual = 0
   }
 }
@@ -621,4 +645,4 @@ main {
 .cancelar:hover {
   background: #e2e2e2;
 }
-</style>
+</style>    
