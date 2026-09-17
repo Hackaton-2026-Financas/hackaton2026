@@ -1,3 +1,17 @@
+<script setup>
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter()
+
+function irparaCadastro() {
+  router.push('/login')
+}
+
+function dash() {
+  router.push('/dashBoard')
+}
+</script>
 <template>
   <main class="home">
 
@@ -20,11 +34,11 @@
         </p>
 
         <div class="botoes">
-          <button class="botao-principal">
+          <button class="botao-principal" @click="irparaCadastro">
             Criar conta Grátis →
           </button>
 
-          <button class="botao-secundario">
+          <button class="botao-secundario" @click="dash" >
             Explorar plataforma
           </button>
         </div>
