@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ButtonChild from '@/components/ButtonChild.vue';
 import TransacaoItem from '@/components/layout/TransacaoItem.vue';
+import { quantidadeNaoPagas } from '@/store/contas';
 
 import { 
   transacoes, 
@@ -95,7 +96,7 @@ const adicionarTransacao = () => {
         <div class="card-dinheiro">
           <span>Metas Ativas</span>
           <h2>{{ metas.length }}</h2>
-          <small>2 contas pendentes</small>
+          <small>{{ quantidadeNaoPagas }} conta(s) não pagas</small>
         </div>
         <div class="card-icone icone-azul">!</div>
       </div>
