@@ -1,9 +1,20 @@
+```vue
 <script setup>
 import { ref, computed } from 'vue'
 import { metas } from '@/store/meta'
+import { saldoTotal, transacoes } from '@/store/transacoes.js'
 
 const mostrarModal = ref(false)
-const novaMeta = ref({ title: '', amount: '', dueDate: '' })
+const mostrarModalDinheiro = ref(false)
+
+const novaMeta = ref({
+  title: '',
+  amount: '',
+  dueDate: ''
+})
+
+const valorParaAdicionar = ref('')
+const metaSelecionada = ref(null)
 const erroValor = ref('')
 
 const dataMinima = computed(() => {
@@ -11,12 +22,15 @@ const dataMinima = computed(() => {
   const ano = hoje.getFullYear()
   const mes = String(hoje.getMonth() + 1).padStart(2, '0')
   const dia = String(hoje.getDate()).padStart(2, '0')
+
   return `${ano}-${mes}-${dia}`
 })
 
 function formatarData(data) {
   if (!data) return ''
+
   const [ano, mes, dia] = data.split('-')
+
   return `${dia}/${mes}/${ano}`
 }
 
@@ -36,25 +50,115 @@ function abrirModal() {
 
 function fecharModal() {
   mostrarModal.value = false
-  novaMeta.value = { title: '', amount: '', dueDate: '' }
+
+  novaMeta.value = {
+    title: '',
+    amount: '',
+    dueDate: ''
+  }
+
   erroValor.value = ''
 }
 
 function criarMeta() {
   if (!novaMeta.value.title || !novaMeta.value.amount) return
-  if (novaMeta.value.dueDate && novaMeta.value.dueDate < dataMinima.value) return
+
+  if (
+    novaMeta.value.dueDate &&
+    novaMeta.value.dueDate < dataMinima.value
+  ) {
+    return
+  }
 
   metas.value.push({
     id: Date.now(),
     title: novaMeta.value.title,
     amount: parseFloat(novaMeta.value.amount),
-    dueDate: novaMeta.value.dueDate,
+    valorAtual: 0,
+    dueDate: novaMeta.value.dueDate
   })
+
   fecharModal()
 }
 
 function removerMeta(id) {
   metas.value = metas.value.filter((m) => m.id !== id)
+}
+
+function abrirAdicionarDinheiro(meta) {
+  metaSelecionada.value = meta
+  valorParaAdicionar.value = ''
+  mostrarModalDinheiro.value = true
+}
+
+function fecharAdicionarDinheiro() {
+  mostrarModalDinheiro.value = false 
+  metaSelecionada.value = null
+  valorParaAdicionar.value = ''
+}
+
+function adicionarDinheiro() {
+  const valor = parseFloat(valorParaAdicionar.value)
+
+  if (isNaN(valor) || valor <= 0) {
+    alert('Digite um valor válido.')
+    return
+  }
+
+  const meta = metaSelecionada.value
+  const valorRestante = meta.amount - meta.valorAtual
+  const valorPermitido = Math.min(valor, valorRestante)
+
+  if (saldoTotal.value < valorPermitido) {
+    alert('Seu saldo atual é insuficiente para esse valor.')
+    return
+  }
+
+  meta.valorAtual += valorPermitido
+
+  transacoes.value.unshift({
+    id: Date.now() + Math.random(),
+    titulo: `Contribuição para meta: ${meta.title}`,
+    categoria: 'meta',
+    valor: valorPermitido,
+    data: new Date().toLocaleDateString('pt-BR'),
+    tipo: 'saida'
+  })
+
+  if (valor > valorPermitido) {
+    alert(`A meta só aceita mais R$ ${valorRestante.toFixed(2)} neste momento.`)
+  }
+
+  fecharAdicionarDinheiro()
+}
+
+function resgatarDinheiro(meta) {
+  if (meta.valorAtual <= 0) return
+
+  const confirmar = confirm(
+    `Você tem R$ ${meta.valorAtual.toFixed(2)} guardados nessa meta. Deseja resgatar esse dinheiro?`
+  )
+
+  if (confirmar) {
+    transacoes.value.unshift({
+      id: Date.now() + Math.random(),
+      titulo: `Resgate da meta: ${meta.title}`,
+      categoria: 'meta',
+      valor: meta.valorAtual,
+      data: new Date().toLocaleDateString('pt-BR'),
+      tipo: 'entrada'
+    })
+
+    meta.valorAtual = 0
+  }
+}
+
+function calcularProgresso(meta) {
+  if (meta.amount <= 0) return 0
+
+  const progresso = (meta.valorAtual / meta.amount) * 100
+
+  return Math.min(progresso, 100)
 }
 </script>
 
@@ -63,7 +167,10 @@ function removerMeta(id) {
     <div>
       <h2>Fábrica de Metas 🎯</h2>
       <p>Crie e acompanhe seus objetivos financeiro aqui</p>
-      <button class="nova" @click="abrirModal">+ Nova meta</button>
+
+      <button class="nova" @click="abrirModal">
+        + Nova meta
+      </button>
     </div>
   </section>
 
@@ -71,33 +178,102 @@ function removerMeta(id) {
     <div class="metas">
       <template v-if="metas.length === 0">
         <h3>Nenhuma meta criada ainda</h3>
+
         <p>Comece criando sua primeira meta financeira!</p>
-        <button class="nova" @click="abrirModal">+ Criar primeira meta</button>
+
+        <button class="nova" @click="abrirModal">
+          + Criar primeira meta
+        </button>
       </template>
+
       <template v-else>
         <h3>Suas metas</h3>
+
         <ul class="lista-metas">
-          <li v-for="meta in metas" :key="meta.id" class="meta-item">
+          <li
+            v-for="meta in metas"
+            :key="meta.id"
+            class="meta-item"
+          >
             <div class="meta-info">
               <strong>{{ meta.title }}</strong>
-              <div>Valor: R$ {{ meta.amount.toFixed(2) }}</div>
-              <div v-if="meta.dueDate">Vence em: {{ formatarData(meta.dueDate) }}</div>
+
+              <div>
+                Meta: R$ {{ meta.amount.toFixed(2) }}
+              </div>
+
+              <div>
+                Guardado: R$ {{ meta.valorAtual.toFixed(2) }}
+              </div>
+
+              <div v-if="meta.dueDate">
+                Vence em: {{ formatarData(meta.dueDate) }}
+              </div>
+
+              <div class="progresso-container">
+                <div
+                  class="progresso"
+                  :style="{ width: calcularProgresso(meta) + '%' }"
+                ></div>
+              </div>
+
+              <div class="porcentagem">
+                {{ calcularProgresso(meta).toFixed(0) }}% alcançado
+              </div>
+
+              <div
+                v-if="meta.valorAtual >= meta.amount"
+                class="concluida"
+              >
+                🎉 Meta concluída! Parabéns!
+              </div>
             </div>
-            <button class="remover" @click="removerMeta(meta.id)">Remover</button>
+
+            <button
+              v-if="meta.valorAtual < meta.amount"
+              class="adicionar-dinheiro"
+              @click="abrirAdicionarDinheiro(meta)"
+            >
+              + Adicionar à Meta
+            </button>
+
+            <button
+              v-if="meta.valorAtual > 0"
+              class="resgatar"
+              @click="resgatarDinheiro(meta)"
+            >
+              Resgatar dinheiro
+            </button>
+
+            <button
+              class="remover"
+              @click="removerMeta(meta.id)"
+            >
+              Remover
+            </button>
           </li>
         </ul>
       </template>
     </div>
   </main>
 
-  <div v-if="mostrarModal" class="modal-backdrop" @click.self="fecharModal">
+  <div
+    v-if="mostrarModal"
+    class="modal-backdrop"
+    @click.self="fecharModal"
+  >
     <div class="modal">
       <h3>Criar Meta</h3>
 
       <label>Título</label>
-      <input v-model="novaMeta.title" placeholder="Ex: Viagem" />
 
-      <label>Valor (R$)</label>
+      <input
+        v-model="novaMeta.title"
+        placeholder="Ex: Viagem"
+      />
+
+      <label>Valor da meta (R$)</label>
+
       <input
         v-model="novaMeta.amount"
         type="number"
@@ -105,14 +281,89 @@ function removerMeta(id) {
         placeholder="Ex: 5000"
         @input="validarValor"
       />
-      <span class="erro" v-if="erroValor">{{ erroValor }}</span>
+
+      <span
+        class="erro"
+        v-if="erroValor"
+      >
+        {{ erroValor }}
+      </span>
 
       <label>Data de vencimento</label>
-      <input v-model="novaMeta.dueDate" type="date" :min="dataMinima" />
+
+      <input
+        v-model="novaMeta.dueDate"
+        type="date"
+        :min="dataMinima"
+      />
 
       <div class="modal-actions">
-        <button class="salvar" @click="criarMeta">Salvar</button>
-        <button class="cancelar" @click="fecharModal">Cancelar</button>
+        <button
+          class="salvar"
+          @click="criarMeta"
+        >
+          Salvar
+        </button>
+
+        <button
+          class="cancelar"
+          @click="fecharModal"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    v-if="mostrarModalDinheiro"
+    class="modal-backdrop"
+    @click.self="fecharAdicionarDinheiro"
+  >
+    <div class="modal">
+      <h3>Adicionar dinheiro</h3>
+
+      <p v-if="metaSelecionada">
+        Meta: <strong>{{ metaSelecionada.title }}</strong>
+      </p>
+
+      <p v-if="metaSelecionada">
+        Guardado:
+        R$ {{ metaSelecionada.valorAtual.toFixed(2) }}
+      </p>
+
+      <p v-if="metaSelecionada">
+        Falta:
+        R$
+        {{
+          (metaSelecionada.amount - metaSelecionada.valorAtual).toFixed(2)
+        }}
+      </p>
+
+      <label>Quanto deseja adicionar?</label>
+
+      <input
+        v-model="valorParaAdicionar"
+        type="number"
+        min="0.01"
+        step="0.01"
+        placeholder="Ex: 100"
+      />
+
+      <div class="modal-actions">
+        <button
+          class="salvar"
+          @click="adicionarDinheiro"
+        >
+          Adicionar
+        </button>
+
+        <button
+          class="cancelar"
+          @click="fecharAdicionarDinheiro"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
   </div>
@@ -167,8 +418,8 @@ main {
 .metas {
   text-align: center;
   background: linear-gradient(135deg, #f6fbf9 0%, #eaf6f0 100%);
-  border: 1px solid #dcf0e6;
-  border-radius: 16px;
+  border: 3px solid rgba(42, 192, 142, 0.5);
+  border-radius: 12px;
   padding: 40px 20px;
   box-shadow: 0 6px 20px rgba(42, 192, 142, 0.08);
   max-width: 1100px;
@@ -223,11 +474,44 @@ main {
   font-size: 14px;
 }
 
+.progresso-container {
+  width: 100%;
+  height: 10px;
+  background: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 15px !important;
+}
+
+.progresso {
+  height: 100%;
+  background: #2ac08e;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.porcentagem {
+  font-size: 13px !important;
+  color: #18a073 !important;
+  font-weight: 600;
+  text-align: right;
+}
+
+.concluida {
+  background: #e0f7e9;
+  color: #16865f !important;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px !important;
+  text-align: center;
+  font-weight: 600;
+}
+
 .remover {
   margin-top: 12px;
   background: #fff0f0;
   color: #e53935;
-  border: 1px solid #f3c6c6;
+  border: 1px solid #cc8f8f;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
@@ -237,6 +521,37 @@ main {
 
 .remover:hover {
   background: #ffdcdc;
+}
+
+.adicionar-dinheiro {
+  margin-top: 12px;
+  background: #e0f7e9;
+  color: #18a073;
+  border: 1px solid #388656;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.adicionar-dinheiro:hover {
+  background: #c9f0da;
+}
+
+.resgatar {
+  margin-top: 12px;
+  background: #f1f1f1;
+  color: #444;
+  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resgatar:hover {
+  background: #e2e2e2;
 }
 
 .modal-backdrop {
@@ -330,18 +645,4 @@ main {
 .cancelar:hover {
   background: #e2e2e2;
 }
-/* Borda em volta do input */
-
-.metas {
-  text-align: center;
-  background: linear-gradient(135deg, #f6fbf9 0%, #eaf6f0 100%);
-  border: 3px solid rgba(42, 192, 142, 0.5);
-  
-  border-radius: 12px;
-
-  padding: 40px 20px;
-  box-shadow: 0 6px 20px rgba(42, 192, 142, 0.08);
-  max-width: 1100px;
-  margin: 0 auto;
-}
-</style>
+</style>    

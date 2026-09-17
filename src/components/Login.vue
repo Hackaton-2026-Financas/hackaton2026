@@ -56,7 +56,7 @@ function logarUsuario() {
           <input type="text" placeholder="Nome" v-model="dadosCadastro.nome" required />
           <input type="email" placeholder="Email" v-model="dadosCadastro.email" required />
           <input type="password" placeholder="Senha" v-model="dadosCadastro.senha" required />
-          <button type="submit">Entrar</button>
+          <button type="submit">Cadastrar</button>
         </form>
       </div>
 
@@ -74,12 +74,12 @@ function logarUsuario() {
           <div class="switch-panel panel-left">
             <h1>seja bem-vindo</h1>
             <p>continuar o login</p>
-            <button type="button" class="ghost" @click="mudarParaLogin">𝙀𝙣𝙩𝙧𝙖𝙧</button>
+            <button type="button" class="ghost" @click="mudarParaLogin">Entrar</button>
           </div>
           <div class="switch-panel panel-right">
             <h1>Bem-vindo de Volta</h1>
             <p>Criar a sua conta aqui</p>
-            <button type="button" class="ghost" @click="mudarParaCadastro">𝙀𝙣𝙩𝙧𝙖𝙧</button>
+            <button type="button" class="ghost" @click="mudarParaCadastro">Cadastrar</button>
           </div>
         </div>
       </div>
@@ -232,6 +232,8 @@ button.ghost {
   background: transparent;
   border: 1px solid #fff;
   color: #fff;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .switch-container {
