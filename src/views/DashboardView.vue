@@ -78,8 +78,8 @@ const adicionarTransacao = () => {
 };
 
 const converterDataTransacao = (data) => {
-  const [dia, mes, ano] = data.split('/').map(Number);
-  return new Date(ano, mes - 1, dia).getTime();
+  const [ano, mes, dia] = data.split('/').map(Number);
+  return new Date(dia, mes - 1, ano).getTime();
 };
 
 const dadosGrafico = computed(() => {
@@ -112,7 +112,10 @@ const dadosGrafico = computed(() => {
         borderWidth: 3,
         fill: true,
         tension: 0.35,
-        pointRadius: 5,
+        pointRadius: (context) => {
+          const quantidadePontos = context.dataset.data.length;
+          return quantidadePontos > 80 ? 2 : quantidadePontos > 30 ? 3 : 5;
+        },
         pointHoverRadius: 7,
         pointBackgroundColor: '#ffffff',
         pointBorderColor: '#0a936f',
@@ -128,7 +131,7 @@ const opcoesGrafico = {
   animation: false,
   interaction: {
     intersect: false,
-    mode: 'index',
+    mode: 'nearest',
   },
   plugins: {
     legend: {
@@ -159,6 +162,12 @@ const opcoesGrafico = {
     x: {
       grid: {
         display: false,
+      },
+      ticks: {
+        autoSkip: true,
+        maxTicksLimit: 8,
+        maxRotation: 0,
+        minRotation: 0,
       },
     },
   },
