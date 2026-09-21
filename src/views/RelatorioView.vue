@@ -9,6 +9,19 @@ import {
 } from '@/store/transacoes'
 import { quantidadeNaoPagas } from '@/store/contas'
 
+/* isso aqui é o começo do grafico em pizza
+import { Pie } from 'vue-chartjs';
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,    talvez
+  Legend,
+  LineElement,   mudar/retirar
+  LinearScale,   mudar
+  PointElement,  retirar
+  Tooltip,
+} from 'chart.js';
+*/
 
 const taxaPoupancaValor = computed(() => {
   const receitas = receitasTotais.value

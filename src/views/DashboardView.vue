@@ -1,5 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { Line } from 'vue-chartjs';
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Tooltip,
+} from 'chart.js';
 import ButtonChild from '@/components/ButtonChild.vue';
 import TransacaoItem from '@/components/layout/TransacaoItem.vue';
 
@@ -12,6 +23,16 @@ import {
 } from '@/store/transacoes.js';
 
 import { metas } from '@/store/meta';
+
+ChartJS.register(
+  CategoryScale,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Tooltip,
+);
 
 const exibirModal = ref(false);
 
@@ -54,6 +75,93 @@ const adicionarTransacao = () => {
   });
 
   fecharModal();
+};
+
+const converterDataTransacao = (data) => {
+  const [dia, mes, ano] = data.split('/').map(Number);
+  return new Date(ano, mes - 1, dia).getTime();
+};
+
+const dadosGrafico = computed(() => {
+  const transacoesOrdenadas = [...transacoes.value].sort(
+    (a, b) => converterDataTransacao(a.data) - converterDataTransacao(b.data) || a.id - b.id,
+  );
+  let saldoAcumulado = 0;
+  const pontos = [
+    { data: 'Início', nome: 'Início', saldo: 0 },
+    ...transacoesOrdenadas.map((transacao) => {
+      const valor = Number(transacao.valor) || 0;
+      saldoAcumulado += transacao.tipo === 'entrada' ? valor : -valor;
+      return {
+        data: transacao.data,
+        nome: transacao.titulo || 'Sem descrição',
+        saldo: saldoAcumulado,
+      };
+    }),
+  ];
+
+  return {
+    labels: pontos.map((ponto) => ponto.data),
+    datasets: [
+      {
+        label: 'Saldo acumulado',
+        data: pontos.map((ponto) => ponto.saldo),
+        pontos,
+        borderColor: '#0a936f',
+        backgroundColor: 'rgba(10, 147, 111, 0.12)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.35,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#ffffff',
+        pointBorderColor: '#0a936f',
+        pointBorderWidth: 2,
+      },
+    ],
+  };
+});
+
+const opcoesGrafico = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: false,
+  interaction: {
+    intersect: false,
+    mode: 'index',
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      callbacks: {
+        title: () => '',
+        label: (context) => {
+          const ponto = context.dataset.pontos[context.dataIndex];
+          const identificacao = ponto.data === 'Início'
+            ? ponto.nome
+            : `${ponto.nome} - ${ponto.data}`;
+          return `${identificacao}: ${formatarMoeda(context.parsed.y)}`;
+        },
+      },
+    },
+  },
+  scales: {
+    y: {
+      ticks: {
+        callback: (valor) => formatarMoeda(valor),
+      },
+      grid: {
+        color: '#e2e8f0',
+      },
+    },
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 </script>
 
@@ -104,7 +212,14 @@ const adicionarTransacao = () => {
     <section class="section-box">
       <h2>Evolução do Patrimônio</h2>
       <div class="grafico">
-        <p>Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados financeiros do usuario conforme o passar dos meses</p>
+        <Line
+          v-if="dadosGrafico.labels.length"
+          :data="dadosGrafico"
+          :options="opcoesGrafico"
+        />
+        <p v-else class="grafico-vazio">
+          Adicione uma transação para acompanhar a evolução do seu saldo.
+        </p>
       </div>
     </section>
 
@@ -306,16 +421,22 @@ const adicionarTransacao = () => {
 
 /* ÁREA TEMPORÁRIA DO GRÁFICO */
 .grafico {
-  height: 200px;
-  background-color: #f1f5f9;
-  border: 2px dashed #cbd5e1;
+  height: 260px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.grafico-vazio {
+  height: 100%;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #64748b;
   text-align: center;
-  padding: 0 20px;
 }
 
 /* LISTA DE TRANSAÇÕES */
