@@ -8,20 +8,15 @@ import {
   despesasPorCategoria,
 } from '@/store/transacoes'
 import { quantidadeNaoPagas } from '@/store/contas'
-
-/* isso aqui é o começo do grafico em pizza
-import { Pie } from 'vue-chartjs';
+import { Pie } from 'vue-chartjs'
 import {
-  CategoryScale,
   Chart as ChartJS,
-  Filler,    talvez
+  ArcElement,
   Legend,
-  LineElement,   mudar/retirar
-  LinearScale,   mudar
-  PointElement,  retirar
   Tooltip,
-} from 'chart.js';
-*/
+} from 'chart.js'
+
+ChartJS.register(ArcElement, Legend, Tooltip)
 
 const taxaPoupancaValor = computed(() => {
   const receitas = receitasTotais.value
@@ -102,6 +97,42 @@ const scoreDescription = computed(() => {
 })
 
 const despesasPorCategoriaLocal = despesasPorCategoria
+
+const dadosDespesas = computed(() => ({
+  labels: despesasPorCategoria.value.map(
+    (item) => categoriaLabels[item.categoria] || item.categoria,
+  ),
+  datasets: [
+    {
+      data: despesasPorCategoria.value.map((item) => item.valor),
+      backgroundColor: despesasPorCategoria.value.map((item) => {
+        const cores = {
+          alimentacao: '#10b981',
+          transporte: '#3b82f6',
+          lazer: '#a855f7',
+        }
+        return cores[item.categoria] || '#64748b'
+      }),
+      borderColor: '#ffffff',
+      borderWidth: 3,
+    },
+  ],
+}))
+
+const opcoesDespesas = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      callbacks: {
+        label: (context) => ` ${formatarMoeda(context.parsed)}`,
+      },
+    },
+  },
+}
 
 const maiorCategoriaGasto = computed(() => {
   if (despesasPorCategoria.value.length === 0) return null
@@ -263,7 +294,15 @@ const maiorCategoriaGasto = computed(() => {
       </h2>
 
       <div class="conteudo-despesas">
-        <p>Era para ter um grafico aqui</p>
+        <div class="wrapper-grafico">
+          <Pie
+            v-if="despesasPorCategoriaLocal.length"
+            class="grafico-pizza"
+            :data="dadosDespesas"
+            :options="opcoesDespesas"
+          />
+          <p v-else class="grafico-vazio">Nenhuma despesa registrada</p>
+        </div>
 
         <!-- Lista de Categorias -->
         <ul class="categoria-lista">
@@ -564,14 +603,16 @@ const maiorCategoriaGasto = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 200px;
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  min-height: 0;
+  margin: 0 auto;
 }
 
 .grafico-pizza {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: conic-gradient(#10b981 0% 54%, #3b82f6 54% 82%, #a855f7 82% 100%);
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .rotulo-grafico {
