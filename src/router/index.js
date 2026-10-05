@@ -6,6 +6,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import ContasView from '@/views/ContasView.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
 import GlossarioView from '@/views/GlossarioView.vue'
+import TrilhaView from '@/views/TrilhaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/meta',
       name: 'meta',
       component: MetaView,
+    },
+    {
+      path: '/trilha',
+      name: 'trilha',
+      component: TrilhaView,
     },
     {
       path: '/glossario',
