@@ -1,16 +1,68 @@
 {
   "Usuarios": [
     {
-      "id": "1",
+      "id": "ana-silva",
       "name": "Ana Silva",
       "email": "ana@email.com",
+      "password": "123456",
       "role": "admin"
     },
     {
-      "id": "2",
+      "id": "pedro-souza",
       "name": "Pedro Souza",
       "email": "pedro@email.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "JAt3lM8nSEc",
+      "name": "Pedrinho",
+      "email": "pedrinhogameplays@email67",
+      "password": "676767",
       "role": "user"
     }
-  ]
+  ],
+  "Transacoes": [
+    {
+      "id": "-vKAcgBq_pI",
+      "titulo": "67?",
+      "categoria": "salario",
+      "valor": 676767,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "JAt3lM8nSEc"
+    }
+  ],
+  "Contas": [],
+  "Metas": [],
+  "Historicos": [
+    {
+      "id": "ei1Vwy6UeC0",
+      "userId": "JAt3lM8nSEc",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "JAt3lM8nSEc",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T11:49:16.642Z"
+    },
+    {
+      "id": "W67EJMXOX_o",
+      "userId": "JAt3lM8nSEc",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "JAt3lM8nSEc",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T11:49:55.832Z"
+    },
+    {
+      "id": "8eEl_EaiOQk",
+      "userId": "JAt3lM8nSEc",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "JAt3lM8nSEc",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T11:50:19.987Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

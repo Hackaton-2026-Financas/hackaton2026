@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "run-p dev:app dev:db",
+    "dev:app": "vite",
+    "dev:db": "json-server database/db.json --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "run-s \"lint:*\"",

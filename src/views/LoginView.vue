@@ -6,8 +6,8 @@ import Login from '@/components/Login.vue'
 const definirLogado = inject('definirLogado')
 const router = useRouter()
 
-function aoLogar() {
-  definirLogado(true)
+function aoLogar(usuario) {
+  definirLogado(usuario)
   router.push('/dashBoard')
 }
 

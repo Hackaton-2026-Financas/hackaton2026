@@ -1,7 +1,7 @@
 <script setup>
 import contaCard from '../components/layout/contasComponentes/contaCard.vue'
 import { ref, computed, reactive } from 'vue'
-import { contas } from '../store/contas.js'
+import { contas, adicionarConta, removerConta as excluirConta, concluirConta as marcarContaPaga } from '../store/contas.js'
 
 
 const contasPagas = computed(() => contas.value.filter((conta) => conta.status === 'paga'))
@@ -14,13 +14,22 @@ function totalDe(lista) {
     .replace('.', ',')
 }
 
-function removerConta(id) {
-  contas.value = contas.value.filter((conta) => conta.id !== id)
+async function removerConta(id) {
+  try {
+    await excluirConta(id)
+    erro.value = ''
+  } catch (error) {
+    erro.value = error.message
+  }
 }
 
-function concluirConta(id) {
-  const conta = contas.value.find((c) => c.id === id)
-  if (conta) conta.status = 'paga'
+async function concluirConta(id) {
+  try {
+    await marcarContaPaga(id)
+    erro.value = ''
+  } catch (error) {
+    erro.value = error.message
+  }
 }
 
 // --- Modal "Nova Conta" ---
@@ -58,16 +67,14 @@ function formatarData(dataISO) {
   return `${dia}/${mes}/${ano}`
 }
 
-function salvarConta() {
+async function salvarConta() {
   if (!form.titulo || !form.categoria || !form.valorNumero || !form.vencimento) {
     erro.value = 'Preencha todos os campos.'
     return
   }
 
-  const novoId = contas.value.length ? Math.max(...contas.value.map((c) => c.id)) + 1 : 1
-
-  contas.value.push({
-    id: novoId,
+  try {
+    await adicionarConta({
     titulo: form.titulo,
     categoria: form.categoria,
     valor: formatarValor(form.valorNumero),
@@ -75,7 +82,11 @@ function salvarConta() {
     status: form.status,
   })
 
-  fecharModal()
+    erro.value = ''
+    fecharModal()
+  } catch (error) {
+    erro.value = error.message
+  }
 }
 </script>
 
@@ -90,6 +101,7 @@ function salvarConta() {
   </header>
 
   <main>
+    <p v-if="erro" class="erro" role="alert">{{ erro }}</p>
     <section>
       <div class="naopagas">
         <h2>A Pagar</h2>

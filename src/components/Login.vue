@@ -1,9 +1,12 @@
 <script setup>
 import { ref, reactive } from 'vue'
+import { cadastrar, entrar } from '@/store/auth'
 
 const emit = defineEmits(['login'])
 
 const naTelaCadastro = ref(false)
+const carregando = ref(false)
+const erro = ref('')
 
 const dadosLogin = reactive({
   email: '',
@@ -26,22 +29,30 @@ function mudarParaLogin() {
   naTelaCadastro.value = false
 }
 
-function cadastrarUsuario() {
-  alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${dadosCadastro.nome}. Acesso liberado.`)
-
-  dadosCadastro.nome = ""
-  dadosCadastro.email = ""
-  dadosCadastro.senha = ""
-
-  emit("login")
+async function cadastrarUsuario() {
+  await autenticar(async () => {
+    const usuario = await cadastrar(dadosCadastro.nome, dadosCadastro.email, dadosCadastro.senha)
+    emit('login', usuario)
+  })
 }
 
-function logarUsuario() {
- console.log("logar usuario")
-  emit("login")
+async function logarUsuario() {
+  await autenticar(async () => {
+    const usuario = await entrar(dadosLogin.email, dadosLogin.senha)
+    emit('login', usuario)
+  })
+}
 
-  dadosLogin.email = ""
-  dadosLogin.senha = ""
+async function autenticar(acao) {
+  erro.value = ''
+  carregando.value = true
+  try {
+    await acao()
+  } catch (error) {
+    erro.value = error.message || 'Não foi possível autenticar. Tente novamente.'
+  } finally {
+    carregando.value = false
+  }
 }
 
 </script>
@@ -55,17 +66,21 @@ function logarUsuario() {
           <h1>Criar conta</h1>
           <input type="text" placeholder="Nome" v-model="dadosCadastro.nome" required />
           <input type="email" placeholder="Email" v-model="dadosCadastro.email" required />
-          <input type="password" placeholder="Senha" v-model="dadosCadastro.senha" required />
-          <button type="submit">Cadastrar</button>
+          <input type="password" placeholder="Senha (mínimo 6 caracteres)" v-model="dadosCadastro.senha" minlength="6" required />
+          <p v-if="erro" class="erro" role="alert">{{ erro }}</p>
+          <button type="submit" :disabled="carregando">{{ carregando ? 'Aguarde...' : 'Cadastrar' }}</button>
+          <button type="button" class="alternar-modo" @click="mudarParaLogin">Já tem conta? Entrar</button>
         </form>
       </div>
 
       <div class="form-side login-box">
         <form @submit.prevent="logarUsuario">
           <h1>Entrar na <br>sua conta</h1>
-          <input type="Email" placeholder="Email" v-model="dadosLogin.email" required />
+          <input type="email" placeholder="Email" v-model="dadosLogin.email" required />
           <input type="password" placeholder="Senha" v-model="dadosLogin.senha" required />
-          <button type="submit">Entrar</button>
+          <p v-if="erro" class="erro" role="alert">{{ erro }}</p>
+          <button type="submit" :disabled="carregando">{{ carregando ? 'Aguarde...' : 'Entrar' }}</button>
+          <button type="button" class="alternar-modo" @click="mudarParaCadastro">Não tem conta? Cadastre-se</button>
         </form>
       </div>
 
@@ -228,6 +243,30 @@ button:focus {
   outline: none;
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.erro {
+  margin: 8px 0;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.alternar-modo {
+  display: none;
+  margin-top: 8px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #00885b;
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0;
+  text-decoration: underline;
+}
+
 button.ghost {
   background: transparent;
   border: 1px solid #fff;
@@ -329,6 +368,13 @@ button.ghost {
 
   .card.is-signup .login-box {
     transform: translateY(100%);
+  }
+
+  .alternar-modo {
+    display: block;
+    background: transparent;
+    color: #00885b;
+    transform: none;
   }
 }
 

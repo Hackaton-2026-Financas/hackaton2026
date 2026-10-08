@@ -41,6 +41,22 @@ Acredito que completamos a principal funçao do site, mas falta duas paginas, ce
 
 # Launching
 
+## Banco de dados e autenticação
+
+O projeto usa JSON Server durante o desenvolvimento. Execute `npm run dev` para iniciar
+o Vite e a API JSON Server em `http://localhost:3000` juntos. Os dados são gravados em
+`database/db.json`; cada transação, conta e meta inclui o `userId` do usuário autenticado,
+e as ações são registradas na coleção `Historicos`.
+
+Contas de demonstração:
+
+- `ana@email.com` / `123456`
+- `pedro@email.com` / `123456`
+
+Também é possível criar uma conta pela tela de login. As senhas em texto simples e o
+JSON Server são apenas para demonstração local; não use esse mecanismo como autenticação
+ou armazenamento de produção.
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup

@@ -5,7 +5,7 @@ defineProps({
   valor: String,
   vencimento: String,
   status: String,
-  id: Number
+  id: [String, Number]
 })
 
 defineEmits(['remover', 'concluir'])

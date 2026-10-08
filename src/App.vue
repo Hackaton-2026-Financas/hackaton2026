@@ -1,21 +1,28 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import { ref, provide } from 'vue'
+import { ref, provide, onMounted } from 'vue'
 import Header from './components/layout/Header.vue';
 import MenuView from './components/layout/MenuView.vue';
 import FooterView from './components/layout/FooterView.vue';
+import { estaLogado, usuarioAtual, restaurarSessao } from '@/store/auth'
 
 
-const estaLogado = ref(false)
+const erroSessao = ref('')
 
-function definirLogado(valor) {
-  estaLogado.value = valor
+function definirLogado(usuario) {
+  usuarioAtual.value = usuario
 }
 
 provide('estaLogado', estaLogado)
 provide('definirLogado', definirLogado)
 
-//tenho q me lembrar de repassar isso pro pessoal nao surtar
+onMounted(async () => {
+  try {
+    await restaurarSessao()
+  } catch (error) {
+    erroSessao.value = error.message
+  }
+})
 </script>
 
 <template>
@@ -26,6 +33,9 @@ provide('definirLogado', definirLogado)
     </aside>
 
     <main class="content-area">
+      <p v-if="erroSessao" class="erro-sessao" role="alert">
+        Não foi possível carregar seus dados: {{ erroSessao }}
+      </p>
       <RouterView />
       <FooterView />
     </main>
@@ -48,5 +58,16 @@ provide('definirLogado', definirLogado)
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+</style>
+
+<style>
+.erro-sessao {
+  margin: 72px 24px 0;
+  padding: 12px 16px;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #991b1b;
 }
 </style>

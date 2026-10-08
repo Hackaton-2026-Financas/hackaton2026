@@ -1,8 +1,21 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { inject } from 'vue';
+import { useRouter } from 'vue-router'
+import { usuarioAtual, sair } from '@/store/auth'
 
 const estaLogado = inject("estaLogado")
+const router = useRouter()
+
+async function encerrarSessao() {
+    try {
+        await sair()
+        router.push('/login')
+    } catch (error) {
+        router.push('/login')
+        window.alert(error.message)
+    }
+}
 </script>
 
 <template>
@@ -18,7 +31,11 @@ const estaLogado = inject("estaLogado")
             <h2><RouterLink to="/about">Sobre Nós</RouterLink></h2>
             <h2 v-if="!estaLogado">
                 <RouterLink to="/login">Login</RouterLink>
-            </h2>        
+            </h2>
+            <div v-else class="sessao">
+                <span>{{ usuarioAtual.name }}</span>
+                <button type="button" @click="encerrarSessao">Sair</button>
+            </div>
         </nav>
     </aside>
 </template>
@@ -65,6 +82,24 @@ a:hover {
     background: rgb(236, 230, 230);
     padding: 4px;
     transition: 0.3s;
+}
+
+.sessao {
+    display: grid;
+    gap: 8px;
+    color: #475569;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.sessao button {
+    width: fit-content;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 5px;
+    background: #f1f5f9;
+    color: #334155;
+    cursor: pointer;
 }
 
 .router-link-active {

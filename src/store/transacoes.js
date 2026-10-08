@@ -1,6 +1,27 @@
 import { ref, computed } from 'vue'
+import { criarRegistro, removerRegistro, registrarAcao } from '@/services/api'
+import { usuarioAtual } from '@/store/auth'
 
 export const transacoes = ref([])
+
+function usuarioId() {
+  if (!usuarioAtual.value) throw new Error('Entre na sua conta para gerenciar transações.')
+  return usuarioAtual.value.id
+}
+
+export async function adicionarTransacao(dados) {
+  const userId = usuarioId()
+  const transacao = await criarRegistro('Transacoes', { ...dados, userId })
+  transacoes.value.unshift(transacao)
+  await registrarAcao(
+    userId,
+    'criacao',
+    'transacao',
+    transacao.id,
+    `Criou a transação "${transacao.titulo}"`,
+  )
+  return transacao
+}
 
 export const receitasTotais = computed(() => {
   return transacoes.value
@@ -40,8 +61,20 @@ export const despesasPorCategoria = computed(() => {
   }))
 })
 
-export const removerTransacao = (id) => {
+export async function removerTransacao(id) {
+  const userId = usuarioId()
+  const transacao = transacoes.value.find((item) => item.id === id)
+  if (!transacao) return
+
+  await removerRegistro('Transacoes', id)
   transacoes.value = transacoes.value.filter((item) => item.id !== id)
+  await registrarAcao(
+    userId,
+    'remocao',
+    'transacao',
+    id,
+    `Removeu a transação "${transacao.titulo}"`,
+  )
 }
 
 export const maiorDespesa = computed(() => {

@@ -1,9 +1,9 @@
 <script setup>
 import { removerTransacao } from '@/store/transacoes.js';
 
-defineProps({
+const props = defineProps({
   id: {
-    type: Number,
+    type: [String, Number],
     required: true
   },
   titulo: String,
@@ -12,6 +12,14 @@ defineProps({
   data: String,
   tipo: String
 });
+
+async function remover() {
+  try {
+    await removerTransacao(props.id)
+  } catch (error) {
+    window.alert(error.message)
+  }
+}
 </script>
 
 <template>
@@ -37,7 +45,7 @@ defineProps({
       <button 
         class="btn-deletar" 
         title="Remover transação" 
-        @click="removerTransacao(id)"
+        @click="remover"
       >
         X
       </button>

@@ -6,6 +6,7 @@ import { quantidadeNaoPagas } from '@/store/contas';
 
 import { 
   transacoes, 
+  adicionarTransacao,
   saldoTotal, 
   receitasTotais, 
   despesasTotais, 
@@ -20,6 +21,7 @@ const novoTipo = ref('');
 const novaCategoria = ref('');
 const novoValor = ref('');
 const novaDescricao = ref('');
+const erroTransacao = ref('')
 
 const abrirModal = () => {
   exibirModal.value = true;
@@ -30,8 +32,6 @@ const fecharModal = () => {
   limparFormulario();
 };
 
-let proximoId = 1;
-
 const limparFormulario = () => {
   novoTipo.value = '';
   novaCategoria.value = '';
@@ -39,22 +39,31 @@ const limparFormulario = () => {
   novaDescricao.value = '';
 };
 
-const adicionarTransacao = () => {
-  if (!novaCategoria.value || !novoValor.value || !novaDescricao.value) {
-    alert('Por favor, preencha todos os campos!');
+const salvarTransacao = async () => {
+  if (!novoTipo.value || !novaCategoria.value || !novoValor.value || !novaDescricao.value) {
+    erroTransacao.value = 'Por favor, preencha todos os campos.'
     return;
   }
 
-  transacoes.value.unshift({
-    id: proximoId++,
-    titulo: novaDescricao.value,
-    categoria: novaCategoria.value,
-    valor: Number(novoValor.value),
-    data: new Date().toLocaleDateString('pt-BR'),
-    tipo: novoTipo.value
-  });
+  const valor = Number(novoValor.value)
+  if (!Number.isFinite(valor) || valor <= 0) {
+    erroTransacao.value = 'Informe um valor maior que zero.'
+    return
+  }
 
-  fecharModal();
+  erroTransacao.value = ''
+  try {
+    await adicionarTransacao({
+      titulo: novaDescricao.value,
+      categoria: novaCategoria.value,
+      valor,
+      data: new Date().toLocaleDateString('pt-BR'),
+      tipo: novoTipo.value,
+    })
+    fecharModal()
+  } catch (error) {
+    erroTransacao.value = error.message
+  }
 };
 </script>
 
@@ -143,10 +152,11 @@ const adicionarTransacao = () => {
           <button class="btn-fechar" @click="fecharModal">X</button>
         </div>
 
-        <form class="modal-formulario" @submit.prevent="adicionarTransacao">
+        <form class="modal-formulario" @submit.prevent="salvarTransacao">
+          <p v-if="erroTransacao" class="erro-transacao" role="alert">{{ erroTransacao }}</p>
           <div class="grupo-input">
             <label>Tipo</label>
-            <select v-model="novoTipo">
+            <select v-model="novoTipo" required>
               <option value="" disabled>Selecione um Tipo</option>
               <option value="saida">Despesa (Saída)</option>
               <option value="entrada">Receita (Entrada)</option>
@@ -155,7 +165,7 @@ const adicionarTransacao = () => {
 
           <div class="grupo-input">
             <label>Categoria</label>
-            <select v-model="novaCategoria">
+            <select v-model="novaCategoria" required>
               <option value="" disabled>Selecione uma categoria</option>
               <option value="salario">Salário</option>
               <option value="lazer">Lazer</option>
@@ -167,12 +177,12 @@ const adicionarTransacao = () => {
 
           <div class="grupo-input">
             <label>Valor R$</label>
-            <input v-model="novoValor" type="number" step="0.01" placeholder="R$ 0,00" />
+            <input v-model="novoValor" type="number" step="0.01" min="0.01" placeholder="R$ 0,00" required />
           </div>
 
           <div class="grupo-input">
             <label>Descrição</label>
-            <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" />
+            <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" required />
           </div>
 
           <button type="submit" class="btn-sucesso">

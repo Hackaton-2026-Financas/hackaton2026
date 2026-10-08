@@ -7,6 +7,7 @@ import ContasView from '@/views/ContasView.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
 import GlossarioView from '@/views/GlossarioView.vue'
 import TrilhaView from '@/views/TrilhaView.vue'
+import { estaLogado } from '@/store/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,21 +21,25 @@ const router = createRouter({
       path: '/dashBoard',
       name: 'dashBoard',
       component: DashboardView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/metas',
       name: 'metas',
       component: MetaView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/contas',
       name: 'contas',
       component: ContasView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/relatorio',
       name: 'relatorio',
       component: RelatorioView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -45,6 +50,7 @@ const router = createRouter({
       path: '/meta',
       name: 'meta',
       component: MetaView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/trilha',
@@ -65,6 +71,11 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     }
   ],
+})
+
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth && !estaLogado.value) return { name: 'login' }
+  if (to.name === 'login' && estaLogado.value) return { name: 'dashBoard' }
 })
 
 export default router

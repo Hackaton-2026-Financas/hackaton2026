@@ -1,8 +1,8 @@
 ```vue
 <script setup>
 import { ref, computed } from 'vue'
-import { metas } from '@/store/meta'
-import { saldoTotal, transacoes } from '@/store/transacoes.js'
+import { metas, criarMeta as salvarMeta, removerMeta as excluirMeta, contribuirComMeta, resgatarMeta as registrarResgate } from '@/store/meta'
+import { saldoTotal } from '@/store/transacoes.js'
 
 const mostrarModal = ref(false)
 const mostrarModalDinheiro = ref(false)
@@ -45,6 +45,7 @@ function validarValor(e) {
 }
 
 function abrirModal() {
+  erroValor.value = ''
   mostrarModal.value = true
 }
 
@@ -60,8 +61,13 @@ function fecharModal() {
   erroValor.value = ''
 }
 
-function criarMeta() {
+async function criarMeta() {
   if (!novaMeta.value.title || !novaMeta.value.amount) return
+  const amount = Number(novaMeta.value.amount)
+  if (!Number.isFinite(amount) || amount <= 0) {
+    erroValor.value = 'Informe um valor maior que zero para a meta.'
+    return
+  }
 
   if (
     novaMeta.value.dueDate &&
@@ -70,24 +76,32 @@ function criarMeta() {
     return
   }
 
-  metas.value.push({
-    id: Date.now(),
-    title: novaMeta.value.title,
-    amount: parseFloat(novaMeta.value.amount),
-    valorAtual: 0,
-    dueDate: novaMeta.value.dueDate
-  })
-
-  fecharModal()
+  try {
+    await salvarMeta({
+      title: novaMeta.value.title,
+      amount,
+      valorAtual: 0,
+      dueDate: novaMeta.value.dueDate,
+    })
+    fecharModal()
+  } catch (error) {
+    erroValor.value = error.message
+  }
 }
 
-function removerMeta(id) {
-  metas.value = metas.value.filter((m) => m.id !== id)
+async function removerMeta(id) {
+  try {
+    await excluirMeta(id)
+  } catch (error) {
+    window.alert(error.message)
+  }
 }
 
 function abrirAdicionarDinheiro(meta) {
+  erroValor.value = ''
   metaSelecionada.value = meta
   valorParaAdicionar.value = ''
+  erroValor.value = ''
   mostrarModalDinheiro.value = true
 }
 
@@ -97,7 +111,7 @@ function fecharAdicionarDinheiro() {
   valorParaAdicionar.value = ''
 }
 
-function adicionarDinheiro() {
+async function adicionarDinheiro() {
   const valor = parseFloat(valorParaAdicionar.value)
 
   if (isNaN(valor) || valor <= 0) {
@@ -114,16 +128,12 @@ function adicionarDinheiro() {
     return
   }
 
-  meta.valorAtual += valorPermitido
-
-  transacoes.value.unshift({
-    id: Date.now() + Math.random(),
-    titulo: `Contribuição para meta: ${meta.title}`,
-    categoria: 'meta',
-    valor: valorPermitido,
-    data: new Date().toLocaleDateString('pt-BR'),
-    tipo: 'saida'
-  })
+  try {
+    await contribuirComMeta(meta, valorPermitido)
+  } catch (error) {
+    erroValor.value = error.message
+    return
+  }
 
   if (valor > valorPermitido) {
     alert(`A meta só aceita mais R$ ${valorRestante.toFixed(2)} neste momento.`)
@@ -132,7 +142,7 @@ function adicionarDinheiro() {
   fecharAdicionarDinheiro()
 }
 
-function resgatarDinheiro(meta) {
+async function resgatarDinheiro(meta) {
   if (meta.valorAtual <= 0) return
 
   const confirmar = confirm(
@@ -140,16 +150,11 @@ function resgatarDinheiro(meta) {
   )
 
   if (confirmar) {
-    transacoes.value.unshift({
-      id: Date.now() + Math.random(),
-      titulo: `Resgate da meta: ${meta.title}`,
-      categoria: 'meta',
-      valor: meta.valorAtual,
-      data: new Date().toLocaleDateString('pt-BR'),
-      tipo: 'entrada'
-    })
-
-    meta.valorAtual = 0
+    try {
+      await registrarResgate(meta)
+    } catch (error) {
+      window.alert(error.message)
+    }
   }
 }
 
@@ -349,6 +354,8 @@ function calcularProgresso(meta) {
         step="0.01"
         placeholder="Ex: 100"
       />
+
+      <span v-if="erroValor" class="erro" role="alert">{{ erroValor }}</span>
 
       <div class="modal-actions">
         <button
