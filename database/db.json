@@ -20,6 +20,69 @@
       "email": "pedrinhogameplays@email67",
       "password": "676767",
       "role": "user"
+    },
+    {
+      "id": "9ULPYljyP7c",
+      "name": "maico",
+      "email": "maico.e.passos@gmail.com",
+      "password": "221133",
+      "role": "user"
+    },
+    {
+      "id": "PL1tJ_eYJow",
+      "name": "Caio Luiz Peras",
+      "email": "caiofhoepfner@gmail.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "MnpJCw3kGY8",
+      "name": "pedrinho",
+      "email": "sim@email",
+      "password": "djddjdj",
+      "role": "user"
+    },
+    {
+      "id": "RbPimRb1as8",
+      "name": "ADIMN",
+      "email": "admin@email",
+      "password": "1234567",
+      "role": "user"
+    },
+    {
+      "id": "0Y2UQhe-5zo",
+      "name": "Fernanda Carvalho",
+      "email": "fernanda.ol3011@gmail.com",
+      "password": "matematica",
+      "role": "user"
+    },
+    {
+      "id": "C5b3pUejmRA",
+      "name": "ADMIN",
+      "email": "admin@email.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "_CrkiOM9kUY",
+      "name": "Pedro",
+      "email": "schetzpedro297@gmail.com",
+      "password": "pintoínto",
+      "role": "user"
+    },
+    {
+      "id": "yDEYN4cWtKs",
+      "name": "felipe",
+      "email": "felipe67@gmail.com",
+      "password": "676767",
+      "role": "user"
+    },
+    {
+      "id": "UKOr_ltsY8I",
+      "name": "irene",
+      "email": "joaohenriquebatista.2010@gmail.com",
+      "password": "67676767",
+      "role": "user"
     }
   ],
   "Transacoes": [
@@ -31,10 +94,283 @@
       "data": "08/10/2026",
       "tipo": "entrada",
       "userId": "JAt3lM8nSEc"
+    },
+    {
+      "id": "WTIeC8l7qcA",
+      "titulo": "salrio outubro",
+      "categoria": "salario",
+      "valor": 10000,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "lPzYoew0hrM",
+      "titulo": "burguer king",
+      "categoria": "lazer",
+      "valor": 100,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "tmCXuYLnjmg",
+      "titulo": "pix teste",
+      "categoria": "outros",
+      "valor": 0.1,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "BWc2EQVGQEA",
+      "titulo": "salario outubro",
+      "categoria": "salario",
+      "valor": 2000,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "0Y2UQhe-5zo"
+    },
+    {
+      "id": "gq5s2nd4Zh8",
+      "titulo": "Contribuição para meta: paris",
+      "categoria": "meta",
+      "valor": 100,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "0Y2UQhe-5zo"
+    },
+    {
+      "id": "p4_SW2uZrAk",
+      "titulo": "Contribuição para meta: paris",
+      "categoria": "meta",
+      "valor": 900,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "0Y2UQhe-5zo"
+    },
+    {
+      "id": "ofjrvsSNsZg",
+      "titulo": "burguer king",
+      "categoria": "lazer",
+      "valor": 200,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "a5jcHeWdg4c",
+      "titulo": "Contribuição para meta: paris",
+      "categoria": "meta",
+      "valor": 1000,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "27JClOqpKfE",
+      "titulo": "Comprei um restaurante",
+      "categoria": "alimentacao",
+      "valor": 900000,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "_CrkiOM9kUY"
+    },
+    {
+      "id": "1OD2UlJePjI",
+      "titulo": "Contribuição para meta: paris",
+      "categoria": "meta",
+      "valor": 100,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "yDEYN4cWtKs"
+    },
+    {
+      "id": "oq4nJesdJGY",
+      "titulo": "Contribuição para meta: paris",
+      "categoria": "meta",
+      "valor": 9900,
+      "data": "08/10/2026",
+      "tipo": "saida",
+      "userId": "yDEYN4cWtKs"
+    },
+    {
+      "id": "wROK4FxDEMo",
+      "titulo": "salario",
+      "categoria": "salario",
+      "valor": 1000000,
+      "data": "08/10/2026",
+      "tipo": "entrada",
+      "userId": "UKOr_ltsY8I"
     }
   ],
-  "Contas": [],
-  "Metas": [],
+  "Contas": [
+    {
+      "id": "m_iMB2OzdFE",
+      "titulo": "energia",
+      "categoria": "sim",
+      "valor": "R$ 100,00",
+      "vencimento": "22/10/2026",
+      "status": "paga",
+      "userId": "MnpJCw3kGY8"
+    },
+    {
+      "id": "qztdes-01cg",
+      "titulo": "Água",
+      "categoria": "utilidades",
+      "valor": "R$ 100,00",
+      "vencimento": "10/10/2026",
+      "status": "paga",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "1A8EwjjRfJQ",
+      "titulo": "selma",
+      "categoria": "comida",
+      "valor": "R$ 200,00",
+      "vencimento": "27/09/2026",
+      "status": "paga",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "qPGjvn5ApjI",
+      "titulo": "Energia",
+      "categoria": "utilidades",
+      "valor": "R$ 67,00",
+      "vencimento": "30/09/2026",
+      "status": "pendente",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "FwyryRzq8Qg",
+      "titulo": "energia",
+      "categoria": "utilidade",
+      "valor": "R$ 67,00",
+      "vencimento": "07/11/2026",
+      "status": "pendente",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "RFMJUmesFTc",
+      "titulo": "Água",
+      "categoria": "utilidade",
+      "valor": "R$ 100,00",
+      "vencimento": "30/10/2026",
+      "status": "pendente",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "xcOp0rscoFU",
+      "titulo": "brusinhas",
+      "categoria": "namorada",
+      "valor": "R$ 35,99",
+      "vencimento": "29/10/2026",
+      "status": "paga",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "qk7BNqIoIU8",
+      "titulo": "free fire",
+      "categoria": "jogos",
+      "valor": "R$ 300,00",
+      "vencimento": "09/10/2026",
+      "status": "paga",
+      "userId": "yDEYN4cWtKs"
+    },
+    {
+      "id": "R_ozAPLW2ic",
+      "titulo": "internet",
+      "categoria": "contas de casa",
+      "valor": "R$ 150,00",
+      "vencimento": "10/11/2025",
+      "status": "paga",
+      "userId": "UKOr_ltsY8I"
+    },
+    {
+      "id": "lEjozfjeYMo",
+      "titulo": "energia eletrica",
+      "categoria": "contas da casa",
+      "valor": "R$ 165,00",
+      "vencimento": "10/11/2026",
+      "status": "pendente",
+      "userId": "UKOr_ltsY8I"
+    },
+    {
+      "id": "-km7p9K3zN0",
+      "titulo": "água",
+      "categoria": "contas da casa",
+      "valor": "R$ 55,00",
+      "vencimento": "10/11/2026",
+      "status": "pendente",
+      "userId": "UKOr_ltsY8I"
+    }
+  ],
+  "Metas": [
+    {
+      "id": "nj-4ejYX2Xg",
+      "title": "paris",
+      "amount": 2000,
+      "valorAtual": 0,
+      "dueDate": "2026-10-29",
+      "userId": "MnpJCw3kGY8"
+    },
+    {
+      "id": "mi0XsE1KQyo",
+      "title": "paris",
+      "amount": 2000,
+      "valorAtual": 0,
+      "dueDate": "2027-06-08",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "8O8VRxl6mdo",
+      "title": "santorino",
+      "amount": 2500,
+      "valorAtual": 0,
+      "dueDate": "2027-02-08",
+      "userId": "RbPimRb1as8"
+    },
+    {
+      "id": "WBYIv23T6uQ",
+      "title": "paris",
+      "amount": 1000,
+      "valorAtual": 1000,
+      "dueDate": "2026-10-31",
+      "userId": "0Y2UQhe-5zo"
+    },
+    {
+      "id": "2JOr52dFaCM",
+      "title": "paris",
+      "amount": 10000,
+      "valorAtual": 1900,
+      "dueDate": "2026-10-29",
+      "userId": "C5b3pUejmRA"
+    },
+    {
+      "id": "PiNpMJR9AnM",
+      "title": "paris",
+      "amount": 10000,
+      "valorAtual": 10000,
+      "dueDate": "2026-10-15",
+      "userId": "yDEYN4cWtKs"
+    },
+    {
+      "id": "3pOsvjIk7t4",
+      "title": "abandonar o if",
+      "amount": 1000000,
+      "valorAtual": 0,
+      "dueDate": "2026-10-09",
+      "userId": "yDEYN4cWtKs"
+    },
+    {
+      "id": "QwnSNBRKLcU",
+      "title": "viagem á Paris",
+      "amount": 50000,
+      "valorAtual": 5000,
+      "dueDate": "2027-02-11",
+      "userId": "UKOr_ltsY8I"
+    }
+  ],
   "Historicos": [
     {
       "id": "ei1Vwy6UeC0",
@@ -62,6 +398,510 @@
       "entidadeId": "JAt3lM8nSEc",
       "descricao": "Entrou na conta",
       "data": "2026-10-08T11:50:19.987Z"
+    },
+    {
+      "id": "PxalBhkgt2I",
+      "userId": "JAt3lM8nSEc",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "JAt3lM8nSEc",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T11:52:58.760Z"
+    },
+    {
+      "id": "YmTFJM0n7ok",
+      "userId": "9ULPYljyP7c",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "9ULPYljyP7c",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T11:53:41.587Z"
+    },
+    {
+      "id": "pzQU34LRxy4",
+      "userId": "9ULPYljyP7c",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "9ULPYljyP7c",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T11:54:16.449Z"
+    },
+    {
+      "id": "K0CbSUfHbt8",
+      "userId": "PL1tJ_eYJow",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "PL1tJ_eYJow",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T12:21:12.352Z"
+    },
+    {
+      "id": "9MDBLpry8jY",
+      "userId": "PL1tJ_eYJow",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "PL1tJ_eYJow",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T12:21:16.896Z"
+    },
+    {
+      "id": "L6sovjpPR1Y",
+      "userId": "PL1tJ_eYJow",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "PL1tJ_eYJow",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T12:21:41.468Z"
+    },
+    {
+      "id": "yVD5OK75fxo",
+      "userId": "PL1tJ_eYJow",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "PL1tJ_eYJow",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T12:23:31.725Z"
+    },
+    {
+      "id": "3Sb1jRml3zk",
+      "userId": "MnpJCw3kGY8",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "MnpJCw3kGY8",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T13:22:31.033Z"
+    },
+    {
+      "id": "cd5I3AP6XRk",
+      "userId": "MnpJCw3kGY8",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "m_iMB2OzdFE",
+      "descricao": "Criou a conta \"energia\"",
+      "data": "2026-10-08T13:23:35.330Z"
+    },
+    {
+      "id": "fY45-_3A8-U",
+      "userId": "MnpJCw3kGY8",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "MnpJCw3kGY8",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T13:26:59.356Z"
+    },
+    {
+      "id": "5iw967Ky0pg",
+      "userId": "RbPimRb1as8",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "RbPimRb1as8",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T13:27:19.992Z"
+    },
+    {
+      "id": "Mo_QdPE3esQ",
+      "userId": "RbPimRb1as8",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "tmCXuYLnjmg",
+      "descricao": "Criou a transação \"pix teste\"",
+      "data": "2026-10-08T13:28:45.692Z"
+    },
+    {
+      "id": "5qIQwmaUjUg",
+      "userId": "RbPimRb1as8",
+      "acao": "criacao",
+      "entidade": "meta",
+      "entidadeId": "8O8VRxl6mdo",
+      "descricao": "Criou a meta \"santorino\"",
+      "data": "2026-10-08T13:29:32.432Z"
+    },
+    {
+      "id": "NDyOwApDo58",
+      "userId": "RbPimRb1as8",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "pNh8mZuMqAE",
+      "descricao": "Criou a conta \"Energia\"",
+      "data": "2026-10-08T13:29:54.779Z"
+    },
+    {
+      "id": "As8OkhWRU1g",
+      "userId": "RbPimRb1as8",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "qztdes-01cg",
+      "descricao": "Criou a conta \"Água\"",
+      "data": "2026-10-08T13:30:47.333Z"
+    },
+    {
+      "id": "vrCgmXn7Zok",
+      "userId": "RbPimRb1as8",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "1A8EwjjRfJQ",
+      "descricao": "Criou a conta \"selma\"",
+      "data": "2026-10-08T13:31:08.090Z"
+    },
+    {
+      "id": "W1yop-AKfDk",
+      "userId": "RbPimRb1as8",
+      "acao": "conclusao",
+      "entidade": "conta",
+      "entidadeId": "pNh8mZuMqAE",
+      "descricao": "Marcou \"Energia\" como paga",
+      "data": "2026-10-08T13:32:01.704Z"
+    },
+    {
+      "id": "BXH62mtWz5s",
+      "userId": "RbPimRb1as8",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "RbPimRb1as8",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T14:17:36.873Z"
+    },
+    {
+      "id": "M_uMun7wfsE",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "0Y2UQhe-5zo",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T14:18:09.435Z"
+    },
+    {
+      "id": "jkpBVKkWORg",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "criacao",
+      "entidade": "meta",
+      "entidadeId": "WBYIv23T6uQ",
+      "descricao": "Criou a meta \"paris\"",
+      "data": "2026-10-08T14:20:40.577Z"
+    },
+    {
+      "id": "QOO1kuAcs00",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "gq5s2nd4Zh8",
+      "descricao": "Criou a transação \"Contribuição para meta: paris\"",
+      "data": "2026-10-08T14:20:49.627Z"
+    },
+    {
+      "id": "WRU5oc1upwE",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "contribuicao",
+      "entidade": "meta",
+      "entidadeId": "WBYIv23T6uQ",
+      "descricao": "Adicionou R$ 900.00 à meta \"paris\"",
+      "data": "2026-10-08T14:21:00.951Z"
+    },
+    {
+      "id": "ZiH0gdeCK5w",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "0qAlQC9MjG4",
+      "descricao": "Criou a conta \"energia\"",
+      "data": "2026-10-08T14:21:34.315Z"
+    },
+    {
+      "id": "AAaVeKPNBLk",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "remocao",
+      "entidade": "conta",
+      "entidadeId": "0qAlQC9MjG4",
+      "descricao": "Removeu a conta \"energia\"",
+      "data": "2026-10-08T14:24:20.476Z"
+    },
+    {
+      "id": "7QodZenS-OY",
+      "userId": "0Y2UQhe-5zo",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "0Y2UQhe-5zo",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T14:24:43.178Z"
+    },
+    {
+      "id": "75kRthLEPnY",
+      "userId": "C5b3pUejmRA",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "C5b3pUejmRA",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T14:38:54.173Z"
+    },
+    {
+      "id": "ggEn-Fggk_8",
+      "userId": "C5b3pUejmRA",
+      "acao": "criacao",
+      "entidade": "meta",
+      "entidadeId": "2JOr52dFaCM",
+      "descricao": "Criou a meta \"paris\"",
+      "data": "2026-10-08T14:39:44.785Z"
+    },
+    {
+      "id": "P0TCgvS74go",
+      "userId": "C5b3pUejmRA",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "xcOp0rscoFU",
+      "descricao": "Criou a conta \"brusinhas\"",
+      "data": "2026-10-08T14:41:53.633Z"
+    },
+    {
+      "id": "c2l6hgCIqvg",
+      "userId": "C5b3pUejmRA",
+      "acao": "conclusao",
+      "entidade": "conta",
+      "entidadeId": "xcOp0rscoFU",
+      "descricao": "Marcou \"brusinhas\" como paga",
+      "data": "2026-10-08T14:41:55.569Z"
+    },
+    {
+      "id": "2j8mqQ02cxY",
+      "userId": "C5b3pUejmRA",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "a5jcHeWdg4c",
+      "descricao": "Criou a transação \"Contribuição para meta: paris\"",
+      "data": "2026-10-08T14:47:07.077Z"
+    },
+    {
+      "id": "SfaPDkxa6rk",
+      "userId": "C5b3pUejmRA",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "xAvMoEUxx5Y",
+      "descricao": "Criou a transação \"aura\"",
+      "data": "2026-10-08T16:06:04.944Z"
+    },
+    {
+      "id": "QkwCdlC7vRU",
+      "userId": "C5b3pUejmRA",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "C5b3pUejmRA",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T16:19:43.221Z"
+    },
+    {
+      "id": "ea2tVIHku60",
+      "userId": "_CrkiOM9kUY",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "_CrkiOM9kUY",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T16:20:07.953Z"
+    },
+    {
+      "id": "Y4RwvU9KQtE",
+      "userId": "_CrkiOM9kUY",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "_CrkiOM9kUY",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T16:22:12.012Z"
+    },
+    {
+      "id": "ZyOx936MUiM",
+      "userId": "C5b3pUejmRA",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "C5b3pUejmRA",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T16:22:57.909Z"
+    },
+    {
+      "id": "7NLfg1Pigrc",
+      "userId": "C5b3pUejmRA",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "Go55y6txeNU",
+      "descricao": "Criou a transação \"Contribuição para meta: paris\"",
+      "data": "2026-10-08T17:29:10.563Z"
+    },
+    {
+      "id": "Wqqlnsk7tHo",
+      "userId": "C5b3pUejmRA",
+      "acao": "contribuicao",
+      "entidade": "meta",
+      "entidadeId": "2JOr52dFaCM",
+      "descricao": "Adicionou R$ 900.00 à meta \"paris\"",
+      "data": "2026-10-08T17:29:10.667Z"
+    },
+    {
+      "id": "BZMPnwb8Zzw",
+      "userId": "C5b3pUejmRA",
+      "acao": "remocao",
+      "entidade": "meta",
+      "entidadeId": "LB9mlmzCKdA",
+      "descricao": "Removeu a meta \"bozo lixo\"",
+      "data": "2026-10-08T17:29:51.154Z"
+    },
+    {
+      "id": "qN9csCPr7as",
+      "userId": "C5b3pUejmRA",
+      "acao": "remocao",
+      "entidade": "meta",
+      "entidadeId": "li_f0W7DHm0",
+      "descricao": "Removeu a meta \"GTA VI\"",
+      "data": "2026-10-08T17:34:39.539Z"
+    },
+    {
+      "id": "TAyPnW2YWIM",
+      "userId": "C5b3pUejmRA",
+      "acao": "remocao",
+      "entidade": "transacao",
+      "entidadeId": "MS7WwI6eV40",
+      "descricao": "Removeu a transação \"salario outubro\"",
+      "data": "2026-10-08T18:06:36.706Z"
+    },
+    {
+      "id": "TFRGZwrNs_Y",
+      "userId": "C5b3pUejmRA",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "C5b3pUejmRA",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T18:07:09.699Z"
+    },
+    {
+      "id": "NwEHaanFdTM",
+      "userId": "yDEYN4cWtKs",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "yDEYN4cWtKs",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T18:07:42.512Z"
+    },
+    {
+      "id": "Vod7AdRHAxo",
+      "userId": "yDEYN4cWtKs",
+      "acao": "conclusao",
+      "entidade": "conta",
+      "entidadeId": "qk7BNqIoIU8",
+      "descricao": "Marcou \"free fire\" como paga",
+      "data": "2026-10-08T18:08:45.756Z"
+    },
+    {
+      "id": "hOW7h9s4t_o",
+      "userId": "yDEYN4cWtKs",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "O2ufxpuJLLs",
+      "descricao": "Criou a transação \"compra\"",
+      "data": "2026-10-08T18:10:01.131Z"
+    },
+    {
+      "id": "WKgd065Itds",
+      "userId": "yDEYN4cWtKs",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "1OD2UlJePjI",
+      "descricao": "Criou a transação \"Contribuição para meta: paris\"",
+      "data": "2026-10-08T18:10:43.765Z"
+    },
+    {
+      "id": "WK1UJgrh5Tg",
+      "userId": "yDEYN4cWtKs",
+      "acao": "contribuicao",
+      "entidade": "meta",
+      "entidadeId": "PiNpMJR9AnM",
+      "descricao": "Adicionou R$ 100.00 à meta \"paris\"",
+      "data": "2026-10-08T18:10:43.781Z"
+    },
+    {
+      "id": "yAVRZsG_iQs",
+      "userId": "yDEYN4cWtKs",
+      "acao": "contribuicao",
+      "entidade": "meta",
+      "entidadeId": "PiNpMJR9AnM",
+      "descricao": "Adicionou R$ 9900.00 à meta \"paris\"",
+      "data": "2026-10-08T18:10:54.355Z"
+    },
+    {
+      "id": "-Jc5izYLebY",
+      "userId": "yDEYN4cWtKs",
+      "acao": "criacao",
+      "entidade": "meta",
+      "entidadeId": "3pOsvjIk7t4",
+      "descricao": "Criou a meta \"abandonar o if\"",
+      "data": "2026-10-08T18:13:01.743Z"
+    },
+    {
+      "id": "f7JMZQ2-oFA",
+      "userId": "yDEYN4cWtKs",
+      "acao": "logout",
+      "entidade": "usuario",
+      "entidadeId": "yDEYN4cWtKs",
+      "descricao": "Saiu da conta",
+      "data": "2026-10-08T18:22:24.207Z"
+    },
+    {
+      "id": "_AjBp14jtyo",
+      "userId": "UKOr_ltsY8I",
+      "acao": "login",
+      "entidade": "usuario",
+      "entidadeId": "UKOr_ltsY8I",
+      "descricao": "Entrou na conta",
+      "data": "2026-10-08T18:22:39.572Z"
+    },
+    {
+      "id": "OAT2ZqyhAKk",
+      "userId": "UKOr_ltsY8I",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "wROK4FxDEMo",
+      "descricao": "Criou a transação \"salario\"",
+      "data": "2026-10-08T18:24:14.562Z"
+    },
+    {
+      "id": "Ckc1BD1aWFg",
+      "userId": "UKOr_ltsY8I",
+      "acao": "criacao",
+      "entidade": "transacao",
+      "entidadeId": "mDwBaHZ8tn0",
+      "descricao": "Criou a transação \"Contribuição para meta: viagem á Paris\"",
+      "data": "2026-10-08T18:25:16.824Z"
+    },
+    {
+      "id": "Y_4UR-bCkO0",
+      "userId": "UKOr_ltsY8I",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "R_ozAPLW2ic",
+      "descricao": "Criou a conta \"internet\"",
+      "data": "2026-10-08T18:25:54.258Z"
+    },
+    {
+      "id": "7WIalbqpo8g",
+      "userId": "UKOr_ltsY8I",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "lEjozfjeYMo",
+      "descricao": "Criou a conta \"energia eletrica\"",
+      "data": "2026-10-08T18:26:37.626Z"
+    },
+    {
+      "id": "2vnjdS9Ch80",
+      "userId": "UKOr_ltsY8I",
+      "acao": "criacao",
+      "entidade": "conta",
+      "entidadeId": "-km7p9K3zN0",
+      "descricao": "Criou a conta \"água\"",
+      "data": "2026-10-08T18:27:12.415Z"
+    },
+    {
+      "id": "Xt0O_mqmXbU",
+      "userId": "UKOr_ltsY8I",
+      "acao": "conclusao",
+      "entidade": "conta",
+      "entidadeId": "R_ozAPLW2ic",
+      "descricao": "Marcou \"internet\" como paga",
+      "data": "2026-10-08T18:27:15.115Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
