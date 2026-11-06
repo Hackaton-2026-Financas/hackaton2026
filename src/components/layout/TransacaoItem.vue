@@ -1,6 +1,12 @@
 <script setup>
 import { removerTransacao } from '@/store/transacoes.js';
 
+function formatarData(data) {
+  const dataISO = /^(\d{4})-(\d{2})-(\d{2})$/.exec(data);
+
+  return dataISO ? `${dataISO[3]}/${dataISO[2]}/${dataISO[1]}` : data;
+}
+
 defineProps({
   id: {
     type: Number,
@@ -31,7 +37,7 @@ defineProps({
         <span :class="['valor', tipo === 'entrada' ? 'text-verde' : 'text-vermelho']">
           {{ tipo === 'entrada' ? '+ ' : '- ' }}{{ valor }}
         </span>
-        <small class="data">{{ data }}</small>
+        <small class="data">{{ formatarData(data) }}</small>
       </div>
 
       <button 
