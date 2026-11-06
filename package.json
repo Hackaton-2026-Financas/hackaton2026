@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "api": "json-server --watch db.json --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "run-s \"lint:*\"",
@@ -26,6 +27,7 @@
     "eslint-plugin-oxlint": "~1.69.0",
     "eslint-plugin-vue": "~10.9.2",
     "globals": "^17.6.0",
+    "json-server": "^0.17.4",
     "npm-run-all2": "^9.0.2",
     "oxlint": "~1.69.0",
     "prettier": "3.8.4",
