@@ -1,26 +1,52 @@
 <script setup>
 import contaCard from '../components/layout/contasComponentes/contaCard.vue'
-import { ref, computed, reactive } from 'vue'
-import { contas } from '../store/contas.js'
-
+import { ref, computed, reactive, onMounted } from 'vue'
+import {
+  contas,
+  carregarContas,
+  criarConta,
+  atualizarConta,
+  removerContaDoServidor,
+} from '../store/contas.js'
 
 const contasPagas = computed(() => contas.value.filter((conta) => conta.status === 'paga'))
 const contasNaoPagas = computed(() => contas.value.filter((conta) => conta.status !== 'paga'))
 
+onMounted(async () => {
+  await carregarContas()
+})
+
 function totalDe(lista) {
   return lista
-    .reduce((total, conta) => total + parseFloat(conta.valor.replace('R$ ', '').replace('.', '').replace(',', '.')), 0)
+    .reduce(
+      (total, conta) =>
+        total + parseFloat(conta.valor.replace('R$ ', '').replace('.', '').replace(',', '.')),
+      0,
+    )
     .toFixed(2)
     .replace('.', ',')
 }
 
-function removerConta(id) {
-  contas.value = contas.value.filter((conta) => conta.id !== id)
+async function removerConta(id) {
+  try {
+    await removerContaDoServidor(id)
+    contas.value = contas.value.filter((conta) => conta.id !== id)
+  } catch (erro) {
+    console.error('Erro ao remover conta:', erro)
+  }
 }
 
-function concluirConta(id) {
+async function concluirConta(id) {
   const conta = contas.value.find((c) => c.id === id)
-  if (conta) conta.status = 'paga'
+
+  if (!conta) return
+
+  try {
+    await atualizarConta(id, { status: 'paga' })
+    conta.status = 'paga'
+  } catch (erro) {
+    console.error('Erro ao concluir conta:', erro)
+  }
 }
 
 // --- Modal "Nova Conta" ---
@@ -58,24 +84,28 @@ function formatarData(dataISO) {
   return `${dia}/${mes}/${ano}`
 }
 
-function salvarConta() {
+async function salvarConta() {
   if (!form.titulo || !form.categoria || !form.valorNumero || !form.vencimento) {
     erro.value = 'Preencha todos os campos.'
     return
   }
 
-  const novoId = contas.value.length ? Math.max(...contas.value.map((c) => c.id)) + 1 : 1
+  try {
+    const novaConta = {
+      titulo: form.titulo,
+      categoria: form.categoria,
+      valor: formatarValor(form.valorNumero),
+      vencimento: formatarData(form.vencimento),
+      status: form.status,
+    }
 
-  contas.value.push({
-    id: novoId,
-    titulo: form.titulo,
-    categoria: form.categoria,
-    valor: formatarValor(form.valorNumero),
-    vencimento: formatarData(form.vencimento),
-    status: form.status,
-  })
-
-  fecharModal()
+    const contaSalva = await criarConta(novaConta)
+    contas.value = [...contas.value, contaSalva]
+    fecharModal()
+  } catch (erroSalvar) {
+    erro.value = 'Não foi possível salvar a conta.'
+    console.error('Erro ao salvar conta:', erroSalvar)
+  }
 }
 </script>
 
@@ -179,7 +209,7 @@ header {
   align-items: flex-start;
   gap: 16px;
 }
-.nova{
+.nova {
   margin-right: 0;
 }
 

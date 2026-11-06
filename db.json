@@ -1,0 +1,13 @@
+{
+  "contas": [
+    {
+      "titulo": "Bombas",
+      "categoria": "Caos",
+      "valor": "R$ 5000,00",
+      "vencimento": "30/08/2028",
+      "status": "pendente",
+      "id": "Ppudwb1sDUI"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
