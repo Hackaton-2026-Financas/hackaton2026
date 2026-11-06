@@ -1,0 +1,18 @@
+{
+  "metas": [
+    {
+      "id": 1,
+      "title": "Viagem",
+      "amount": 3000,
+      "valorAtual": 1200,
+      "dueDate": "2026-12-15"
+    },
+    {
+      "id": 2,
+      "title": "Emergência",
+      "amount": 1500,
+      "valorAtual": 600,
+      "dueDate": "2027-02-01"
+    }
+  ]
+}
