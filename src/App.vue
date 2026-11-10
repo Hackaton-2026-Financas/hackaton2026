@@ -6,10 +6,11 @@ import MenuView from './components/layout/MenuView.vue';
 import FooterView from './components/layout/FooterView.vue';
 
 
-const estaLogado = ref(false)
+const estaLogado = ref(localStorage.getItem('estaLogado') === 'true')
 
 function definirLogado(valor) {
   estaLogado.value = valor
+  localStorage.setItem('estaLogado', valor)
 }
 
 provide('estaLogado', estaLogado)

@@ -3,10 +3,14 @@
 // Desativar aviso de nome do componente com uma palavra so
 /* eslint vue/multi-word-component-names: "off" */
 import { ref, reactive } from 'vue'
+import { cadastrarUsuario as cadastrarNaApi, listarUsuarios } from '@/servico/usuarios'
 
 const emit = defineEmits(['login'])
 
 const naTelaCadastro = ref(false)
+const mensagem = ref('')
+const erro = ref(false)
+const carregando = ref(false)
 
 const dadosLogin = reactive({
   email: '',
@@ -23,33 +27,91 @@ const dadosCadastro = reactive({
 
 function mudarParaCadastro() {
   naTelaCadastro.value = true
+  mensagem.value = ''
 }
 
 function mudarParaLogin() {
   naTelaCadastro.value = false
+  mensagem.value = ''
 }
 
 // Cadastrar usuario
 
-function cadastrarUsuario() {
-  alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${dadosCadastro.nome}.`)
+async function cadastrarUsuario() {
+  mensagem.value = ''
+  erro.value = false
 
-  dadosCadastro.nome = ''
-  dadosCadastro.email = ''
-  dadosCadastro.senha = ''
+  const nome = dadosCadastro.nome.trim()
+  const email = dadosCadastro.email.trim().toLowerCase()
 
-  emit('login')
+  if (!nome || !email || dadosCadastro.senha.length < 4) {
+    mensagem.value = 'Preencha todos os campos e use uma senha com pelo menos 4 caracteres.'
+    erro.value = true
+    return
+  }
+
+  carregando.value = true
+
+  try {
+    const usuarios = await listarUsuarios()
+    const emailJaCadastrado = usuarios.some(
+      (usuario) => usuario.email.toLowerCase() === email
+    )
+
+    if (emailJaCadastrado) {
+      mensagem.value = 'Este email já está cadastrado.'
+      erro.value = true
+      return
+    }
+
+    await cadastrarNaApi({ nome, email, senha: dadosCadastro.senha })
+
+    alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${nome}.`)
+    dadosCadastro.nome = ''
+    dadosCadastro.email = ''
+    dadosCadastro.senha = ''
+    emit('login')
+  } catch (erroDaApi) {
+    mensagem.value = `Não foi possível cadastrar. ${erroDaApi.message}`
+    erro.value = true
+  } finally {
+    carregando.value = false
+  }
+
 }
 
 // Fazer login
 
-function logarUsuario() {
-  console.log('Logar usuario')
+async function logarUsuario() {
+  mensagem.value = ''
+  erro.value = false
+  carregando.value = true
 
-  emit('login')
+  try {
+    const usuarios = await listarUsuarios()
+    const email = dadosLogin.email.trim().toLowerCase()
+    const usuarioEncontrado = usuarios.find(
+      (usuario) =>
+        usuario.email.toLowerCase() === email &&
+        usuario.senha === dadosLogin.senha
+    )
 
-  dadosLogin.email = ''
-  dadosLogin.senha = ''
+    if (!usuarioEncontrado) {
+      mensagem.value = 'Email ou senha incorretos.'
+      erro.value = true
+      return
+    }
+
+    alert(`Login realizado com sucesso. Bem-vindo(a), ${usuarioEncontrado.nome}!`)
+    dadosLogin.email = ''
+    dadosLogin.senha = ''
+    emit('login')
+  } catch (erroDaApi) {
+    mensagem.value = `Não foi possível fazer login. ${erroDaApi.message}`
+    erro.value = true
+  } finally {
+    carregando.value = false
+  }
 }
 </script>
 
@@ -77,12 +139,18 @@ function logarUsuario() {
 
           <input
             type="password"
-            placeholder="Senha"
+            placeholder="Senha (mínimo 4 caracteres)"
             v-model="dadosCadastro.senha"
+            minlength="4"
             required
           />
 
-          <button type="submit">Cadastrar</button>
+          <p v-if="mensagem" class="mensagem" :class="{ erro }" role="status">
+            {{ mensagem }}
+          </p>
+          <button type="submit" :disabled="carregando">
+            {{ carregando ? 'Aguarde...' : 'Cadastrar' }}
+          </button>
         </form>
       </div>
 
@@ -104,7 +172,12 @@ function logarUsuario() {
             required
           />
 
-          <button type="submit">Entrar</button>
+          <p v-if="mensagem" class="mensagem" :class="{ erro }" role="status">
+            {{ mensagem }}
+          </p>
+          <button type="submit" :disabled="carregando">
+            {{ carregando ? 'Aguarde...' : 'Entrar' }}
+          </button>
         </form>
       </div>
 
@@ -275,6 +348,20 @@ button:active {
 
 button:focus {
   outline: none;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.mensagem {
+  margin: 8px 0;
+  color: #087443;
+}
+
+.mensagem.erro {
+  color: #b42318;
 }
 
 button.ghost {

@@ -7,6 +7,7 @@ import ContasView from '@/views/ContasView.vue'
 import RelatorioView from '@/views/RelatorioView.vue'
 import GlossarioView from '@/views/GlossarioView.vue'
 import TrilhaView from '@/views/TrilhaView.vue'
+import UsuariosView from '@/views/UsuariosView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/usuarios',
+      name: 'usuarios',
+      component: UsuariosView,
     },
     {
       path: '/meta',

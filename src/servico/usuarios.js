@@ -19,6 +19,11 @@ export async function listarUsuarios() {
 // Buscar um usuario especifico (seria o Read do CRUD)
 export async function buscarUsuario(id) {
   const resposta = await fetch(`${API}/${id}`)
+
+  if (resposta.status === 404) {
+    return null
+  }
+
   await verificarResposta(resposta)
   const usuario = await resposta.json()
 
