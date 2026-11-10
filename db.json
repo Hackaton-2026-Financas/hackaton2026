@@ -1,0 +1,13 @@
+{
+  "despesas": [
+    {
+      "id": "1",
+      "titulo": "Mercado",
+      "categoria": "alimentacao",
+      "valor": 280.5,
+      "data": "2026-11-10",
+      "tipo": "saida",
+      "descricao": "Compras do mês"
+    }
+  ]
+}
