@@ -2,7 +2,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { metas } from '@/store/meta'
-import { saldoTotal, transacoes } from '@/store/transacoes.js'
+import {
+  saldoTotal,
+  transacoes,
+  gerarIdTransacao,
+  adicionarReceita,
+} from '@/store/transacoes.js'
 
 const mostrarModal = ref(false)
 const mostrarModalDinheiro = ref(false)
@@ -117,7 +122,7 @@ function adicionarDinheiro() {
   meta.valorAtual += valorPermitido
 
   transacoes.value.unshift({
-    id: Date.now() + Math.random(),
+    id: gerarIdTransacao(),
     titulo: `Contribuição para meta: ${meta.title}`,
     categoria: 'meta',
     valor: valorPermitido,
@@ -132,7 +137,7 @@ function adicionarDinheiro() {
   fecharAdicionarDinheiro()
 }
 
-function resgatarDinheiro(meta) {
+async function resgatarDinheiro(meta) {
   if (meta.valorAtual <= 0) return
 
   const confirmar = confirm(
@@ -140,16 +145,21 @@ function resgatarDinheiro(meta) {
   )
 
   if (confirmar) {
-    transacoes.value.unshift({
-      id: Date.now() + Math.random(),
-      titulo: `Resgate da meta: ${meta.title}`,
+    const titulo = `Resgate da meta: ${meta.title}`
+    const receitaSalva = await adicionarReceita({
+      titulo,
       categoria: 'meta',
       valor: meta.valorAtual,
-      data: new Date().toLocaleDateString('pt-BR'),
-      tipo: 'entrada'
+      data: dataMinima.value,
+      idUsuario: 1,
+      descricao: titulo,
     })
 
-    meta.valorAtual = 0
+    if (receitaSalva) {
+      meta.valorAtual = 0
+    } else {
+      alert('Não foi possível registrar o resgate como receita. Tente novamente.')
+    }
   }
 }
 

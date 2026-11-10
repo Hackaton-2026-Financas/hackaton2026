@@ -9,7 +9,11 @@ import {
   saldoTotal, 
   receitasTotais, 
   despesasTotais, 
-  formatarMoeda 
+  formatarMoeda,
+  gerarIdTransacao,
+  adicionarReceita,
+  carregandoReceitas,
+  erroTransacoes,
 } from '@/store/transacoes.js';
 
 import { metas } from '@/store/meta';
@@ -20,6 +24,7 @@ const novoTipo = ref('');
 const novaCategoria = ref('');
 const novoValor = ref('');
 const novaDescricao = ref('');
+const salvandoTransacao = ref(false);
 
 const abrirModal = () => {
   exibirModal.value = true;
@@ -30,8 +35,6 @@ const fecharModal = () => {
   limparFormulario();
 };
 
-let proximoId = 1;
-
 const limparFormulario = () => {
   novoTipo.value = '';
   novaCategoria.value = '';
@@ -39,20 +42,51 @@ const limparFormulario = () => {
   novaDescricao.value = '';
 };
 
-const adicionarTransacao = () => {
-  if (!novaCategoria.value || !novoValor.value || !novaDescricao.value) {
+const adicionarTransacao = async () => {
+  const valor = Number(novoValor.value);
+
+  if (
+    !novoTipo.value ||
+    !novaCategoria.value ||
+    !Number.isFinite(valor) ||
+    valor <= 0 ||
+    !novaDescricao.value.trim()
+  ) {
     alert('Por favor, preencha todos os campos!');
     return;
   }
 
-  transacoes.value.unshift({
-    id: proximoId++,
-    titulo: novaDescricao.value,
+  const hoje = new Date();
+  const data = [
+    hoje.getFullYear(),
+    String(hoje.getMonth() + 1).padStart(2, '0'),
+    String(hoje.getDate()).padStart(2, '0'),
+  ].join('-');
+
+  const novaTransacao = {
+    titulo: novaDescricao.value.trim(),
     categoria: novaCategoria.value,
-    valor: Number(novoValor.value),
-    data: new Date().toLocaleDateString('pt-BR'),
-    tipo: novoTipo.value
-  });
+    valor,
+    data,
+    tipo: novoTipo.value,
+  };
+
+  if (novoTipo.value === 'entrada') {
+    salvandoTransacao.value = true;
+    const receitaSalva = await adicionarReceita({
+      ...novaTransacao,
+      idUsuario: 1,
+      descricao: novaDescricao.value.trim(),
+    });
+    salvandoTransacao.value = false;
+
+    if (!receitaSalva) return;
+  } else {
+    transacoes.value.unshift({
+      ...novaTransacao,
+      id: gerarIdTransacao(),
+    });
+  }
 
   fecharModal();
 };
@@ -118,6 +152,13 @@ const adicionarTransacao = () => {
       </div>
 
       <div class="transactions-list">
+        <p v-if="carregandoReceitas" role="status">
+          Carregando receitas...
+        </p>
+        <p v-if="erroTransacoes" class="erro-transacoes" role="alert">
+          {{ erroTransacoes }}
+        </p>
+
         <TransacaoItem
           v-for="item in transacoes"
           :key="item.id"
@@ -161,6 +202,10 @@ const adicionarTransacao = () => {
               <option value="lazer">Lazer</option>
               <option value="transporte">Transporte</option>
               <option value="alimentacao">Alimentação</option>
+              <option value="freelance">Freelance</option>
+              <option value="investimentos">Investimentos</option>
+              <option value="vendas">Vendas</option>
+              <option value="servicos">Serviços</option>
               <option value="outros">Outros</option>
             </select>
           </div>
@@ -175,8 +220,8 @@ const adicionarTransacao = () => {
             <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" />
           </div>
 
-          <button type="submit" class="btn-sucesso">
-            Adicionar Transação
+          <button type="submit" class="btn-sucesso" :disabled="salvandoTransacao">
+            {{ salvandoTransacao ? 'Salvando...' : 'Adicionar Transação' }}
           </button>
         </form>
       </div>
@@ -333,6 +378,13 @@ const adicionarTransacao = () => {
   font-size: 14px;
 }
 
+.erro-transacoes {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+}
+
 /* ESTILOS DO MODAL */
 .modal-fundo {
   position: fixed;
@@ -427,5 +479,10 @@ const adicionarTransacao = () => {
 
 .btn-sucesso:hover {
   background-color: #00875a;
+}
+
+.btn-sucesso:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 </style>
