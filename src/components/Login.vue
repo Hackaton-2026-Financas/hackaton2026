@@ -1,4 +1,7 @@
+
 <script setup>
+// Desativar aviso de nome do componente com uma palavra so
+/* eslint vue/multi-word-component-names: "off" */
 import { ref, reactive } from 'vue'
 
 const emit = defineEmits(['login'])
@@ -16,7 +19,7 @@ const dadosCadastro = reactive({
   senha: ''
 })
 
-// alternando de login para cadastro e vice-versa
+// Mudar entre login e cadastro
 
 function mudarParaCadastro() {
   naTelaCadastro.value = true
@@ -26,24 +29,28 @@ function mudarParaLogin() {
   naTelaCadastro.value = false
 }
 
+// Cadastrar usuario
+
 function cadastrarUsuario() {
-  alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${dadosCadastro.nome}. Acesso liberado.`)
+  alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${dadosCadastro.nome}.`)
 
-  dadosCadastro.nome = ""
-  dadosCadastro.email = ""
-  dadosCadastro.senha = ""
+  dadosCadastro.nome = ''
+  dadosCadastro.email = ''
+  dadosCadastro.senha = ''
 
-  emit("login")
+  emit('login')
 }
+
+// Fazer login
 
 function logarUsuario() {
- console.log("logar usuario")
-  emit("login")
+  console.log('Logar usuario')
 
-  dadosLogin.email = ""
-  dadosLogin.senha = ""
+  emit('login')
+
+  dadosLogin.email = ''
+  dadosLogin.senha = ''
 }
-
 </script>
 
 <template>
@@ -53,34 +60,75 @@ function logarUsuario() {
       <div class="form-side signup-box">
         <form @submit.prevent="cadastrarUsuario">
           <h1>Criar conta</h1>
-          <input type="text" placeholder="Nome" v-model="dadosCadastro.nome" required />
-          <input type="email" placeholder="Email" v-model="dadosCadastro.email" required />
-          <input type="password" placeholder="Senha" v-model="dadosCadastro.senha" required />
+
+          <input
+            type="text"
+            placeholder="Nome"
+            v-model="dadosCadastro.nome"
+            required
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            v-model="dadosCadastro.email"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            v-model="dadosCadastro.senha"
+            required
+          />
+
           <button type="submit">Cadastrar</button>
         </form>
       </div>
 
       <div class="form-side login-box">
         <form @submit.prevent="logarUsuario">
-          <h1>Entrar na <br>sua conta</h1>
-          <input type="Email" placeholder="Email" v-model="dadosLogin.email" required />
-          <input type="password" placeholder="Senha" v-model="dadosLogin.senha" required />
+          <h1>Entrar na <br /> sua conta</h1>
+
+          <input
+            type="email"
+            placeholder="Email"
+            v-model="dadosLogin.email"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            v-model="dadosLogin.senha"
+            required
+          />
+
           <button type="submit">Entrar</button>
         </form>
       </div>
 
       <div class="switch-container">
         <div class="switch-bg">
+
           <div class="switch-panel panel-left">
-            <h1>seja bem-vindo</h1>
-            <p>continuar o login</p>
-            <button type="button" class="ghost" @click="mudarParaLogin">Entrar</button>
+            <h1>Seja bem-vindo</h1>
+            <p>Continuar o login</p>
+
+            <button type="button" class="ghost" @click="mudarParaLogin">
+              Entrar
+            </button>
           </div>
+
           <div class="switch-panel panel-right">
-            <h1>Bem-vindo de Volta</h1>
-            <p>Criar a sua conta aqui</p>
-            <button type="button" class="ghost" @click="mudarParaCadastro">Cadastrar</button>
+            <h1>Bem-vindo de volta</h1>
+            <p>Crie sua conta aqui</p>
+
+            <button type="button" class="ghost" @click="mudarParaCadastro">
+              Cadastrar
+            </button>
           </div>
+
         </div>
       </div>
 
@@ -99,7 +147,7 @@ function logarUsuario() {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f2f2f2;
+  background: #fff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   padding: 20px;
 }
@@ -197,6 +245,7 @@ input:focus {
     opacity: 0;
     z-index: 1;
   }
+
   50%, 100% {
     opacity: 1;
     z-index: 5;
@@ -332,21 +381,16 @@ button.ghost {
   }
 }
 
-/* arrumando o login, a parte de tras toda preta */
+/* um fundo branco para a pagina */
 
 .wrapper {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff; /* confirma que tá assim */
-  padding: 20px;
+  background: #fff;
 }
 </style>
 
 <style>
-html:has(.wrapper), body:has(.wrapper) {
+html:has(.wrapper),
+body:has(.wrapper) {
   background: #fff;
 }
 </style>
