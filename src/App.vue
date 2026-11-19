@@ -1,22 +1,10 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import { ref, provide } from 'vue'
-import Header from './components/layout/Header.vue';
-import MenuView from './components/layout/MenuView.vue';
-import FooterView from './components/layout/FooterView.vue';
+import Header from './components/layout/Header.vue'
+import MenuView from './components/layout/MenuView.vue'
+import FooterView from './components/layout/FooterView.vue'
+import { erroPersistencia } from '@/store/dadosFinanceiros'
 
-
-const estaLogado = ref(localStorage.getItem('estaLogado') === 'true')
-
-function definirLogado(valor) {
-  estaLogado.value = valor
-  localStorage.setItem('estaLogado', valor)
-}
-
-provide('estaLogado', estaLogado)
-provide('definirLogado', definirLogado)
-
-//tenho q me lembrar de repassar isso pro pessoal nao surtar
 </script>
 
 <template>
@@ -27,6 +15,9 @@ provide('definirLogado', definirLogado)
     </aside>
 
     <main class="content-area">
+      <p v-if="erroPersistencia" class="erro-persistencia" role="alert">
+        Não foi possível carregar/salvar seus dados: {{ erroPersistencia }}
+      </p>
       <RouterView />
       <FooterView />
     </main>
@@ -34,6 +25,11 @@ provide('definirLogado', definirLogado)
 </template>
 
 <style scoped>
+.erro-persistencia {
+  margin: 72px 16px 0;
+  color: #b42318;
+}
+
 .app-layout {
   display: flex;
   min-height: 100vh;

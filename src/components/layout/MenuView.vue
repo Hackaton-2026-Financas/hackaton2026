@@ -1,8 +1,20 @@
 <script setup>
-import { RouterLink } from 'vue-router';
-import { inject } from 'vue';
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { encerrarSessao, estaLogado, usuarioAtual } from '@/store/sessao'
 
-const estaLogado = inject("estaLogado")
+const router = useRouter()
+const erro = ref('')
+
+async function sair() {
+    erro.value = ''
+    try {
+        await encerrarSessao()
+    } catch (erroApi) {
+        erro.value = `Sessão encerrada, mas não foi possível salvar os dados: ${erroApi.message}`
+    }
+    await router.push('/login')
+}
 </script>
 
 <template>
@@ -16,10 +28,14 @@ const estaLogado = inject("estaLogado")
             <h2><RouterLink to="/trilha">Trilha</RouterLink></h2>
             <h2><RouterLink to="/glossario">Glossario</RouterLink></h2>
             <h2><RouterLink to="/about">Sobre Nós</RouterLink></h2>
-            <h2 v-if="estaLogado"><RouterLink to="/usuarios">Usuários</RouterLink></h2>
+            <h2 v-if="usuarioAtual && usuarioAtual.administrador">
+                <RouterLink to="/usuarios">Usuários</RouterLink>
+            </h2>
             <h2 v-if="!estaLogado">
                 <RouterLink to="/login">Login</RouterLink>
             </h2>        
+            <h2 v-else><button type="button" @click="sair">Sair</button></h2>
+            <p v-if="erro" class="erro" role="alert">{{ erro }}</p>
         </nav>
     </aside>
 </template>
@@ -59,6 +75,20 @@ a {
     transition: 0.3s;
     padding: 5px;
     border-radius: 5px;
+}
+
+nav button {
+    padding: 5px;
+    border: 0;
+    background: transparent;
+    color: gray;
+    font: inherit;
+    cursor: pointer;
+}
+
+.erro {
+    color: #b42318;
+    font-size: 13px;
 }
 
 a:hover {

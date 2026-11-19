@@ -81,7 +81,7 @@ function prepararEdicao(usuario) {
   dadosUsuario.id = usuario.id
   dadosUsuario.nome = usuario.nome
   dadosUsuario.email = usuario.email
-  dadosUsuario.senha = usuario.senha
+  dadosUsuario.senha = ''
   editando.value = true
   mensagem.value = ''
   erro.value = false
@@ -95,8 +95,8 @@ async function salvarUsuario() {
   const email = dadosUsuario.email.trim().toLowerCase()
   const senha = dadosUsuario.senha
 
-  if (!nome || !email || senha.length < 4) {
-    mensagem.value = 'Preencha todos os campos e use uma senha com pelo menos 4 caracteres.'
+  if (!nome || !email || (!editando.value && senha.length < 4) || (senha && senha.length < 4)) {
+    mensagem.value = 'Preencha nome e email. Uma nova senha deve ter pelo menos 4 caracteres.'
     erro.value = true
     return
   }
@@ -118,13 +118,11 @@ async function salvarUsuario() {
       return
     }
 
-    const dadosAtualizados = { nome, email, senha }
+    const dadosAtualizados = { nome, email }
+    if (senha) dadosAtualizados.senha = senha
 
     if (editando.value) {
-      await atualizarUsuario(dadosUsuario.id, {
-        id: dadosUsuario.id,
-        ...dadosAtualizados
-      })
+      await atualizarUsuario(dadosUsuario.id, dadosAtualizados)
     } else {
       await cadastrarUsuario(dadosAtualizados)
     }
@@ -194,13 +192,13 @@ onMounted(carregarUsuarios)
       <label for="email">Email</label>
       <input id="email" v-model="dadosUsuario.email" type="email" required />
 
-      <label for="senha">Senha (mínimo 4 caracteres)</label>
+      <label for="senha">{{ editando ? 'Nova senha (opcional)' : 'Senha (mínimo 4 caracteres)' }}</label>
       <input
         id="senha"
         v-model="dadosUsuario.senha"
         type="password"
         minlength="4"
-        required
+        :required="!editando"
       />
 
       <div class="botoes">

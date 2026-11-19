@@ -8,6 +8,7 @@ import RelatorioView from '@/views/RelatorioView.vue'
 import GlossarioView from '@/views/GlossarioView.vue'
 import TrilhaView from '@/views/TrilhaView.vue'
 import UsuariosView from '@/views/UsuariosView.vue'
+import { inicializarSessao, usuarioAtual } from '@/store/sessao'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,21 +22,25 @@ const router = createRouter({
       path: '/dashBoard',
       name: 'dashBoard',
       component: DashboardView,
+      meta: { requerLogin: true },
     },
     {
       path: '/metas',
       name: 'metas',
       component: MetaView,
+      meta: { requerLogin: true },
     },
     {
       path: '/contas',
       name: 'contas',
       component: ContasView,
+      meta: { requerLogin: true },
     },
     {
       path: '/relatorio',
       name: 'relatorio',
       component: RelatorioView,
+      meta: { requerLogin: true },
     },
     {
       path: '/login',
@@ -46,11 +51,13 @@ const router = createRouter({
       path: '/usuarios',
       name: 'usuarios',
       component: UsuariosView,
+      meta: { requerAdmin: true },
     },
     {
       path: '/meta',
       name: 'meta',
       component: MetaView,
+      meta: { requerLogin: true },
     },
     {
       path: '/trilha',
@@ -71,6 +78,32 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     }
   ],
+})
+
+router.beforeEach(async (to) => {
+  if (usuarioAtual.value) {
+    try {
+      await inicializarSessao()
+    } catch {
+      if (to.meta.requerLogin || to.meta.requerAdmin) {
+        return { name: 'home' }
+      }
+    }
+  }
+
+  if ((to.meta.requerLogin || to.meta.requerAdmin) && !usuarioAtual.value) {
+    return { name: 'login' }
+  }
+
+  if (to.meta.requerAdmin && !usuarioAtual.value?.administrador) {
+    return { name: 'dashBoard' }
+  }
+
+  if (to.name === 'login' && usuarioAtual.value) {
+    return { name: 'dashBoard' }
+  }
+
+  return true
 })
 
 export default router

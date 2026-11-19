@@ -18,17 +18,41 @@
       "email": "maria@email.com",
       "senha": "1133"
     },
-     {
+    {
       "id": "4",
       "nome": "Arthur",
       "email": "Arthur@email.com",
       "senha": "ArthurLuiz"
     },
     {
-     "id": "5",
-     "nome": "Júlio César",
-     "email": "JulioCesar@gmail.com",
-     "senha": "ReiDeBrasil"
+      "id": "5",
+      "nome": "Júlio César",
+      "email": "JulioCesar@gmail.com",
+      "senha": "ReiDeBrasil"
+    },
+    {
+      "id": "6",
+      "nome": "Administrador",
+      "email": "admin@financepro.com",
+      "senha": "admin1234",
+      "administrador": true
     }
-  ]
+  ],
+  "dadosFinanceiros": [
+    {
+      "usuarioId": "1",
+      "transacoes": [],
+      "contas": [],
+      "metas": [],
+      "id": "lbmk8pwYlrs"
+    },
+    {
+      "usuarioId": "1",
+      "transacoes": [],
+      "contas": [],
+      "metas": [],
+      "id": "A-GVGmfZipg"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

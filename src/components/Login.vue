@@ -64,13 +64,13 @@ async function cadastrarUsuario() {
       return
     }
 
-    await cadastrarNaApi({ nome, email, senha: dadosCadastro.senha })
+    const usuario = await cadastrarNaApi({ nome, email, senha: dadosCadastro.senha })
 
     alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${nome}.`)
     dadosCadastro.nome = ''
     dadosCadastro.email = ''
     dadosCadastro.senha = ''
-    emit('login')
+    emit('login', usuario)
   } catch (erroDaApi) {
     mensagem.value = `Não foi possível cadastrar. ${erroDaApi.message}`
     erro.value = true
@@ -105,7 +105,7 @@ async function logarUsuario() {
     alert(`Login realizado com sucesso. Bem-vindo(a), ${usuarioEncontrado.nome}!`)
     dadosLogin.email = ''
     dadosLogin.senha = ''
-    emit('login')
+    emit('login', usuarioEncontrado)
   } catch (erroDaApi) {
     mensagem.value = `Não foi possível fazer login. ${erroDaApi.message}`
     erro.value = true

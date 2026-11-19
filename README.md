@@ -83,3 +83,52 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## CRUD de usuários (API)
+
+Para executar, abra dois terminais:
+
+```sh
+npm run api
+```
+
+```sh
+npm run dev
+```
+
+**Entidades:** `usuarios` e `dadosFinanceiros`, no arquivo `db.json`. Cada registro financeiro tem `usuarioId` e guarda as transações, contas e metas daquela conta.
+
+| Campo | Tipo | Obrigatório |
+|---|---|---|
+| `id` | texto | Sim; gerado pela API no cadastro |
+| `nome` | texto | Sim |
+| `email` | texto | Sim |
+| `senha` | texto | Sim no cadastro; opcional na edição |
+
+### Validações de cadastro e edição
+
+- Nome, e-mail e senha são obrigatórios no cadastro. A senha deve ter pelo menos 4 caracteres.
+- O campo de e-mail usa `type="email"` e é obrigatório, então o navegador valida o formato antes do envio.
+- O e-mail é convertido para minúsculas e espaços externos são removidos. O cadastro é impedido se já houver outro usuário com o mesmo e-mail, sem diferenciar maiúsculas de minúsculas.
+- Na edição, nome e e-mail continuam obrigatórios. A senha pode ficar em branco para manter a atual; se uma nova senha for informada, deve ter pelo menos 4 caracteres.
+- Essas validações são feitas na interface. O JSON Server de demonstração não aplica as mesmas regras a requisições HTTP diretas.
+
+Cada registro de `dadosFinanceiros` pertence a um usuário pelo campo `usuarioId`. A tela `/usuarios` permite listar, consultar por ID, cadastrar, atualizar e excluir usuários; ela fica disponível apenas para a conta administradora. Contas normais acessam somente suas próprias finanças.
+
+| Operação | Endpoint | Método |
+|---|---|---|
+| Listar | `/usuarios` | GET |
+| Consultar por ID | `/usuarios/:id` | GET |
+| Cadastrar | `/usuarios` | POST |
+| Atualizar | `/usuarios/:id` | PATCH |
+| Excluir | `/usuarios/:id` | DELETE |
+
+**Responsável:** Maico (Login/Usuários), conforme a divisão descrita acima.
+
+Contas fictícias para testar o login:
+
+- `maico@email.com` / `maicoedu`
+- `joao@email.com` / `1234`
+- `admin@financepro.com` / `admin1234` (acessa o CRUD de usuários)
+
+O JSON Server é usado como API de demonstração e não protege os endpoints contra acesso direto. Use apenas dados fictícios; os dados financeiros são separados por usuário na interface, mas não são adequados para publicação com informações reais.

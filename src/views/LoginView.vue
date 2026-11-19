@@ -1,14 +1,18 @@
 <script setup>
-import { inject, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Login from '@/components/Login.vue'
+import { iniciarSessao } from '@/store/sessao'
 
-const definirLogado = inject('definirLogado')
 const router = useRouter()
 
-function aoLogar() {
-  definirLogado(true)
-  router.push('/dashBoard')
+async function aoLogar(usuario) {
+  try {
+    await iniciarSessao(usuario)
+    await router.push('/dashBoard')
+  } catch (erro) {
+    window.alert(`Não foi possível carregar seus dados financeiros: ${erro.message}`)
+  }
 }
 
 // adiciona a classe só enquanto essa tela existir

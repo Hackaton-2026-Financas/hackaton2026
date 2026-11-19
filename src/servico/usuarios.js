@@ -49,7 +49,7 @@ export async function cadastrarUsuario(usuario) {
 // att do usuario (seria o Update do CRUD)
 export async function atualizarUsuario(id, dadosAtualizados) {
   const resposta = await fetch(`${API}/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
