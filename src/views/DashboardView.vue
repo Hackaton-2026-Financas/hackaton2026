@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import ButtonChild from '@/components/ButtonChild.vue'
 import TransacaoItem from '@/components/layout/TransacaoItem.vue'
 import { quantidadeNaoPagas } from '@/store/contas'
@@ -10,8 +10,10 @@ import {
   receitasTotais,
   despesasTotais,
   formatarMoeda,
-  carregarDespesas,
   criarDespesa,
+  adicionarReceita,
+  carregandoReceitas,
+  erroTransacoes,
 } from '@/store/transacoes.js'
 
 import { metas } from '@/store/meta'
@@ -32,10 +34,6 @@ const fecharModal = () => {
   limparFormulario()
 }
 
-onMounted(async () => {
-  await carregarDespesas()
-})
-
 const limparFormulario = () => {
   novoTipo.value = ''
   novaCategoria.value = ''
@@ -50,7 +48,6 @@ const adicionarTransacao = async () => {
   }
 
   const novaTransacao = {
-    id: Date.now(),
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
     valor: Number(novoValor.value),
@@ -68,7 +65,12 @@ const adicionarTransacao = async () => {
       return
     }
   } else {
-    transacoes.value.unshift(novaTransacao)
+    const receitaSalva = await adicionarReceita({
+      ...novaTransacao,
+      idUsuario: 1,
+    })
+
+    if (!receitaSalva) return
   }
 
   fecharModal()

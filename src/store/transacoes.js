@@ -1,33 +1,67 @@
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 
-const API_URL = 'http://localhost:3001/despesas'
+const API_BASE_URL = 'http://localhost:3000'
+const DESPESAS_URL = `${API_BASE_URL}/despesas`
+const RECEITAS_URL = `${API_BASE_URL}/receitas`
 
 export const transacoes = ref([])
+export const carregandoReceitas = ref(true)
+export const erroTransacoes = ref('')
 
-export const carregarDespesas = async () => {
+let proximoId = Date.now()
+
+export const gerarIdTransacao = () => ++proximoId
+
+async function requisitar(url, options) {
+  const resposta = await fetch(url, options)
+
+  if (!resposta.ok) {
+    throw new Error(`A API respondeu com o status ${resposta.status}.`)
+  }
+
+  return resposta.status === 204 ? null : resposta.json()
+}
+
+export const carregarTransacoes = async () => {
+  carregandoReceitas.value = true
+  erroTransacoes.value = ''
+
   try {
-    const resposta = await fetch(API_URL)
+    const [despesas, receitas] = await Promise.all([
+      requisitar(DESPESAS_URL),
+      requisitar(RECEITAS_URL),
+    ])
 
-    if (!resposta.ok) {
-      throw new Error('Não foi possível carregar as despesas')
+    if (!Array.isArray(despesas) || !Array.isArray(receitas)) {
+      throw new TypeError('As respostas da API devem ser listas.')
     }
 
-    const despesas = await resposta.json()
-
-    transacoes.value = despesas.map((item) => ({
-      ...item,
-      id: Number(item.id),
-      valor: Number(item.valor || 0),
-      tipo: item.tipo || 'saida',
-      categoria: item.categoria || 'outros',
-      titulo: item.titulo || item.descricao || 'Despesa',
-      data: item.data || new Date().toLocaleDateString('pt-BR'),
-    }))
+    transacoes.value = [
+      ...receitas.map((item) => ({
+        ...item,
+        valor: Number(item.valor || 0),
+        tipo: 'entrada',
+        categoria: item.categoria || 'outros',
+        titulo: item.titulo || item.descricao || 'Receita',
+      })),
+      ...despesas.map((item) => ({
+        ...item,
+        valor: Number(item.valor || 0),
+        tipo: 'saida',
+        categoria: item.categoria || 'outros',
+        titulo: item.titulo || item.descricao || 'Despesa',
+        data: item.data || new Date().toLocaleDateString('pt-BR'),
+      })),
+    ]
   } catch (erro) {
-    console.error('Erro ao carregar despesas:', erro)
-    transacoes.value = []
+    erroTransacoes.value = `Não foi possível carregar as transações: ${erro.message}`
+    console.error('Erro ao carregar transações:', erro)
+  } finally {
+    carregandoReceitas.value = false
   }
 }
+
+export const carregarDespesas = carregarTransacoes
 
 export const criarDespesa = async (despesa) => {
   const payload = {
@@ -39,7 +73,7 @@ export const criarDespesa = async (despesa) => {
     descricao: despesa.descricao || despesa.titulo || 'Despesa',
   }
 
-  const resposta = await fetch(API_URL, {
+  const novaDespesa = await requisitar(DESPESAS_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -47,11 +81,6 @@ export const criarDespesa = async (despesa) => {
     body: JSON.stringify(payload),
   })
 
-  if (!resposta.ok) {
-    throw new Error('Não foi possível salvar a despesa')
-  }
-
-  const novaDespesa = await resposta.json()
   transacoes.value = [
     {
       ...novaDespesa,
@@ -64,8 +93,36 @@ export const criarDespesa = async (despesa) => {
   return novaDespesa
 }
 
+export const adicionarReceita = async (receita) => {
+  erroTransacoes.value = ''
+
+  try {
+    const receitaCriada = await requisitar(RECEITAS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(receita),
+    })
+
+    transacoes.value.unshift({
+      ...receitaCriada,
+      valor: Number(receitaCriada.valor || 0),
+      tipo: 'entrada',
+    })
+
+    return true
+  } catch (erro) {
+    erroTransacoes.value = `Não foi possível salvar a receita: ${erro.message}`
+    console.error('Erro ao salvar receita:', erro)
+    return false
+  }
+}
+
 export const receitasTotais = computed(() => {
-  return receitas.value.reduce((acumulador, receita) => acumulador + receita.valor, 0)
+  return transacoes.value
+    .filter((transacao) => transacao.tipo === 'entrada')
+    .reduce((acumulador, receita) => acumulador + receita.valor, 0)
 })
 
 export const despesasTotais = computed(() => {
@@ -101,16 +158,26 @@ export const despesasPorCategoria = computed(() => {
 })
 
 export const removerTransacao = async (id) => {
-  const item = transacoes.value.find((transacao) => transacao.id === id)
+  const item = transacoes.value.find(
+    (transacao) => String(transacao.id) === String(id),
+  )
 
   if (item && item.tipo === 'saida') {
-    await fetch(`${API_URL}/${id}`, {
+    await requisitar(`${DESPESAS_URL}/${id}`, {
+      method: 'DELETE',
+    })
+  } else if (item && item.tipo === 'entrada') {
+    await requisitar(`${RECEITAS_URL}/${id}`, {
       method: 'DELETE',
     })
   }
 
-  transacoes.value = transacoes.value.filter((itemAtual) => itemAtual.id !== id)
+  transacoes.value = transacoes.value.filter(
+    (itemAtual) => String(itemAtual.id) !== String(id),
+  )
 }
+
+carregarTransacoes()
 
 export const maiorDespesa = computed(() => {
   const despesas = transacoes.value.filter((t) => t.tipo === 'saida')

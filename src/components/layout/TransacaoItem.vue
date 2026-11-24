@@ -9,7 +9,7 @@ function formatarData(data) {
 
 defineProps({
   id: {
-    type: Number,
+    type: [Number, String],
     required: true
   },
   titulo: String,

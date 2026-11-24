@@ -9,8 +9,6 @@
       "id": "Ppudwb1sDUI"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json"
-}
   "despesas": [
     {
       "id": "1",
@@ -20,13 +18,15 @@
       "data": "2026-11-10",
       "tipo": "saida",
       "descricao": "Compras do mês"
+    }
+  ],
   "receitas": [
     {
       "id": 1,
       "idUsuario": 1,
       "titulo": "Salário mensal",
       "categoria": "salario",
-      "valor": 4500.00,
+      "valor": 4500.0,
       "data": "2026-11-05",
       "descricao": "Salário referente a novembro"
     },
@@ -35,7 +35,7 @@
       "idUsuario": 1,
       "titulo": "Projeto de design",
       "categoria": "freelance",
-      "valor": 850.00,
+      "valor": 850.0,
       "data": "2026-11-03",
       "descricao": "Pagamento pela criação de identidade visual"
     },
@@ -53,7 +53,7 @@
       "idUsuario": 2,
       "titulo": "Venda de bicicleta",
       "categoria": "vendas",
-      "valor": 600.00,
+      "valor": 600.0,
       "data": "2026-10-28",
       "descricao": "Venda de item usado"
     },
@@ -62,7 +62,7 @@
       "idUsuario": 1,
       "titulo": "Aula particular",
       "categoria": "servicos",
-      "valor": 150.00,
+      "valor": 150.0,
       "data": "2026-10-25",
       "descricao": "Aula de matemática financeira"
     }
