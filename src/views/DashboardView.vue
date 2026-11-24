@@ -1,95 +1,78 @@
 <script setup>
-import { ref } from 'vue';
-import ButtonChild from '@/components/ButtonChild.vue';
-import TransacaoItem from '@/components/layout/TransacaoItem.vue';
-import { quantidadeNaoPagas } from '@/store/contas';
+import { ref, onMounted } from 'vue'
+import ButtonChild from '@/components/ButtonChild.vue'
+import TransacaoItem from '@/components/layout/TransacaoItem.vue'
+import { quantidadeNaoPagas } from '@/store/contas'
 
-import { 
-  transacoes, 
-  saldoTotal, 
-  receitasTotais, 
-  despesasTotais, 
+import {
+  transacoes,
+  saldoTotal,
+  receitasTotais,
+  despesasTotais,
   formatarMoeda,
-  gerarIdTransacao,
-  adicionarReceita,
-  carregandoReceitas,
-  erroTransacoes,
-} from '@/store/transacoes.js';
+  carregarDespesas,
+  criarDespesa,
+} from '@/store/transacoes.js'
 
-import { metas } from '@/store/meta';
+import { metas } from '@/store/meta'
 
-const exibirModal = ref(false);
+const exibirModal = ref(false)
 
-const novoTipo = ref('');
-const novaCategoria = ref('');
-const novoValor = ref('');
-const novaDescricao = ref('');
-const salvandoTransacao = ref(false);
+const novoTipo = ref('')
+const novaCategoria = ref('')
+const novoValor = ref('')
+const novaDescricao = ref('')
 
 const abrirModal = () => {
-  exibirModal.value = true;
-};
+  exibirModal.value = true
+}
 
 const fecharModal = () => {
-  exibirModal.value = false;
-  limparFormulario();
-};
+  exibirModal.value = false
+  limparFormulario()
+}
+
+onMounted(async () => {
+  await carregarDespesas()
+})
 
 const limparFormulario = () => {
-  novoTipo.value = '';
-  novaCategoria.value = '';
-  novoValor.value = '';
-  novaDescricao.value = '';
-};
+  novoTipo.value = ''
+  novaCategoria.value = ''
+  novoValor.value = ''
+  novaDescricao.value = ''
+}
 
 const adicionarTransacao = async () => {
-  const valor = Number(novoValor.value);
-
-  if (
-    !novoTipo.value ||
-    !novaCategoria.value ||
-    !Number.isFinite(valor) ||
-    valor <= 0 ||
-    !novaDescricao.value.trim()
-  ) {
-    alert('Por favor, preencha todos os campos!');
-    return;
+  if (!novoTipo.value || !novaCategoria.value || !novoValor.value || !novaDescricao.value) {
+    alert('Por favor, preencha todos os campos!')
+    return
   }
-
-  const hoje = new Date();
-  const data = [
-    hoje.getFullYear(),
-    String(hoje.getMonth() + 1).padStart(2, '0'),
-    String(hoje.getDate()).padStart(2, '0'),
-  ].join('-');
 
   const novaTransacao = {
-    titulo: novaDescricao.value.trim(),
+    id: Date.now(),
+    titulo: novaDescricao.value,
     categoria: novaCategoria.value,
-    valor,
-    data,
+    valor: Number(novoValor.value),
+    data: new Date().toLocaleDateString('pt-BR'),
     tipo: novoTipo.value,
-  };
-
-  if (novoTipo.value === 'entrada') {
-    salvandoTransacao.value = true;
-    const receitaSalva = await adicionarReceita({
-      ...novaTransacao,
-      idUsuario: 1,
-      descricao: novaDescricao.value.trim(),
-    });
-    salvandoTransacao.value = false;
-
-    if (!receitaSalva) return;
-  } else {
-    transacoes.value.unshift({
-      ...novaTransacao,
-      id: gerarIdTransacao(),
-    });
+    descricao: novaDescricao.value,
   }
 
-  fecharModal();
-};
+  if (novoTipo.value === 'saida') {
+    try {
+      await criarDespesa(novaTransacao)
+    } catch (erro) {
+      console.error('Erro ao salvar despesa:', erro)
+      alert('Não foi possível salvar a despesa. Tente novamente.')
+      return
+    }
+  } else {
+    transacoes.value.unshift(novaTransacao)
+  }
+
+  fecharModal()
+}
 </script>
 
 <template>
@@ -139,16 +122,17 @@ const adicionarTransacao = async () => {
     <section class="section-box">
       <h2>Evolução do Patrimônio</h2>
       <div class="grafico">
-        <p>Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados financeiros do usuario conforme o passar dos meses</p>
+        <p>
+          Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados
+          financeiros do usuario conforme o passar dos meses
+        </p>
       </div>
     </section>
 
     <section class="section-box">
       <div class="section-header">
         <h2>Últimas Movimentações</h2>
-        <ButtonChild @click="abrirModal">
-          + Nova Transação
-        </ButtonChild>
+        <ButtonChild @click="abrirModal"> + Nova Transação </ButtonChild>
       </div>
 
       <div class="transactions-list">
@@ -220,9 +204,7 @@ const adicionarTransacao = async () => {
             <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" />
           </div>
 
-          <button type="submit" class="btn-sucesso" :disabled="salvandoTransacao">
-            {{ salvandoTransacao ? 'Salvando...' : 'Adicionar Transação' }}
-          </button>
+          <button type="submit" class="btn-sucesso">Adicionar Transação</button>
         </form>
       </div>
     </div>
@@ -254,10 +236,7 @@ const adicionarTransacao = async () => {
 /* GRID DE CARDS */
 .cards-saldos {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(200px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 25px;
 }
