@@ -1,41 +1,41 @@
 
 <script setup>
-// Desativar aviso de nome do componente com uma palavra so
+// Desativar aviso de nome do componente com uma palavra só
 /* eslint vue/multi-word-component-names: "off" */
-import { ref, reactive } from 'vue'
-import { cadastrarUsuario as cadastrarNaApi, listarUsuarios } from '@/servico/usuarios'
+import { ref as criarReferencia, reactive as criarObjetoReativo } from 'vue'
+import { cadastrarUsuario as cadastrarNoServico, listarUsuarios } from '@/servico/usuarios'
 
-const emit = defineEmits(['login'])
+const emitir = defineEmits(['entrar'])
 
-const naTelaCadastro = ref(false)
-const mensagem = ref('')
-const erro = ref(false)
-const carregando = ref(false)
+const naTelaCadastro = criarReferencia(false)
+const mensagem = criarReferencia('')
+const erro = criarReferencia(false)
+const carregando = criarReferencia(false)
 
-const dadosLogin = reactive({
+const dadosEntrada = criarObjetoReativo({
   email: '',
   senha: ''
 })
 
-const dadosCadastro = reactive({
+const dadosCadastro = criarObjetoReativo({
   nome: '',
   email: '',
   senha: ''
 })
 
-// Mudar entre login e cadastro
+// Alternar entre entrar e cadastrar
 
-function mudarParaCadastro() {
+function abrirCadastro() {
   naTelaCadastro.value = true
   mensagem.value = ''
 }
 
-function mudarParaLogin() {
+function abrirEntrada() {
   naTelaCadastro.value = false
   mensagem.value = ''
 }
 
-// Cadastrar usuario
+// Cadastrar usuário
 
 async function cadastrarUsuario() {
   mensagem.value = ''
@@ -59,20 +59,20 @@ async function cadastrarUsuario() {
     )
 
     if (emailJaCadastrado) {
-      mensagem.value = 'Este email já está cadastrado.'
+      mensagem.value = 'Este e-mail já está cadastrado.'
       erro.value = true
       return
     }
 
-    const usuario = await cadastrarNaApi({ nome, email, senha: dadosCadastro.senha })
+    const usuario = await cadastrarNoServico({ nome, email, senha: dadosCadastro.senha })
 
     alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${nome}.`)
     dadosCadastro.nome = ''
     dadosCadastro.email = ''
     dadosCadastro.senha = ''
-    emit('login', usuario)
-  } catch (erroDaApi) {
-    mensagem.value = `Não foi possível cadastrar. ${erroDaApi.message}`
+    emitir('entrar', usuario)
+  } catch (erroDoServico) {
+    mensagem.value = `Não foi possível cadastrar. ${erroDoServico.message}`
     erro.value = true
   } finally {
     carregando.value = false
@@ -80,34 +80,34 @@ async function cadastrarUsuario() {
 
 }
 
-// Fazer login
+// Entrar na conta
 
-async function logarUsuario() {
+async function entrarNaConta() {
   mensagem.value = ''
   erro.value = false
   carregando.value = true
 
   try {
     const usuarios = await listarUsuarios()
-    const email = dadosLogin.email.trim().toLowerCase()
+    const email = dadosEntrada.email.trim().toLowerCase()
     const usuarioEncontrado = usuarios.find(
       (usuario) =>
         usuario.email.toLowerCase() === email &&
-        usuario.senha === dadosLogin.senha
+        usuario.senha === dadosEntrada.senha
     )
 
     if (!usuarioEncontrado) {
-      mensagem.value = 'Email ou senha incorretos.'
+      mensagem.value = 'E-mail ou senha incorretos.'
       erro.value = true
       return
     }
 
-    alert(`Login realizado com sucesso. Bem-vindo(a), ${usuarioEncontrado.nome}!`)
-    dadosLogin.email = ''
-    dadosLogin.senha = ''
-    emit('login', usuarioEncontrado)
-  } catch (erroDaApi) {
-    mensagem.value = `Não foi possível fazer login. ${erroDaApi.message}`
+    alert(`Entrada realizada com sucesso. Bem-vindo(a), ${usuarioEncontrado.nome}!`)
+    dadosEntrada.email = ''
+    dadosEntrada.senha = ''
+    emitir('entrar', usuarioEncontrado)
+  } catch (erroDoServico) {
+    mensagem.value = `Não foi possível acessar sua conta. ${erroDoServico.message}`
     erro.value = true
   } finally {
     carregando.value = false
@@ -116,10 +116,10 @@ async function logarUsuario() {
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="card" :class="{ 'is-signup': naTelaCadastro }">
+  <div class="pagina">
+    <div class="cartao" :class="{ 'modo-cadastro': naTelaCadastro }">
 
-      <div class="form-side signup-box">
+      <div class="lado-formulario caixa-cadastro">
         <form @submit.prevent="cadastrarUsuario">
           <h1>Criar conta</h1>
 
@@ -132,7 +132,7 @@ async function logarUsuario() {
 
           <input
             type="email"
-            placeholder="Email"
+            placeholder="E-mail"
             v-model="dadosCadastro.email"
             required
           />
@@ -154,21 +154,21 @@ async function logarUsuario() {
         </form>
       </div>
 
-      <div class="form-side login-box">
-        <form @submit.prevent="logarUsuario">
+      <div class="lado-formulario caixa-entrada">
+        <form @submit.prevent="entrarNaConta">
           <h1>Entrar na <br /> sua conta</h1>
 
           <input
             type="email"
-            placeholder="Email"
-            v-model="dadosLogin.email"
+            placeholder="E-mail"
+            v-model="dadosEntrada.email"
             required
           />
 
           <input
             type="password"
             placeholder="Senha"
-            v-model="dadosLogin.senha"
+            v-model="dadosEntrada.senha"
             required
           />
 
@@ -181,23 +181,23 @@ async function logarUsuario() {
         </form>
       </div>
 
-      <div class="switch-container">
-        <div class="switch-bg">
+      <div class="alternancia">
+        <div class="fundo">
 
-          <div class="switch-panel panel-left">
+          <div class="painel painel-esquerdo">
             <h1>Seja bem-vindo</h1>
-            <p>Continuar o login</p>
+            <p>Acesse sua conta</p>
 
-            <button type="button" class="ghost" @click="mudarParaLogin">
+            <button type="button" class="secundario" @click="abrirEntrada">
               Entrar
             </button>
           </div>
 
-          <div class="switch-panel panel-right">
+          <div class="painel painel-direito">
             <h1>Bem-vindo de volta</h1>
             <p>Crie sua conta aqui</p>
 
-            <button type="button" class="ghost" @click="mudarParaCadastro">
+            <button type="button" class="secundario" @click="abrirCadastro">
               Cadastrar
             </button>
           </div>
@@ -214,7 +214,7 @@ async function logarUsuario() {
   box-sizing: border-box;
 }
 
-.wrapper {
+.pagina {
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -225,7 +225,7 @@ async function logarUsuario() {
   padding: 20px;
 }
 
-.card {
+.cartao {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -244,7 +244,7 @@ h1 {
   color: #222;
 }
 
-.switch-bg h1 {
+.fundo h1 {
   color: #fff;
 }
 
@@ -256,7 +256,7 @@ p {
   margin: 10px 0 25px;
 }
 
-.form-side {
+.lado-formulario {
   position: absolute;
   top: 0;
   height: 100%;
@@ -289,31 +289,31 @@ input:focus {
   outline-offset: 1px;
 }
 
-.login-box {
+.caixa-entrada {
   left: 0;
   width: 50%;
   z-index: 2;
 }
 
-.card.is-signup .login-box {
+.cartao.modo-cadastro .caixa-entrada {
   transform: translateX(100%);
 }
 
-.signup-box {
+.caixa-cadastro {
   left: 0;
   width: 50%;
   opacity: 0;
   z-index: 1;
 }
 
-.card.is-signup .signup-box {
+.cartao.modo-cadastro .caixa-cadastro {
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;
-  animation: reveal 0.6s;
+  animation: revelar 0.6s;
 }
 
-@keyframes reveal {
+@keyframes revelar {
   0%, 49.99% {
     opacity: 0;
     z-index: 1;
@@ -364,7 +364,7 @@ button:disabled {
   color: #b42318;
 }
 
-button.ghost {
+button.secundario {
   background: transparent;
   border: 1px solid #fff;
   color: #fff;
@@ -372,7 +372,7 @@ button.ghost {
   font-weight: bold;
 }
 
-.switch-container {
+.alternancia {
   position: absolute;
   top: 0;
   left: 50%;
@@ -383,11 +383,11 @@ button.ghost {
   z-index: 100;
 }
 
-.card.is-signup .switch-container {
+.cartao.modo-cadastro .alternancia {
   transform: translateX(-100%);
 }
 
-.switch-bg {
+.fundo {
   background: linear-gradient(135deg, #00BB7D 0%, #019a67 50%, #009563 100%);
   color: #fff;
   position: relative;
@@ -398,11 +398,11 @@ button.ghost {
   transition: transform 0.6s ease-in-out;
 }
 
-.card.is-signup .switch-bg {
+.cartao.modo-cadastro .fundo {
   transform: translateX(50%);
 }
 
-.switch-panel {
+.painel {
   position: absolute;
   display: flex;
   align-items: center;
@@ -417,67 +417,67 @@ button.ghost {
   transition: transform 0.6s ease-in-out;
 }
 
-.panel-left {
+.painel-esquerdo {
   transform: translateX(-20%);
 }
 
-.card.is-signup .panel-left {
+.cartao.modo-cadastro .painel-esquerdo {
   transform: translateX(0);
 }
 
-.panel-right {
+.painel-direito {
   right: 0;
   transform: translateX(0);
 }
 
-.card.is-signup .panel-right {
+.cartao.modo-cadastro .painel-direito {
   transform: translateX(20%);
 }
 
 @media (max-width: 768px) {
-  .card {
+  .cartao {
     min-height: 640px;
   }
 
-  .form-side,
-  .login-box,
-  .signup-box {
+  .lado-formulario,
+  .caixa-entrada,
+  .caixa-cadastro {
     width: 100%;
     left: 0;
   }
 
-  .switch-container,
-  .card.is-signup .switch-container {
+  .alternancia,
+  .cartao.modo-cadastro .alternancia {
     display: none;
   }
 
-  .signup-box {
+  .caixa-cadastro {
     opacity: 0;
     z-index: 1;
     transform: translateY(-100%);
   }
 
-  .card.is-signup .signup-box {
+  .cartao.modo-cadastro .caixa-cadastro {
     opacity: 1;
     z-index: 5;
     transform: translateY(0);
   }
 
-  .card.is-signup .login-box {
+  .cartao.modo-cadastro .caixa-entrada {
     transform: translateY(100%);
   }
 }
 
-/* um fundo branco para a pagina */
+/* Fundo branco para a pagina. */
 
-.wrapper {
+.pagina {
   background: #fff;
 }
 </style>
 
 <style>
-html:has(.wrapper),
-body:has(.wrapper) {
+html:has(.pagina),
+body:has(.pagina) {
   background: #fff;
 }
 </style>

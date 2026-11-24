@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import Login from '@/components/Login.vue'
+import TelaDeEntrada from '@/components/Login.vue'
 import { iniciarSessao } from '@/store/sessao'
 
 const router = useRouter()
@@ -26,7 +26,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Login @login="aoLogar" />
+  <TelaDeEntrada @entrar="aoLogar" />
 </template>
 
 <style>

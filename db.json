@@ -52,6 +52,13 @@
       "contas": [],
       "metas": [],
       "id": "A-GVGmfZipg"
+    },
+    {
+      "id": "Zjg0Jt7K-mc",
+      "usuarioId": "1",
+      "transacoes": [],
+      "contas": [],
+      "metas": []
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
