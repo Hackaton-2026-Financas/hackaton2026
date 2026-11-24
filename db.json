@@ -1,0 +1,49 @@
+{
+  "receitas": [
+    {
+      "id": 1,
+      "idUsuario": 1,
+      "titulo": "Salário mensal",
+      "categoria": "salario",
+      "valor": 4500.00,
+      "data": "2026-11-05",
+      "descricao": "Salário referente a novembro"
+    },
+    {
+      "id": 2,
+      "idUsuario": 1,
+      "titulo": "Projeto de design",
+      "categoria": "freelance",
+      "valor": 850.00,
+      "data": "2026-11-03",
+      "descricao": "Pagamento pela criação de identidade visual"
+    },
+    {
+      "id": 3,
+      "idUsuario": 2,
+      "titulo": "Rendimento de investimento",
+      "categoria": "investimentos",
+      "valor": 125.75,
+      "data": "2026-11-01",
+      "descricao": "Rendimento mensal da carteira"
+    },
+    {
+      "id": 4,
+      "idUsuario": 2,
+      "titulo": "Venda de bicicleta",
+      "categoria": "vendas",
+      "valor": 600.00,
+      "data": "2026-10-28",
+      "descricao": "Venda de item usado"
+    },
+    {
+      "id": 5,
+      "idUsuario": 1,
+      "titulo": "Aula particular",
+      "categoria": "servicos",
+      "valor": 150.00,
+      "data": "2026-10-25",
+      "descricao": "Aula de matemática financeira"
+    }
+  ]
+}
