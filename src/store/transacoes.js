@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const API_URL = 'http://localhost:3001/despesas'
 
@@ -65,9 +65,7 @@ export const criarDespesa = async (despesa) => {
 }
 
 export const receitasTotais = computed(() => {
-  return transacoes.value
-    .filter((t) => t.tipo === 'entrada')
-    .reduce((acumulador, t) => acumulador + t.valor, 0)
+  return receitas.value.reduce((acumulador, receita) => acumulador + receita.valor, 0)
 })
 
 export const despesasTotais = computed(() => {

@@ -136,6 +136,13 @@ const adicionarTransacao = async () => {
       </div>
 
       <div class="transactions-list">
+        <p v-if="carregandoReceitas" role="status">
+          Carregando receitas...
+        </p>
+        <p v-if="erroTransacoes" class="erro-transacoes" role="alert">
+          {{ erroTransacoes }}
+        </p>
+
         <TransacaoItem
           v-for="item in transacoes"
           :key="item.id"
@@ -179,6 +186,10 @@ const adicionarTransacao = async () => {
               <option value="lazer">Lazer</option>
               <option value="transporte">Transporte</option>
               <option value="alimentacao">Alimentação</option>
+              <option value="freelance">Freelance</option>
+              <option value="investimentos">Investimentos</option>
+              <option value="vendas">Vendas</option>
+              <option value="servicos">Serviços</option>
               <option value="outros">Outros</option>
             </select>
           </div>
@@ -346,6 +357,13 @@ const adicionarTransacao = async () => {
   font-size: 14px;
 }
 
+.erro-transacoes {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+}
+
 /* ESTILOS DO MODAL */
 .modal-fundo {
   position: fixed;
@@ -440,5 +458,10 @@ const adicionarTransacao = async () => {
 
 .btn-sucesso:hover {
   background-color: #00875a;
+}
+
+.btn-sucesso:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 </style>
