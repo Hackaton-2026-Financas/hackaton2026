@@ -1,61 +1,78 @@
 <script setup>
-import { ref } from 'vue';
-import ButtonChild from '@/components/ButtonChild.vue';
-import TransacaoItem from '@/components/layout/TransacaoItem.vue';
-import { quantidadeNaoPagas } from '@/store/contas';
+import { ref, onMounted } from 'vue'
+import ButtonChild from '@/components/ButtonChild.vue'
+import TransacaoItem from '@/components/layout/TransacaoItem.vue'
+import { quantidadeNaoPagas } from '@/store/contas'
 
-import { 
-  transacoes, 
-  saldoTotal, 
-  receitasTotais, 
-  despesasTotais, 
-  formatarMoeda 
-} from '@/store/transacoes.js';
+import {
+  transacoes,
+  saldoTotal,
+  receitasTotais,
+  despesasTotais,
+  formatarMoeda,
+  carregarDespesas,
+  criarDespesa,
+} from '@/store/transacoes.js'
 
-import { metas } from '@/store/meta';
+import { metas } from '@/store/meta'
 
-const exibirModal = ref(false);
+const exibirModal = ref(false)
 
-const novoTipo = ref('');
-const novaCategoria = ref('');
-const novoValor = ref('');
-const novaDescricao = ref('');
+const novoTipo = ref('')
+const novaCategoria = ref('')
+const novoValor = ref('')
+const novaDescricao = ref('')
 
 const abrirModal = () => {
-  exibirModal.value = true;
-};
+  exibirModal.value = true
+}
 
 const fecharModal = () => {
-  exibirModal.value = false;
-  limparFormulario();
-};
+  exibirModal.value = false
+  limparFormulario()
+}
 
-let proximoId = 1;
+onMounted(async () => {
+  await carregarDespesas()
+})
 
 const limparFormulario = () => {
-  novoTipo.value = '';
-  novaCategoria.value = '';
-  novoValor.value = '';
-  novaDescricao.value = '';
-};
+  novoTipo.value = ''
+  novaCategoria.value = ''
+  novoValor.value = ''
+  novaDescricao.value = ''
+}
 
-const adicionarTransacao = () => {
-  if (!novaCategoria.value || !novoValor.value || !novaDescricao.value) {
-    alert('Por favor, preencha todos os campos!');
-    return;
+const adicionarTransacao = async () => {
+  if (!novoTipo.value || !novaCategoria.value || !novoValor.value || !novaDescricao.value) {
+    alert('Por favor, preencha todos os campos!')
+    return
   }
 
-  transacoes.value.unshift({
-    id: proximoId++,
+  const novaTransacao = {
+    id: Date.now(),
     titulo: novaDescricao.value,
     categoria: novaCategoria.value,
     valor: Number(novoValor.value),
     data: new Date().toLocaleDateString('pt-BR'),
-    tipo: novoTipo.value
-  });
+    tipo: novoTipo.value,
+    descricao: novaDescricao.value,
+  }
 
-  fecharModal();
-};
+  if (novoTipo.value === 'saida') {
+    try {
+      await criarDespesa(novaTransacao)
+    } catch (erro) {
+      console.error('Erro ao salvar despesa:', erro)
+      alert('Não foi possível salvar a despesa. Tente novamente.')
+      return
+    }
+  } else {
+    transacoes.value.unshift(novaTransacao)
+  }
+
+  fecharModal()
+}
 </script>
 
 <template>
@@ -105,19 +122,27 @@ const adicionarTransacao = () => {
     <section class="section-box">
       <h2>Evolução do Patrimônio</h2>
       <div class="grafico">
-        <p>Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados financeiros do usuario conforme o passar dos meses</p>
+        <p>
+          Aqui seria o Local de um gráfico de linha interativo no qual mostraria os estados
+          financeiros do usuario conforme o passar dos meses
+        </p>
       </div>
     </section>
 
     <section class="section-box">
       <div class="section-header">
         <h2>Últimas Movimentações</h2>
-        <ButtonChild @click="abrirModal">
-          + Nova Transação
-        </ButtonChild>
+        <ButtonChild @click="abrirModal"> + Nova Transação </ButtonChild>
       </div>
 
       <div class="transactions-list">
+        <p v-if="carregandoReceitas" role="status">
+          Carregando receitas...
+        </p>
+        <p v-if="erroTransacoes" class="erro-transacoes" role="alert">
+          {{ erroTransacoes }}
+        </p>
+
         <TransacaoItem
           v-for="item in transacoes"
           :key="item.id"
@@ -161,6 +186,10 @@ const adicionarTransacao = () => {
               <option value="lazer">Lazer</option>
               <option value="transporte">Transporte</option>
               <option value="alimentacao">Alimentação</option>
+              <option value="freelance">Freelance</option>
+              <option value="investimentos">Investimentos</option>
+              <option value="vendas">Vendas</option>
+              <option value="servicos">Serviços</option>
               <option value="outros">Outros</option>
             </select>
           </div>
@@ -175,9 +204,7 @@ const adicionarTransacao = () => {
             <input v-model="novaDescricao" type="text" placeholder="Ex: Compra no supermercado" />
           </div>
 
-          <button type="submit" class="btn-sucesso">
-            Adicionar Transação
-          </button>
+          <button type="submit" class="btn-sucesso">Adicionar Transação</button>
         </form>
       </div>
     </div>
@@ -209,10 +236,7 @@ const adicionarTransacao = () => {
 /* GRID DE CARDS */
 .cards-saldos {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(200px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 25px;
 }
@@ -333,6 +357,13 @@ const adicionarTransacao = () => {
   font-size: 14px;
 }
 
+.erro-transacoes {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+}
+
 /* ESTILOS DO MODAL */
 .modal-fundo {
   position: fixed;
@@ -427,5 +458,10 @@ const adicionarTransacao = () => {
 
 .btn-sucesso:hover {
   background-color: #00875a;
+}
+
+.btn-sucesso:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 </style>
